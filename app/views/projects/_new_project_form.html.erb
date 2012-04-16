@@ -1,0 +1,14 @@
+<%= simple_form_for(project, :html => {:class => 'form-horizontal' }) do |f| %>
+  <%= f.input :title , :input_html => {:class => "input-xlarge "}, 
+  :hint => "Title dari project ini"%>
+  <%= f.input :description, :input_html => {:rows => 5, :class => "input-xlarge" },
+  :hint => "Deskripsi? Apakah konsep yang melandasi album ini? Latar belakang?"%>
+
+  <%= f.input :picture_select_quota , :input_html => {:class => "input-xlarge span4"}, 
+  :hint => "Jumlah Image yang boleh dipilih client"%>
+
+  <div class="form-actions">
+    <%= f.button :submit , :class => "btn btn-primary" %>
+
+  </div>
+<% end %>

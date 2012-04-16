@@ -1,0 +1,18 @@
+<h3>Revision List</h3>
+
+<ul class="thumbnails">
+  
+  <% all_revisions.each do |revision| %>
+  <li class="span6">
+    <%= link_to show_picture_for_feedback_url(revision),
+            :class => "thumbnail #{class_for_current_displayed_revision(revision, current_display)}" do %>
+      <%= image_tag revision.revision_image_url %>
+    <% end %>
+  </li>
+  <% end %>
+
+
+  
+
+</ul>
+  

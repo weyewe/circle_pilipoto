@@ -1,0 +1,44 @@
+
+
+
+<li class="span3">
+  <div class="thumbnail">
+    <% last_revision = picture.last_revision %>
+    <%= link_to  show_picture_for_feedback_url( last_revision ),
+        :class => "thumbnail" , :style => "height:160px; overflow:hidden;" do %>
+      <%= image_tag last_revision.index_image_url %>
+    <% end %>
+    
+    <!-- <img alt="" src="http://placehold.it/260x180"> -->
+    <div class="caption">
+      <table cellpadding="0" cellspacing="0" border="0" 
+            class="table table-striped table-bordered" id="example">
+        
+        <tbody>
+          <tr>
+            <td>Revision:</td>
+            <td><%= picture.revisions.count %></td>
+          </tr>
+          
+          <tr>
+            <td>Approval</td>
+            <td>
+              <% if last_revision.is_approved == true %>
+              	<span class="label label-success">Approved</span>
+              <% elsif last_revision.is_approved == false  %>
+                <span class="label label-important">Rejected</span>
+              <% else %>
+                <span class="label">Pending</span>
+              <% end >%>
+            </td>
+          </tr>
+         
+        </tbody>
+      </table>
+     
+    </div>
+  </div>
+</li>
+
+
+

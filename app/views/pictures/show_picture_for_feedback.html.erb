@@ -1,0 +1,133 @@
+
+<div class="span9 content" >
+  <%= create_guide("Analyze Picture", 
+        "You can comment <b>on the picture</b>. 
+        Just drag the mouse on the desired position, and create comment.").html_safe %>
+  <%= create_breadcrumb(@breadcrumbs).html_safe %>
+  
+
+  
+  <div class="row-fluid" id="actionWrapper">
+    <div class="span8">
+      <h3> <%= @picture.name %></h3>
+      <h4> Uploaded on: <%= @picture.created_at.in_time_zone("Jakarta") %></h4>
+      <% if @picture.is_original == true  %>
+        <span class="label">Original </span>
+      <% else %>
+      	<span class="label label-success">Revision </span>
+      <% end %>
+      <hr />
+      
+      
+      <!-- The navigation element (<= Prev)  and (Next =>)-->
+      <ul class="pager">
+          <!-- new version -->
+          <%#= get_previous_selected_picture(@picture, false ).html_safe %>
+          <%#= get_next_selected_picture(@picture, false).html_safe %>
+          
+          <!-- old version -->
+            <%#= get_previous_project_picture(@picture, false ).html_safe %>
+            <%#= get_next_project_picture(@picture, false).html_safe %>
+      </ul>
+      
+      
+      <!-- The image in display -->
+        <div class="thumbnail image display_image_wrapper" >
+          
+          <%= render :partial => "pictures/positional_comment_form", 
+                          :locals => {:picture => @picture}%>
+       
+          <%= image_tag @picture.display_image_url,  
+                :style => "width:590px;", :id => "target" %>
+                
+          <!-- render all the positional_comment -->
+          <%= render :partial => "pictures/feedback_map", :locals => {:picture => @picture }%>
+        </div>
+       
+                
+                
+    <!-- Supporting JS and CSS for create comment -->
+      <% if @picture.allow_comment?(current_user) %>
+        <%  content_for :additional_css  do %>
+          <%= stylesheet_link_tag "jcrop.css", "image_map.css"%>
+        <% end %>
+
+        <% content_for :additional_js do %>
+          <%= javascript_include_tag "jquery.Jcrop.min.js", "phototagging_exe.js" %>
+          <%= transloadit_jquerify :upload_revision, :wait => true %>
+          
+          <script type='text/javascript'>
+            $(document).ready(function(){
+              refreshMap();
+            });
+          </script>
+        <% end %>
+      <% end %>
+      
+      
+      <!-- Comment for a given image -->
+      
+      
+      <hr />
+      <%#= render :partial => "pictures/feedback_comment" %>
+      <h1 style="margin-bottom:10px;">Feedbacks: <%= @root_comments.count %></h1>
+      <hr />
+      <!-- <div class="row-fluid new-well"> -->
+        
+      <ol class="root_comment_wrapper">
+        <% @root_comments.each do |root_comment|%>
+          <%= render :partial => "pictures/root_comment", 
+            :locals => {:root_comment => root_comment, 
+                        :picture => @picture}%>
+        <% end %>
+      </ol>
+      <!-- </div> -->
+      
+
+                
+    </div><!--/span-->
+    
+    
+    
+    <!-- Upload new revision, show original picture, and revision list -->
+    <div class="span4" style="padding-top:10px;">
+        
+        <p style="text-align:center;">
+          <button data-toggle="button" id="pilipoto-switcher" 
+            class="btn btn-primary waitMode">Turn On Feedback Mode</button>
+        </p>
+        <hr />
+        
+        <% if @project_membership.has_role?(:collaborator)  or 
+              @project_membership.has_role?(:owner) %>
+          <!-- if it is not approved, revision still can be uploaded  -->
+          <%= render :partial => "pictures/upload_revision_form"%>
+        <% end %>
+        
+        <% if @project_membership.has_role?(:client) %>
+          <!-- Grading Form -->
+          <%# if current_user.is_allowed_to_grade?(@project_submission) %>
+            <%= render :partial => "pictures/client_picture_approval" %>
+          <%# end %>
+        <% end %>
+        
+        <% if @picture.is_original == false %>
+          <%= render :partial => "pictures/show_original", :locals =>{
+            :original_picture => @original_picture  }%>
+        <% end %>
+
+        <% if @all_revisions.count != 0 %>
+          <%= render :partial => "pictures/revision_list",
+                    :locals => {:all_revisions => @all_revisions, 
+                            :current_display => @picture }%>
+
+        <% end %>
+        
+        
+        <%#= render :partial => "pictures/all_the_other_shites" %>
+        
+    </div><!--/span-->
+    
+  </div><!--/row-->
+
+</div><!--/span-->

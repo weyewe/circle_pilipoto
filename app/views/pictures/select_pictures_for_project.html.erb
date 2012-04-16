@@ -1,0 +1,67 @@
+
+<div class="span9 content">
+  <%= create_guide("Select Pictures", 
+        "Select Pictures for project:  <b>#{@project.title}</b>."+ "<br />"+ 
+        "Number of pictures to be selected: #{@project.picture_select_quota} ").html_safe %>
+  
+  <%= hidden_field_tag 'max_selection' , "#{@project.picture_select_quota}", :id => "max_selection"  %>
+  <%= hidden_field_tag 'selected_pics_count' , "#{@project.selected_original_pictures.count}"  %>
+  
+  
+    
+  <%= create_breadcrumb(@breadcrumbs).html_safe %>
+  
+  
+  <div class="row-fluid">
+    <% if @project_membership.has_role?(:client )%>
+      <% if not  @project.is_picture_selection_done? %>
+        <%= render :partial => "pictures/notification_for_pressing_finish_selection_button", :locals => {
+          :project => @project 
+        } %>
+      <% else %>
+        <%= render :partial => "pictures/notification_for_finalization", :locals => {
+          :project => @project
+        } %>
+      <% end %>
+    <% end %>
+    
+  </div><!--/row-->
+
+
+  <!-- display the uploaded image here!  -->
+  <div class="span12"> 
+    <ul class="thumbnails" id="uploaded_image_container">
+      <% @pictures.each do |picture| %>
+        <%= render :partial => "pictures/select_picture" , :locals => {
+          :picture => picture,
+          :project => @project , 
+          :project_membership => @project_membership
+        }%>
+      <% end %>
+    </ul>
+  </div>
+  
+  
+  
+  
+  
+  
+  
+  
+  <div class=" hidden" id="checkbox_form_wrapper">
+    <%= form_tag  execute_select_picture_url , :method => :post  do  %>
+      <%= hidden_field_tag 'membership_provider' , ''  %>
+      <%= hidden_field_tag 'membership_consumer', '' %>
+      <%= hidden_field_tag 'membership_decision', '' %>
+    <% end %>
+  </div>
+  
+  
+  
+  
+  
+  
+  
+</div><!--/span-->
+
+

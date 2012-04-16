@@ -1,0 +1,27 @@
+<div id="root_comment-<%= root_comment.id %>" 
+  class="first_child_comment_wrapper" style="text-align:right;">
+  <a  class="btn first_root_comment_clicker" href="">Reply</a>
+  <!-- create the form to create the first child comment -->
+  <%= form_for Comment.new , :url => create_first_child_comment_url(picture, root_comment), 
+        :html => { :id=> "form_root_comment-#{root_comment.id}", 
+        :class => "ajaxform form-horizontal first_child_form hide" } do |f| %>
+        
+    <div class="control-group">
+      <%= f.label :body , "Reply Content" , :class => "control-label"%>
+      <!-- <label for="textarea" class="control-label">Textarea</label> -->
+      <div class="controls">
+        <%= f.text_area :body , :class  => "comment_body_text_area input-xlarge", :id => "", :rows=>"3" %>
+        <!-- <textarea rows="3" id="textarea" class="input-xlarge"></textarea> -->
+      </div>
+    </div>
+    
+    
+    <div class="form-actions">
+      <button class="btn btn-primary" type="submit">Submit Comment</button>
+      <!-- <button class="btn cancel_first_child_comment">Cancel</button> -->
+      <a  class="btn cancel_first_child_comment" href="">Cancel</a>
+    </div>
+              
+              
+  <% end %>
+</div>

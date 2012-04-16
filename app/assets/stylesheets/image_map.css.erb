@@ -1,0 +1,39 @@
+
+
+
+/* Image Map CSS */
+.map li {
+margin:0;
+padding:0;
+list-style:none;
+}
+.map li a {
+position:absolute;
+display:block;
+cursor:pointer;
+color:#000;
+z-index:999;
+}
+.map li a span {
+display:none;
+}
+
+.map li a:hover span, .map .selected {
+background:#fff;
+padding:5px;
+display:block;
+position:absolute;
+top:50px;
+left:2px;
+border:1px solid #000;
+filter:alpha(opacity=80);
+opacity:0.8;
+}
+.map li a.hover, .map li a:hover {
+background:url( <%= asset_path 'tag_hotspot_on_62x62.png' %>) no-repeat;
+cursor:pointer;
+}
+
+.map li a.tag {
+  background: url(<%= asset_path 'tag_hotspot_on_62x62.png' %>) no-repeat scroll 0 0 transparent;
+}

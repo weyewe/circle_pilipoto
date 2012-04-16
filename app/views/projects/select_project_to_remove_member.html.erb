@@ -1,0 +1,56 @@
+
+<div class="span9 content">
+  
+  <%= create_guide("Select the Project", 
+        "Select the subject where clients/collaborator will be invited").html_safe %>
+  
+  <%= create_breadcrumb(@breadcrumbs).html_safe %>
+  
+  
+
+  <div class="row-fluid">
+    <!-- <div class="span12"> -->
+
+      <table cellpadding="0" cellspacing="0" border="0" 
+            class="table table-striped table-bordered" id="example">
+        <thead>
+          <tr>
+            <th>Project Name</th>
+            <th>Total Clients</th>
+            <th>Total Collaborators</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @projects.each do |project| %>
+            <tr>
+              <td><%= link_to "#{project.title}", invite_member_for_project_url(project)  %></td>
+              <td><%=  project.clients.count %></td>
+              <td><%=  project.collaborators.count  %></td>
+            </tr>
+          <% end %>
+
+
+
+        </tbody>
+      </table>
+
+
+
+    <!-- </div> -->   <!--/span12-->
+  </div><!--/row-->
+
+ 
+
+</div><!--/span-->
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,13 @@
+<ol class="child_comment_list clearfix">
+  <% root_comment.children.each do |child_comment| %>
+    <%= render :partial => "pictures/child_comment", 
+              :locals => {:root_comment => root_comment, 
+                          :child_comment => child_comment} %>
+  <% end %>
+  
+  <%= render :partial => "pictures/child_comment_reply_form",
+            :locals => {
+              :root_comment => root_comment,
+              :picture => picture 
+            } %>
+</ol>

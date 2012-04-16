@@ -1,0 +1,52 @@
+
+
+<% if current_user.is_submission_owner?(@project_submission) %>
+<!-- if it is not approved, revision still can be uploaded  -->
+  <% if not @original_picture.any_picture_submission_approved? %>
+    <%= render :partial => "pictures/upload_revision_form"%>
+  <% end %>
+
+<% end %>
+
+
+<% if not @original_picture.any_picture_submission_approved? %>
+<% if @picture.is_approved.nil? %>
+  <%= render :partial => "pictures/pending_submission", :locals => {
+    :picture => @picture }%>
+<% end %>
+<% else %>
+<% if @picture.is_approved.nil? %>
+  <%= render :partial => "pictures/ungradded_submission", :locals => {
+    :picture => @picture }%>
+<% end %>
+<% end %>
+
+
+
+
+
+<% if @picture.is_approved == true %>
+<%= render :partial => "pictures/accepted_submission", :locals => {
+  :picture => @picture }%>
+<% elsif @picture.is_approved == false %>
+<%= render :partial => "pictures/rejected_submission", :locals => {
+  :picture => @picture }%>
+<% end %>
+
+
+
+
+<% if @picture.is_original == false %>
+<%= render :partial => "pictures/show_original", :locals =>{
+  :original_picture => @original_picture,
+  :project_submission => @project_submission
+}%>
+<% end %>
+
+<% if @all_revisions.count != 0 %>
+<%= render :partial => "pictures/revision_list",
+          :locals => {:all_revisions => @all_revisions, 
+                  :current_display => @picture,
+                  :project_submission => @project_submission }%>
+              
+<% end %>

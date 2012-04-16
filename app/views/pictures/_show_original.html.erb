@@ -1,0 +1,9 @@
+<h3>Original</h3>
+<ul class="thumbnails">
+  <li class="span6">
+    <%= link_to show_picture_for_feedback_url( original_picture), 
+          :class => "thumbnail" do %>
+      <%= image_tag original_picture.revision_image_url %>
+    <% end %>
+  </li>
+</ul>

@@ -1,0 +1,37 @@
+<h3>Upload Revision</h3>
+
+
+<%= form_for Picture.new, :url => project_pictures_url(@project) , 
+          :html => {:class=> "well form-search",
+            :id => 'upload_revision' }  do |f| %>
+  <%= hidden_field_tag 'is_original', 
+          REVISION_PICTURE  %>
+  <%= transloadit :neopilipoto_image_store %>
+  <%= f.file_field :original_image_url, :class => "input-medium search-query transloadit-input" , 
+             :style=>"width:200px;" %>
+            <br />
+  <%= hidden_field_tag 'original_picture_id', 
+          @picture.original_picture.id  %>
+           
+  <button type="submit" class=" hide btn submit-button">Upload Revision</button>
+  
+<% end %>
+
+<%# content_for :additional_js do %>
+<!-- 
+  <script type="text/javascript" src="//assets.transloadit.com/js/jquery.transloadit2.js"></script>
+  <script type="text/javascript">
+     // We call .transloadit() after the DOM is initialized:
+     // $(document).ready(function() {
+     //     $('#upload_revision').transloadit({
+     //       wait : true, 
+     //       pollTimeout : 15000,
+     //       processZeroFiles : false,
+     //       onStart : function(assembly){
+     //       }
+     //     });
+     //   });
+  </script>  -->
+<%# end %>
+
+<hr />

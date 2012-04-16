@@ -1,0 +1,16 @@
+<% new_child_comment =  escape_javascript(    render  :partial => "pictures/child_comment", 
+          :locals => {:root_comment => @root_comment, 
+                      :child_comment => @comment} ) %>
+                      
+$(document).ready(function(){
+  $("#child_root_comment-<%= @root_comment.id %>").before('<%= new_child_comment %>');
+  
+  //  we have to hide the form, show the reply button
+  
+  // child_root_comment-19
+  
+  $("#child_root_comment-<%= @root_comment.id %> a.child_comment_clicker").show();
+  
+  $("#form_child_root_comment-<%= @root_comment.id %>").hide();
+  
+});

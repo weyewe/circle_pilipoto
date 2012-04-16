@@ -1,0 +1,16 @@
+<% new_positional_comment =  escape_javascript(render :partial => "pictures/positional_comment", 
+              :locals=> {:positional_comment => @positional_comment }) %> ;
+              
+<% new_root_comment =  escape_javascript(render :partial => "pictures/root_comment", 
+      :locals=> {:root_comment => @positional_comment.comment, 
+                :picture => @picture}) %> ;
+              
+              
+$(document).ready(function(){
+  $('#title_container').addClass("hide");
+  $("ul.map").append('<%= new_positional_comment %>');
+  $("ol.root_comment_wrapper").append('<%= new_root_comment %>');
+  refreshMap();
+});
+
+

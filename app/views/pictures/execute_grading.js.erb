@@ -1,0 +1,22 @@
+<% grading_replacement = "" %>
+
+<% if @picture.is_approved == true %>
+  <% grading_replacement = escape_javascript(
+    render :partial => "pictures/accepted_submission", :locals => {
+      :picture => @picture 
+    }
+  ) %>
+<% elsif @picture.is_approved == false %>
+  <% grading_replacement = escape_javascript(
+    render :partial => "pictures/rejected_submission", :locals => {
+      :picture => @picture 
+    }
+  ) %>
+<% end %>
+
+
+<% if grading_replacement.length != 0 %>
+  $(document).ready(function(){
+    $("#picture_grading_form-<%= @picture.id %>").replaceWith('<%= grading_replacement %>');
+  });
+<% end %>

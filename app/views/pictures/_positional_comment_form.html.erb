@@ -1,0 +1,21 @@
+<div class="hide" id="title_container" style="width:250px;">
+
+  <%= form_tag  picture_positional_comments_url(picture.id), 
+      :id => "positionalCommentForm" , :class => "ajaxform pilipoto-jcrop" , :method => :post do  %>
+       <fieldset>
+         <%= hidden_field_tag 'x1', '', :id=>"x1" %>
+         <%= hidden_field_tag 'y1', '', :id=>"y1" %>
+         <%= hidden_field_tag 'x2', '', :id=>"x2" %>
+         <%= hidden_field_tag 'y2', '', :id=>"y2" %>
+         
+         <%= label_tag :commment_value, "Feedback"%><br />
+         <%= text_area_tag 'comment_value', '' ,  :rows => 2, :cols=> 25 %> <br />
+         <div class="form-actions">
+           <button class="btn btn-primary" type="submit">Submit Feedback</button>
+           <button id="cancel-positional-comment" class="btn">Cancel</button>
+         </div>
+       </fieldset>
+  <% end %>
+    
+    
+</div>

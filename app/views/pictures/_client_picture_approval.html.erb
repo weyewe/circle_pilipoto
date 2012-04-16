@@ -1,0 +1,17 @@
+
+
+<!-- approval form  -->
+<% if @picture.is_approved.nil? %>
+  <%= render :partial => "pictures/submission_grading_form", :locals => {
+    :picture => @picture }%>
+<% end %>
+
+
+<!-- approval result -->
+<% if @picture.is_approved == true %>
+  <%= render :partial => "pictures/accepted_submission", :locals => {
+    :picture => @picture }%>
+<% elsif @picture.is_approved == false %>
+  <%= render :partial => "pictures/rejected_submission", :locals => {
+    :picture => @picture }%>
+<% end %>

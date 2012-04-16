@@ -1,0 +1,7 @@
+auth:
+  key     : a919ae5378334f20b8db4f7610cdd1a7
+  secret  : 7dff49aab9dc91cb62a0fd34bf9e8c2d6eb3b207
+  duration: 1800      # 30 minute validity period for signed upload forms
+
+templates:
+  neopilipoto_image_store : '6ff1923c56ef4eafa94b22c9cb4ac940'

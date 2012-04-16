@@ -1,0 +1,42 @@
+<li class="root_comment clearfix" id="root_comment_element-<%= root_comment.id %>">
+  <a href="#" class="thumbnail avatar-wrapper" style="text-align:center;" >
+    <img  src="http://pilipoto.com/assets/y-u-not-upload-profile-pic-0287fdea696415033741977ab4b559d3.jpg" class="avatar" >
+  </a>
+
+  <div class="particulars">
+    <div class="name" > Jimmy Lin 
+      <% if root_comment.user.has_role?(:student)%>
+        <span class="label">Student</span>
+      <% elsif root_comment.user.has_role?(:teacher) %>
+        <span class="label label-info">Teacher</span>
+      <% end %>
+      
+    </div>
+    
+    <blockquote>
+      <p><%= root_comment.body%></p>
+    </blockquote>
+    
+    <% if not root_comment.has_children? %>
+      <%= render :partial => "pictures/first_child_comment_wrapper", 
+                :locals => {
+                  :picture => picture, 
+                  :root_comment => root_comment
+                }%>
+      
+    <% else %>
+    <!--  create the child comment list -->
+      <%= render :partial => "pictures/child_comment_wrapper",  
+                  :locals => {
+                    :root_comment => root_comment,
+                    :picture => picture
+                  } %>
+    
+    <% end %>
+    
+    
+    
+  </div>  <!-- End of div.particulars-->
+  <br />
+</li>
+

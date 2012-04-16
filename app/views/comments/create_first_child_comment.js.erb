@@ -1,0 +1,14 @@
+
+<% child_comment_wrapper = escape_javascript(
+        render :partial => "pictures/child_comment_wrapper",
+        :locals => {
+          :root_comment => @root_comment,
+          :picture => @picture
+        }
+)  %>
+
+$(document).ready(function(){
+  
+  // remove the form
+  $("#root_comment-<%= @root_comment.id %>").replaceWith('<%= child_comment_wrapper %>'); 
+});
