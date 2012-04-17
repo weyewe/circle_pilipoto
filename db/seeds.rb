@@ -54,6 +54,15 @@ first_project.invite_project_collaborator(:collaborator, collaborator_email  )
 =end
 
 
+WORK_CATEGORY.each do |category|
+  ArticleCategory.create :name => category
+end
+
+
+=begin
+  Parse PICTURE JSON DATA
+=end
+
 
 
 

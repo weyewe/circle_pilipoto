@@ -1,13 +1,27 @@
 Neopilipoto::Application.routes.draw do
   devise_for :users, :controllers => {:registrations => "registrations"}
   
+ 
+  
+  root :to => 'home#homepage'
+  match 'works' => "home#article_list", :as => :past_works
   
   match 'dashboard'           => 'home#dashboard'  , :as => :dashboard
-  root :to => 'home#dashboard'
+ 
   
   resources :projects do 
     resources :pictures
   end
+  
+  resources :articles
+  match 'select_project_to_create_article' => 'projects#select_project_to_create_article', :as => :select_project_to_create_article
+  match 'create_article_from_project' => 'articles#create_article_from_project', :as => :create_article_from_project
+  # fill in the description , title, teaser 
+  match 'edit_article_from_project/:article_id' => 'articles#edit_article_from_project', :as => :edit_article_from_project
+  # add the display images
+  
+  
+  match 'publish_independent_article' => 'articles#publish_independent_article', :as => :publish_independent_article
   
   
   
@@ -65,6 +79,17 @@ Neopilipoto::Application.routes.draw do
   # finalize the selected picture -> Feedback, edit etc
   match 'finalize_pictures_for_project/:project_id' => "pictures#finalize_pictures_for_project", :as => :finalize_pictures_for_project
   match 'show_picture_for_feedback/:picture_id' => "pictures#show_picture_for_feedback", :as => :show_picture_for_feedback
+  
+=begin
+  Finalize Project
+=end
+  match 'finalize_project' => "projects#finalize_project", :as => :finalize_project
+  match 'select_project_to_be_de_finalized' => "projects#select_project_to_be_de_finalized", :as => :select_project_to_be_de_finalized
+  match 'de_finalize_project' => "projects#de_finalize_project", :as => :de_finalize_project
+  
+  
+  
+  
   # match 'execute_select_picture' => "pictures#execute_select_picture", :as => :execute_select_picture
   # match 'execute_project_selection_done' => "projects#execute_project_selection_done", :as => :execute_project_selection_done
   

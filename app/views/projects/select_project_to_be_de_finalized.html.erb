@@ -1,0 +1,102 @@
+
+<div class="span9 content">
+  
+  <%= create_guide("Select the Project", 
+        "Your finalized projects").html_safe %>
+  
+  <%= create_breadcrumb(@breadcrumbs).html_safe %>
+  
+  
+
+  <div class="row-fluid">
+    <!-- <div class="span12"> -->
+
+      <table cellpadding="0" cellspacing="0" border="0" 
+            class="table table-striped table-bordered" id="example">
+        <thead>
+          <tr>
+            <th>Project Name</th>
+            <th>Pictures</th>
+            <th>Selection Quota</th>
+            <th>Selected Pictures</th>
+            <th>Selection DONE</th>
+            <th>Revision</th>
+            <th>Approved</th>
+            <th>Definalize</th>
+            
+          </tr>
+        </thead>
+        <tbody>
+          <% @projects.each do |project| %>
+            <tr id="entry_row_<%= project.id %>">
+              <td><%= link_to "#{project.title}", new_project_picture_url(project )%></td>
+              <td><%= project.original_pictures.count %></td>
+              <td><%= project.picture_select_quota %></td>
+              <td><%= project.selected_original_pictures_count %></td>
+              <td>
+                <% if project.done_with_selection == true %>
+                  <span class="label label-success">Yes</span>
+                <% else %>
+                  <span class="label label-important">No</span>
+                <% end %>
+              </td>
+              
+              <td><%= project.revisions_count %></td>
+              
+              <td>
+                <%= project.approved_selected_files_count %>
+              </td>
+              
+              
+              <td>
+                <% if project.ready_to_be_finalized? %>
+                    <!-- <span class="label label-success">Yes</span> -->
+                    <!-- <button href="#" class="btn btn-success">Finalize</button> -->
+                    
+                    
+                    <%= link_to "De-Finalize", '#', 
+                              :class => "btn btn-danger entry-link entry-recover",
+                              :id => "entry_#{project.id}" %>
+                              
+                              
+                <% else %>
+                    <span class="label label-important">No</span>
+                <% end %>
+              </td>
+                
+            
+              
+            </tr>
+          <% end %>
+          
+
+
+        </tbody>
+      </table>
+
+
+
+    <!-- </div> -->   <!--/span12-->
+  </div><!--/row-->
+
+
+  <div class=" hidden" id="close-entry">
+    <%= form_tag  de_finalize_project_url  , :method => :post  do  %>
+      <%= hidden_field_tag 'entry_id' , ''  %>
+    <% end %>
+  </div>
+ 
+
+</div><!--/span-->
+
+
+
+
+
+
+
+
+
+
+
+

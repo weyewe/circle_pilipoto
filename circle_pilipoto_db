@@ -1,0 +1,1116 @@
+--
+-- PostgreSQL database dump
+--
+
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = off;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET escape_string_warning = off;
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: article_categories; Type: TABLE; Schema: public; Owner: weyewe; Tablespace: 
+--
+
+CREATE TABLE article_categories (
+    id integer NOT NULL,
+    name character varying(255),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.article_categories OWNER TO weyewe;
+
+--
+-- Name: article_categories_id_seq; Type: SEQUENCE; Schema: public; Owner: weyewe
+--
+
+CREATE SEQUENCE article_categories_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.article_categories_id_seq OWNER TO weyewe;
+
+--
+-- Name: article_categories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: weyewe
+--
+
+ALTER SEQUENCE article_categories_id_seq OWNED BY article_categories.id;
+
+
+--
+-- Name: article_categories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: weyewe
+--
+
+SELECT pg_catalog.setval('article_categories_id_seq', 6, true);
+
+
+--
+-- Name: article_pictures; Type: TABLE; Schema: public; Owner: weyewe; Tablespace: 
+--
+
+CREATE TABLE article_pictures (
+    id integer NOT NULL,
+    name character varying(255),
+    article_id integer,
+    original_image_url character varying(255),
+    index_image_url character varying(255),
+    revision_image_url character varying(255),
+    display_image_url character varying(255),
+    original_image_size integer,
+    index_image_size integer,
+    revision_image_size integer,
+    display_image_size integer,
+    article_display_order integer,
+    is_displayed boolean DEFAULT false,
+    is_displayed_home_page boolean DEFAULT false,
+    is_displayed_teaser boolean DEFAULT false,
+    is_deleted boolean DEFAULT false,
+    width integer,
+    height integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.article_pictures OWNER TO weyewe;
+
+--
+-- Name: article_pictures_id_seq; Type: SEQUENCE; Schema: public; Owner: weyewe
+--
+
+CREATE SEQUENCE article_pictures_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.article_pictures_id_seq OWNER TO weyewe;
+
+--
+-- Name: article_pictures_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: weyewe
+--
+
+ALTER SEQUENCE article_pictures_id_seq OWNED BY article_pictures.id;
+
+
+--
+-- Name: article_pictures_id_seq; Type: SEQUENCE SET; Schema: public; Owner: weyewe
+--
+
+SELECT pg_catalog.setval('article_pictures_id_seq', 1, false);
+
+
+--
+-- Name: articles; Type: TABLE; Schema: public; Owner: weyewe; Tablespace: 
+--
+
+CREATE TABLE articles (
+    id integer NOT NULL,
+    title character varying(255),
+    description text,
+    teaser text,
+    project_id integer,
+    article_type integer DEFAULT 1,
+    article_category_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    is_displayed boolean DEFAULT true
+);
+
+
+ALTER TABLE public.articles OWNER TO weyewe;
+
+--
+-- Name: articles_id_seq; Type: SEQUENCE; Schema: public; Owner: weyewe
+--
+
+CREATE SEQUENCE articles_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.articles_id_seq OWNER TO weyewe;
+
+--
+-- Name: articles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: weyewe
+--
+
+ALTER SEQUENCE articles_id_seq OWNED BY articles.id;
+
+
+--
+-- Name: articles_id_seq; Type: SEQUENCE SET; Schema: public; Owner: weyewe
+--
+
+SELECT pg_catalog.setval('articles_id_seq', 1, false);
+
+
+--
+-- Name: assignments; Type: TABLE; Schema: public; Owner: weyewe; Tablespace: 
+--
+
+CREATE TABLE assignments (
+    id integer NOT NULL,
+    role_id integer,
+    user_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.assignments OWNER TO weyewe;
+
+--
+-- Name: assignments_id_seq; Type: SEQUENCE; Schema: public; Owner: weyewe
+--
+
+CREATE SEQUENCE assignments_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.assignments_id_seq OWNER TO weyewe;
+
+--
+-- Name: assignments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: weyewe
+--
+
+ALTER SEQUENCE assignments_id_seq OWNED BY assignments.id;
+
+
+--
+-- Name: assignments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: weyewe
+--
+
+SELECT pg_catalog.setval('assignments_id_seq', 3, true);
+
+
+--
+-- Name: comments; Type: TABLE; Schema: public; Owner: weyewe; Tablespace: 
+--
+
+CREATE TABLE comments (
+    id integer NOT NULL,
+    commentable_id integer DEFAULT 0,
+    commentable_type character varying(255) DEFAULT ''::character varying,
+    title character varying(255) DEFAULT ''::character varying,
+    body text DEFAULT ''::text,
+    subject character varying(255) DEFAULT ''::character varying,
+    user_id integer DEFAULT 0 NOT NULL,
+    parent_id integer,
+    lft integer,
+    rgt integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.comments OWNER TO weyewe;
+
+--
+-- Name: comments_id_seq; Type: SEQUENCE; Schema: public; Owner: weyewe
+--
+
+CREATE SEQUENCE comments_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.comments_id_seq OWNER TO weyewe;
+
+--
+-- Name: comments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: weyewe
+--
+
+ALTER SEQUENCE comments_id_seq OWNED BY comments.id;
+
+
+--
+-- Name: comments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: weyewe
+--
+
+SELECT pg_catalog.setval('comments_id_seq', 1, false);
+
+
+--
+-- Name: pictures; Type: TABLE; Schema: public; Owner: weyewe; Tablespace: 
+--
+
+CREATE TABLE pictures (
+    id integer NOT NULL,
+    name character varying(255),
+    revision_id integer,
+    project_id integer,
+    original_image_url character varying(255),
+    index_image_url character varying(255),
+    revision_image_url character varying(255),
+    display_image_url character varying(255),
+    original_image_size integer,
+    index_image_size integer,
+    revision_image_size integer,
+    display_image_size integer,
+    is_deleted boolean DEFAULT false,
+    is_selected boolean DEFAULT false,
+    is_original boolean DEFAULT false,
+    is_approved boolean,
+    approved_revision_id integer,
+    original_id integer,
+    score integer DEFAULT 0,
+    user_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    width integer,
+    height integer,
+    front_page_article_image_url character varying(255),
+    front_page_article_image_size integer
+);
+
+
+ALTER TABLE public.pictures OWNER TO weyewe;
+
+--
+-- Name: pictures_id_seq; Type: SEQUENCE; Schema: public; Owner: weyewe
+--
+
+CREATE SEQUENCE pictures_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.pictures_id_seq OWNER TO weyewe;
+
+--
+-- Name: pictures_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: weyewe
+--
+
+ALTER SEQUENCE pictures_id_seq OWNED BY pictures.id;
+
+
+--
+-- Name: pictures_id_seq; Type: SEQUENCE SET; Schema: public; Owner: weyewe
+--
+
+SELECT pg_catalog.setval('pictures_id_seq', 11, true);
+
+
+--
+-- Name: positional_comments; Type: TABLE; Schema: public; Owner: weyewe; Tablespace: 
+--
+
+CREATE TABLE positional_comments (
+    id integer NOT NULL,
+    comment_id integer,
+    x_start integer,
+    y_start integer,
+    x_end integer,
+    y_end integer,
+    picture_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.positional_comments OWNER TO weyewe;
+
+--
+-- Name: positional_comments_id_seq; Type: SEQUENCE; Schema: public; Owner: weyewe
+--
+
+CREATE SEQUENCE positional_comments_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.positional_comments_id_seq OWNER TO weyewe;
+
+--
+-- Name: positional_comments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: weyewe
+--
+
+ALTER SEQUENCE positional_comments_id_seq OWNED BY positional_comments.id;
+
+
+--
+-- Name: positional_comments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: weyewe
+--
+
+SELECT pg_catalog.setval('positional_comments_id_seq', 1, false);
+
+
+--
+-- Name: project_assignments; Type: TABLE; Schema: public; Owner: weyewe; Tablespace: 
+--
+
+CREATE TABLE project_assignments (
+    id integer NOT NULL,
+    project_membership_id integer,
+    project_role_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.project_assignments OWNER TO weyewe;
+
+--
+-- Name: project_assignments_id_seq; Type: SEQUENCE; Schema: public; Owner: weyewe
+--
+
+CREATE SEQUENCE project_assignments_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.project_assignments_id_seq OWNER TO weyewe;
+
+--
+-- Name: project_assignments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: weyewe
+--
+
+ALTER SEQUENCE project_assignments_id_seq OWNED BY project_assignments.id;
+
+
+--
+-- Name: project_assignments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: weyewe
+--
+
+SELECT pg_catalog.setval('project_assignments_id_seq', 3, true);
+
+
+--
+-- Name: project_memberships; Type: TABLE; Schema: public; Owner: weyewe; Tablespace: 
+--
+
+CREATE TABLE project_memberships (
+    id integer NOT NULL,
+    user_id integer,
+    project_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.project_memberships OWNER TO weyewe;
+
+--
+-- Name: project_memberships_id_seq; Type: SEQUENCE; Schema: public; Owner: weyewe
+--
+
+CREATE SEQUENCE project_memberships_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.project_memberships_id_seq OWNER TO weyewe;
+
+--
+-- Name: project_memberships_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: weyewe
+--
+
+ALTER SEQUENCE project_memberships_id_seq OWNED BY project_memberships.id;
+
+
+--
+-- Name: project_memberships_id_seq; Type: SEQUENCE SET; Schema: public; Owner: weyewe
+--
+
+SELECT pg_catalog.setval('project_memberships_id_seq', 3, true);
+
+
+--
+-- Name: project_roles; Type: TABLE; Schema: public; Owner: weyewe; Tablespace: 
+--
+
+CREATE TABLE project_roles (
+    id integer NOT NULL,
+    name character varying(255),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.project_roles OWNER TO weyewe;
+
+--
+-- Name: project_roles_id_seq; Type: SEQUENCE; Schema: public; Owner: weyewe
+--
+
+CREATE SEQUENCE project_roles_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.project_roles_id_seq OWNER TO weyewe;
+
+--
+-- Name: project_roles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: weyewe
+--
+
+ALTER SEQUENCE project_roles_id_seq OWNED BY project_roles.id;
+
+
+--
+-- Name: project_roles_id_seq; Type: SEQUENCE SET; Schema: public; Owner: weyewe
+--
+
+SELECT pg_catalog.setval('project_roles_id_seq', 3, true);
+
+
+--
+-- Name: projects; Type: TABLE; Schema: public; Owner: weyewe; Tablespace: 
+--
+
+CREATE TABLE projects (
+    id integer NOT NULL,
+    title character varying(255),
+    description text,
+    owner_id integer,
+    picture_select_quota integer,
+    is_private boolean DEFAULT false,
+    is_locked boolean DEFAULT false,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    done_with_selection boolean DEFAULT false,
+    is_finalized boolean DEFAULT false
+);
+
+
+ALTER TABLE public.projects OWNER TO weyewe;
+
+--
+-- Name: projects_id_seq; Type: SEQUENCE; Schema: public; Owner: weyewe
+--
+
+CREATE SEQUENCE projects_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.projects_id_seq OWNER TO weyewe;
+
+--
+-- Name: projects_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: weyewe
+--
+
+ALTER SEQUENCE projects_id_seq OWNED BY projects.id;
+
+
+--
+-- Name: projects_id_seq; Type: SEQUENCE SET; Schema: public; Owner: weyewe
+--
+
+SELECT pg_catalog.setval('projects_id_seq', 1, true);
+
+
+--
+-- Name: revisionships; Type: TABLE; Schema: public; Owner: weyewe; Tablespace: 
+--
+
+CREATE TABLE revisionships (
+    id integer NOT NULL,
+    picture_id integer,
+    revision_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.revisionships OWNER TO weyewe;
+
+--
+-- Name: revisionships_id_seq; Type: SEQUENCE; Schema: public; Owner: weyewe
+--
+
+CREATE SEQUENCE revisionships_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.revisionships_id_seq OWNER TO weyewe;
+
+--
+-- Name: revisionships_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: weyewe
+--
+
+ALTER SEQUENCE revisionships_id_seq OWNED BY revisionships.id;
+
+
+--
+-- Name: revisionships_id_seq; Type: SEQUENCE SET; Schema: public; Owner: weyewe
+--
+
+SELECT pg_catalog.setval('revisionships_id_seq', 1, false);
+
+
+--
+-- Name: roles; Type: TABLE; Schema: public; Owner: weyewe; Tablespace: 
+--
+
+CREATE TABLE roles (
+    id integer NOT NULL,
+    name character varying(255),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.roles OWNER TO weyewe;
+
+--
+-- Name: roles_id_seq; Type: SEQUENCE; Schema: public; Owner: weyewe
+--
+
+CREATE SEQUENCE roles_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.roles_id_seq OWNER TO weyewe;
+
+--
+-- Name: roles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: weyewe
+--
+
+ALTER SEQUENCE roles_id_seq OWNED BY roles.id;
+
+
+--
+-- Name: roles_id_seq; Type: SEQUENCE SET; Schema: public; Owner: weyewe
+--
+
+SELECT pg_catalog.setval('roles_id_seq', 2, true);
+
+
+--
+-- Name: schema_migrations; Type: TABLE; Schema: public; Owner: weyewe; Tablespace: 
+--
+
+CREATE TABLE schema_migrations (
+    version character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.schema_migrations OWNER TO weyewe;
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: weyewe; Tablespace: 
+--
+
+CREATE TABLE users (
+    id integer NOT NULL,
+    email character varying(255) DEFAULT ''::character varying NOT NULL,
+    encrypted_password character varying(255) DEFAULT ''::character varying NOT NULL,
+    reset_password_token character varying(255),
+    reset_password_sent_at timestamp without time zone,
+    remember_created_at timestamp without time zone,
+    sign_in_count integer DEFAULT 0,
+    current_sign_in_at timestamp without time zone,
+    last_sign_in_at timestamp without time zone,
+    current_sign_in_ip character varying(255),
+    last_sign_in_ip character varying(255),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.users OWNER TO weyewe;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: weyewe
+--
+
+CREATE SEQUENCE users_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_id_seq OWNER TO weyewe;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: weyewe
+--
+
+ALTER SEQUENCE users_id_seq OWNED BY users.id;
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: weyewe
+--
+
+SELECT pg_catalog.setval('users_id_seq', 3, true);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: weyewe
+--
+
+ALTER TABLE article_categories ALTER COLUMN id SET DEFAULT nextval('article_categories_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: weyewe
+--
+
+ALTER TABLE article_pictures ALTER COLUMN id SET DEFAULT nextval('article_pictures_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: weyewe
+--
+
+ALTER TABLE articles ALTER COLUMN id SET DEFAULT nextval('articles_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: weyewe
+--
+
+ALTER TABLE assignments ALTER COLUMN id SET DEFAULT nextval('assignments_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: weyewe
+--
+
+ALTER TABLE comments ALTER COLUMN id SET DEFAULT nextval('comments_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: weyewe
+--
+
+ALTER TABLE pictures ALTER COLUMN id SET DEFAULT nextval('pictures_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: weyewe
+--
+
+ALTER TABLE positional_comments ALTER COLUMN id SET DEFAULT nextval('positional_comments_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: weyewe
+--
+
+ALTER TABLE project_assignments ALTER COLUMN id SET DEFAULT nextval('project_assignments_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: weyewe
+--
+
+ALTER TABLE project_memberships ALTER COLUMN id SET DEFAULT nextval('project_memberships_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: weyewe
+--
+
+ALTER TABLE project_roles ALTER COLUMN id SET DEFAULT nextval('project_roles_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: weyewe
+--
+
+ALTER TABLE projects ALTER COLUMN id SET DEFAULT nextval('projects_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: weyewe
+--
+
+ALTER TABLE revisionships ALTER COLUMN id SET DEFAULT nextval('revisionships_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: weyewe
+--
+
+ALTER TABLE roles ALTER COLUMN id SET DEFAULT nextval('roles_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: weyewe
+--
+
+ALTER TABLE users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
+
+
+--
+-- Data for Name: article_categories; Type: TABLE DATA; Schema: public; Owner: weyewe
+--
+
+COPY article_categories (id, name, created_at, updated_at) FROM stdin;
+1	LANDSCAPE & NATURE	2012-04-16 16:51:54.468661	2012-04-16 16:51:54.468661
+2	COMMERCIAL	2012-04-16 16:51:54.472481	2012-04-16 16:51:54.472481
+3	PORTRAITS & PEOPLE	2012-04-16 16:51:54.475429	2012-04-16 16:51:54.475429
+4	WEDDING PHOTOGRAHY	2012-04-16 16:51:54.47774	2012-04-16 16:51:54.47774
+5	PERSONAL PROJECTS	2012-04-16 16:51:54.47979	2012-04-16 16:51:54.47979
+6	VIDEO SHOOTING	2012-04-16 16:51:54.481812	2012-04-16 16:51:54.481812
+\.
+
+
+--
+-- Data for Name: article_pictures; Type: TABLE DATA; Schema: public; Owner: weyewe
+--
+
+COPY article_pictures (id, name, article_id, original_image_url, index_image_url, revision_image_url, display_image_url, original_image_size, index_image_size, revision_image_size, display_image_size, article_display_order, is_displayed, is_displayed_home_page, is_displayed_teaser, is_deleted, width, height, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: articles; Type: TABLE DATA; Schema: public; Owner: weyewe
+--
+
+COPY articles (id, title, description, teaser, project_id, article_type, article_category_id, created_at, updated_at, is_displayed) FROM stdin;
+\.
+
+
+--
+-- Data for Name: assignments; Type: TABLE DATA; Schema: public; Owner: weyewe
+--
+
+COPY assignments (id, role_id, user_id, created_at, updated_at) FROM stdin;
+1	1	1	2012-04-16 16:51:54.009717	2012-04-16 16:51:54.009717
+2	2	2	2012-04-16 16:51:54.337304	2012-04-16 16:51:54.337304
+3	2	3	2012-04-16 16:51:54.442723	2012-04-16 16:51:54.442723
+\.
+
+
+--
+-- Data for Name: comments; Type: TABLE DATA; Schema: public; Owner: weyewe
+--
+
+COPY comments (id, commentable_id, commentable_type, title, body, subject, user_id, parent_id, lft, rgt, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: pictures; Type: TABLE DATA; Schema: public; Owner: weyewe
+--
+
+COPY pictures (id, name, revision_id, project_id, original_image_url, index_image_url, revision_image_url, display_image_url, original_image_size, index_image_size, revision_image_size, display_image_size, is_deleted, is_selected, is_original, is_approved, approved_revision_id, original_id, score, user_id, created_at, updated_at, width, height, front_page_article_image_url, front_page_article_image_size) FROM stdin;
+2	[wallcoo.com]_Paris_Sky_by_dimage.jpg	\N	1	http://neopilipoto.s3.amazonaws.com/fc/4ed28b9f40f9e1bb5a1ce9b4c37ef6/wallcoo.com_Paris_Sky_by_dimage.jpg	http://neopilipoto.s3.amazonaws.com/8f/bfba39a66358fc9fa6677b385ce0d5/wallcoo.com_Paris_Sky_by_dimage.jpg	http://neopilipoto.s3.amazonaws.com/35/bc7f3f2bd24969e6534ffe92f7954f/wallcoo.com_Paris_Sky_by_dimage.jpg	http://neopilipoto.s3.amazonaws.com/12/c9b49004be0bfa79045b4be0781ca2/wallcoo.com_Paris_Sky_by_dimage.jpg	33261	6373	2968	23898	f	f	t	\N	\N	\N	0	\N	2012-04-17 05:24:20.422236	2012-04-17 05:24:20.422236	700	438	http://neopilipoto.s3.amazonaws.com/03/661c7fb40f4e3956677e30cc16b56d/wallcoo.com_Paris_Sky_by_dimage.jpg	31615
+3	034_carla-bruni-et-nicolas-sarkozy_theredlist.jpg	\N	1	http://neopilipoto.s3.amazonaws.com/c4/a045a81bcf97fb29e38ab497851dc0/034_carla-bruni-et-nicolas-sarkozy_theredlist.jpg	http://neopilipoto.s3.amazonaws.com/8c/9e62d32c6802b99f5ec37e7f990203/034_carla-bruni-et-nicolas-sarkozy_theredlist.jpg	http://neopilipoto.s3.amazonaws.com/39/5e001191f8080d5ae32812dea38337/034_carla-bruni-et-nicolas-sarkozy_theredlist.jpg	http://neopilipoto.s3.amazonaws.com/e5/6003abdce9e88c6a12c9edd90c6be4/034_carla-bruni-et-nicolas-sarkozy_theredlist.jpg	108915	18566	8530	67794	f	f	t	\N	\N	\N	0	\N	2012-04-17 05:24:20.426332	2012-04-17 05:24:20.426332	804	1023	http://neopilipoto.s3.amazonaws.com/7d/4b94920cb26e17cf498d1ba7a98614/034_carla-bruni-et-nicolas-sarkozy_theredlist.jpg	108451
+10	stockholm-winter.jpg	\N	1	http://neopilipoto.s3.amazonaws.com/e7/32ec1d2139c5a5e450aa725d957d5f/stockholm-winter.jpg	http://neopilipoto.s3.amazonaws.com/fe/d0bcb5daf6246b57f5bfa54818cadd/stockholm-winter.jpg	http://neopilipoto.s3.amazonaws.com/bc/232fdedbc0eaf3bfdfa1e1a25ba200/stockholm-winter.jpg	http://neopilipoto.s3.amazonaws.com/c4/6290c63272ed094abc2957e81f63ee/stockholm-winter.jpg	48136	9091	3814	39901	f	f	t	\N	\N	\N	0	\N	2012-04-17 05:24:20.472532	2012-04-17 05:24:20.472532	650	450	http://neopilipoto.s3.amazonaws.com/7a/db4062fc3e6fee4564482d0c1330b3/stockholm-winter.jpg	48103
+1	slide_01.jpg	\N	1	http://neopilipoto.s3.amazonaws.com/a1/6f1e0cfa8b91dc7ce87a6e879b9516/slide_01.jpg	http://neopilipoto.s3.amazonaws.com/47/41b655397649ae5b775e8b373ed38f/slide_01.jpg	http://neopilipoto.s3.amazonaws.com/5a/e05e0c74fef85edbefa1d280c860b3/slide_01.jpg	http://neopilipoto.s3.amazonaws.com/cd/e6adcda627cc63a476312fa7048df7/slide_01.jpg	3226695	25367	18729	63781	f	t	t	t	1	\N	0	\N	2012-04-17 05:23:10.374867	2012-04-17 05:27:21.784971	1920	1080	http://neopilipoto.s3.amazonaws.com/07/cfa555ab42768548b38d39ce97ba4e/slide_01.jpg	185718
+5	2009_paris-tours_philippe_gilbert_silence_lotto_wins2.jpg	\N	1	http://neopilipoto.s3.amazonaws.com/53/e17e9696f825f48cc01eda99d7bbb5/2009_paris-tours_philippe_gilbert_silence_lotto_wins2.jpg	http://neopilipoto.s3.amazonaws.com/d7/557aab54c2176d57b5a10df0860d2a/2009_paris-tours_philippe_gilbert_silence_lotto_wins2.jpg	http://neopilipoto.s3.amazonaws.com/81/b2fdebcdd372b8223608b60aab2717/2009_paris-tours_philippe_gilbert_silence_lotto_wins2.jpg	http://neopilipoto.s3.amazonaws.com/ce/73c8fa22f5350ad7385abc81714ae6/2009_paris-tours_philippe_gilbert_silence_lotto_wins2.jpg	80522	15314	6987	58941	f	t	t	t	5	\N	0	\N	2012-04-17 05:24:20.438398	2012-04-17 05:27:31.771069	694	462	http://neopilipoto.s3.amazonaws.com/11/a8a5c12b3ee4b81afabf5b48f6050c/2009_paris-tours_philippe_gilbert_silence_lotto_wins2.jpg	80017
+4	600-Eiffel_Tower_at_Night,_Paris,_France.jpg	\N	1	http://neopilipoto.s3.amazonaws.com/78/e81f56a6362fb1ca53968378400e38/600-Eiffel_Tower_at_Night_Paris_France.jpg	http://neopilipoto.s3.amazonaws.com/f6/18c0a0d08b5b5dd7c92acd858fd481/600-Eiffel_Tower_at_Night_Paris_France.jpg	http://neopilipoto.s3.amazonaws.com/58/69d3276ea9e397fbc7cbdae6aec28b/600-Eiffel_Tower_at_Night_Paris_France.jpg	http://neopilipoto.s3.amazonaws.com/61/4214937098436d75185796fad93588/600-Eiffel_Tower_at_Night_Paris_France.jpg	25745	5778	2859	19802	f	t	t	t	4	\N	0	\N	2012-04-17 05:24:20.433471	2012-04-17 05:27:26.351734	680	510	http://neopilipoto.s3.amazonaws.com/4f/79bc9d727b49b1c4f28b5468af2468/600-Eiffel_Tower_at_Night_Paris_France.jpg	24285
+11	stockholm1.jpg	\N	1	http://neopilipoto.s3.amazonaws.com/e1/67e82c9b861ce593a6acdca3a03960/stockholm1.jpg	http://neopilipoto.s3.amazonaws.com/95/9bcd36362a02142c9b8ecd5564fc8d/stockholm1.jpg	http://neopilipoto.s3.amazonaws.com/07/20c15b9c789d101b5f280410057af3/stockholm1.jpg	http://neopilipoto.s3.amazonaws.com/d4/a255a0dd3afa21729fe2c5c3c46b4e/stockholm1.jpg	104880	13970	5876	60553	f	t	t	t	11	\N	0	\N	2012-04-17 05:24:20.478831	2012-04-17 05:27:53.736242	800	536	http://neopilipoto.s3.amazonaws.com/4d/e664da00e48aef6db4b382222aa50a/stockholm1.jpg	104783
+9	sthlmWikim.jpg	\N	1	http://neopilipoto.s3.amazonaws.com/26/3cdc79a1b5f27868713c9af6ee747e/sthlmWikim.jpg	http://neopilipoto.s3.amazonaws.com/9e/c4d2e01c48e7b391fe48ee00cc9d4b/sthlmWikim.jpg	http://neopilipoto.s3.amazonaws.com/f8/07f3a8a703f401bacddf54e139e27e/sthlmWikim.jpg	http://neopilipoto.s3.amazonaws.com/17/2eecbd8e543111cb2e0e50073516f5/sthlmWikim.jpg	546789	58360	39072	164561	f	t	t	t	9	\N	0	\N	2012-04-17 05:24:20.462368	2012-04-17 05:27:48.575373	1200	890	http://neopilipoto.s3.amazonaws.com/bd/87216e36274d0ec30543fa0c2666b0/sthlmWikim.jpg	301259
+7	axioo lewin meily 10_0.jpg	\N	1	http://neopilipoto.s3.amazonaws.com/91/1e385658089262cab211515ba34a71/axioo-lewin-meily-10_0.jpg	http://neopilipoto.s3.amazonaws.com/6f/c4f12c9a6d9efe0b3d805b07025655/axioo-lewin-meily-10_0.jpg	http://neopilipoto.s3.amazonaws.com/ba/72d05498c630af1eeaf48f5267506a/axioo-lewin-meily-10_0.jpg	http://neopilipoto.s3.amazonaws.com/ab/f3ff2530a58f6835e9352812162053/axioo-lewin-meily-10_0.jpg	104867	15656	9062	48914	f	t	t	t	7	\N	0	\N	2012-04-17 05:24:20.447848	2012-04-17 05:27:40.713785	840	560	http://neopilipoto.s3.amazonaws.com/3a/174a26d9bdea93fd8767d4e7cfc4a0/axioo-lewin-meily-10_0.jpg	93796
+8	Notre-Dame-de-Paris_Notre-Dame-night-view_2939.jpg	\N	1	http://neopilipoto.s3.amazonaws.com/09/df32c21434b212517eb991441b2604/Notre-Dame-de-Paris_Notre-Dame-night-view_2939.jpg	http://neopilipoto.s3.amazonaws.com/19/bdaf367a07f36bddec3a3d6efcb4af/Notre-Dame-de-Paris_Notre-Dame-night-view_2939.jpg	http://neopilipoto.s3.amazonaws.com/a1/e428b7f4caca2fa29932c289599533/Notre-Dame-de-Paris_Notre-Dame-night-view_2939.jpg	http://neopilipoto.s3.amazonaws.com/f9/c05477cea9b6fe37cf77cc12ca45a4/Notre-Dame-de-Paris_Notre-Dame-night-view_2939.jpg	78643	12107	5344	48643	f	t	t	t	8	\N	0	\N	2012-04-17 05:24:20.452053	2012-04-17 05:27:44.226464	795	600	http://neopilipoto.s3.amazonaws.com/43/3dc92e31e99ad52d0ac4cc6f5976f7/Notre-Dame-de-Paris_Notre-Dame-night-view_2939.jpg	78653
+6	Aerial-view-Stockholm-centre.jpg	\N	1	http://neopilipoto.s3.amazonaws.com/20/49ac927185d37bc83eb8e2e6880914/Aerial-view-Stockholm-centre.jpg	http://neopilipoto.s3.amazonaws.com/37/d25fdda92c6926414782b611ad7afa/Aerial-view-Stockholm-centre.jpg	http://neopilipoto.s3.amazonaws.com/18/182a8d13eebdfad28556e5d05b3e00/Aerial-view-Stockholm-centre.jpg	http://neopilipoto.s3.amazonaws.com/06/10d13db3ca1b4ea7b877cc7b618489/Aerial-view-Stockholm-centre.jpg	125870	41206	15864	189041	f	t	t	t	6	\N	0	\N	2012-04-17 05:24:20.442546	2012-04-17 05:27:37.058151	600	400	http://neopilipoto.s3.amazonaws.com/37/7dfc4951de1e011f84bd8a631c95e0/Aerial-view-Stockholm-centre.jpg	156534
+\.
+
+
+--
+-- Data for Name: positional_comments; Type: TABLE DATA; Schema: public; Owner: weyewe
+--
+
+COPY positional_comments (id, comment_id, x_start, y_start, x_end, y_end, picture_id, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: project_assignments; Type: TABLE DATA; Schema: public; Owner: weyewe
+--
+
+COPY project_assignments (id, project_membership_id, project_role_id, created_at, updated_at) FROM stdin;
+1	1	1	2012-04-16 16:51:54.14	2012-04-16 16:51:54.14
+2	2	3	2012-04-16 16:51:54.34954	2012-04-16 16:51:54.34954
+3	3	2	2012-04-16 16:51:54.452271	2012-04-16 16:51:54.452271
+\.
+
+
+--
+-- Data for Name: project_memberships; Type: TABLE DATA; Schema: public; Owner: weyewe
+--
+
+COPY project_memberships (id, user_id, project_id, created_at, updated_at) FROM stdin;
+1	1	1	2012-04-16 16:51:54.120546	2012-04-16 16:51:54.120546
+2	2	1	2012-04-16 16:51:54.345192	2012-04-16 16:51:54.345192
+3	3	1	2012-04-16 16:51:54.448416	2012-04-16 16:51:54.448416
+\.
+
+
+--
+-- Data for Name: project_roles; Type: TABLE DATA; Schema: public; Owner: weyewe
+--
+
+COPY project_roles (id, name, created_at, updated_at) FROM stdin;
+1	Owner	2012-04-16 16:51:53.984833	2012-04-16 16:51:53.984833
+2	Collaborator	2012-04-16 16:51:53.988773	2012-04-16 16:51:53.988773
+3	Client	2012-04-16 16:51:53.990884	2012-04-16 16:51:53.990884
+\.
+
+
+--
+-- Data for Name: projects; Type: TABLE DATA; Schema: public; Owner: weyewe
+--
+
+COPY projects (id, title, description, owner_id, picture_select_quota, is_private, is_locked, created_at, updated_at, done_with_selection, is_finalized) FROM stdin;
+1	First Project	The first ever project to describe that this shit is working. And you agree with it 	1	8	f	f	2012-04-16 16:51:54.041493	2012-04-17 05:27:13.294436	t	f
+\.
+
+
+--
+-- Data for Name: revisionships; Type: TABLE DATA; Schema: public; Owner: weyewe
+--
+
+COPY revisionships (id, picture_id, revision_id, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: roles; Type: TABLE DATA; Schema: public; Owner: weyewe
+--
+
+COPY roles (id, name, created_at, updated_at) FROM stdin;
+1	Premium	2012-04-16 16:51:53.960351	2012-04-16 16:51:53.960351
+2	Standard	2012-04-16 16:51:53.964316	2012-04-16 16:51:53.964316
+\.
+
+
+--
+-- Data for Name: schema_migrations; Type: TABLE DATA; Schema: public; Owner: weyewe
+--
+
+COPY schema_migrations (version) FROM stdin;
+20120304083818
+20120304084250
+20120304084352
+20120304084505
+20120304084518
+20120304084605
+20120304084623
+20120304084639
+20120304091225
+20120304091307
+20120306072534
+20120306103256
+20120416033408
+20120416130438
+20120416133317
+20120416133432
+20120416161846
+20120417051657
+20120417053704
+\.
+
+
+--
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: weyewe
+--
+
+COPY users (id, email, encrypted_password, reset_password_token, reset_password_sent_at, remember_created_at, sign_in_count, current_sign_in_at, last_sign_in_at, current_sign_in_ip, last_sign_in_ip, created_at, updated_at) FROM stdin;
+3	collaborator@gmail.com	$2a$10$DSORkyO8xEThyDz5wZsD2.SmoRrNQP4PTBGZS9UvVLVD4AazcnINq	\N	\N	\N	0	\N	\N	\N	\N	2012-04-16 16:51:54.438282	2012-04-16 16:51:54.438282
+1	premium@gmail.com	$2a$10$qAc0iFbbuorT0rLM.NXLdunXfbNOk08vPITkBCrjsFbScVMMzUN5K	\N	\N	\N	2	2012-04-17 04:38:48.073844	2012-04-16 17:41:30.457002	127.0.0.1	127.0.0.1	2012-04-16 16:51:53.933531	2012-04-17 04:38:48.075299
+2	client@gmail.com	$2a$10$aZaYker.8ktty/1B45qxY.Sq5Sd.hUfBp9dht0XVlFzp1sgxgaHtO	\N	\N	\N	1	2012-04-17 04:39:15.961069	2012-04-17 04:39:15.961069	127.0.0.1	127.0.0.1	2012-04-16 16:51:54.233382	2012-04-17 04:39:15.961894
+\.
+
+
+--
+-- Name: article_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: weyewe; Tablespace: 
+--
+
+ALTER TABLE ONLY article_categories
+    ADD CONSTRAINT article_categories_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: article_pictures_pkey; Type: CONSTRAINT; Schema: public; Owner: weyewe; Tablespace: 
+--
+
+ALTER TABLE ONLY article_pictures
+    ADD CONSTRAINT article_pictures_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: articles_pkey; Type: CONSTRAINT; Schema: public; Owner: weyewe; Tablespace: 
+--
+
+ALTER TABLE ONLY articles
+    ADD CONSTRAINT articles_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: assignments_pkey; Type: CONSTRAINT; Schema: public; Owner: weyewe; Tablespace: 
+--
+
+ALTER TABLE ONLY assignments
+    ADD CONSTRAINT assignments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: comments_pkey; Type: CONSTRAINT; Schema: public; Owner: weyewe; Tablespace: 
+--
+
+ALTER TABLE ONLY comments
+    ADD CONSTRAINT comments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: pictures_pkey; Type: CONSTRAINT; Schema: public; Owner: weyewe; Tablespace: 
+--
+
+ALTER TABLE ONLY pictures
+    ADD CONSTRAINT pictures_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: positional_comments_pkey; Type: CONSTRAINT; Schema: public; Owner: weyewe; Tablespace: 
+--
+
+ALTER TABLE ONLY positional_comments
+    ADD CONSTRAINT positional_comments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: project_assignments_pkey; Type: CONSTRAINT; Schema: public; Owner: weyewe; Tablespace: 
+--
+
+ALTER TABLE ONLY project_assignments
+    ADD CONSTRAINT project_assignments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: project_memberships_pkey; Type: CONSTRAINT; Schema: public; Owner: weyewe; Tablespace: 
+--
+
+ALTER TABLE ONLY project_memberships
+    ADD CONSTRAINT project_memberships_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: project_roles_pkey; Type: CONSTRAINT; Schema: public; Owner: weyewe; Tablespace: 
+--
+
+ALTER TABLE ONLY project_roles
+    ADD CONSTRAINT project_roles_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: projects_pkey; Type: CONSTRAINT; Schema: public; Owner: weyewe; Tablespace: 
+--
+
+ALTER TABLE ONLY projects
+    ADD CONSTRAINT projects_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: revisionships_pkey; Type: CONSTRAINT; Schema: public; Owner: weyewe; Tablespace: 
+--
+
+ALTER TABLE ONLY revisionships
+    ADD CONSTRAINT revisionships_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: roles_pkey; Type: CONSTRAINT; Schema: public; Owner: weyewe; Tablespace: 
+--
+
+ALTER TABLE ONLY roles
+    ADD CONSTRAINT roles_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: weyewe; Tablespace: 
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: index_comments_on_commentable_id; Type: INDEX; Schema: public; Owner: weyewe; Tablespace: 
+--
+
+CREATE INDEX index_comments_on_commentable_id ON comments USING btree (commentable_id);
+
+
+--
+-- Name: index_comments_on_user_id; Type: INDEX; Schema: public; Owner: weyewe; Tablespace: 
+--
+
+CREATE INDEX index_comments_on_user_id ON comments USING btree (user_id);
+
+
+--
+-- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: weyewe; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_users_on_email ON users USING btree (email);
+
+
+--
+-- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: weyewe; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_users_on_reset_password_token ON users USING btree (reset_password_token);
+
+
+--
+-- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: weyewe; Tablespace: 
+--
+
+CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+

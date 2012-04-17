@@ -1,0 +1,6 @@
+$(document).ready(function(){
+  // $("#entry_<%= @project.id %>").hideLoading();
+  <% if @project.is_finalized == true %>
+    $("#entry_row_<%= @project.id %>").remove();
+  <% end %>
+});

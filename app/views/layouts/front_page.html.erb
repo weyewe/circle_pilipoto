@@ -1,0 +1,155 @@
+
+
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="author" content="ThemeFuse" />
+  <meta name="description" content="" />
+  <meta name="keywords" content="" />
+  <title>Photo Artist - Index</title>
+
+  <%= stylesheet_link_tag    "front_page", :media => "all" %>
+  <%#= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+
+
+  <link href='http://fonts.googleapis.com/css?family=Quattrocento+Sans' rel='stylesheet' type='text/css'>
+  <!--[if IE 7]><link rel="stylesheet" type="text/css" href="front_page/ie.css" /><![endif]-->
+
+
+<!-- 
+  <link href="style.css" media="screen" rel="stylesheet" type="text/css" />
+  
+  
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script type="text/javascript" src="js/preloadCssImages.js"></script>
+  <script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
+  <script type="text/javascript" src="js/jquery.tools.min.js"></script>
+  <script type="text/javascript" src="js/general.js"></script>
+
+  <link href="css/supersized.css" rel="stylesheet" type="text/css" media="screen" />
+  <script type="text/javascript" src="js/slideshow/supersized.3.2.6.min.js"></script>
+  <script type="text/javascript" src="js/slideshow/supersized.photoartist.js"></script>
+  -->
+  
+  <!-- Here comes the slider jQuery -->
+  <!-- 
+  <script type="text/javascript">			
+  jQuery(document).ready(function($) {
+
+    $('#header_pane').toggle(function(){
+      $(this).addClass('closed').animate({top: 0}, 300);
+      $('.header').slideUp(300);
+      $('#slide_info_container').animate({top: 32}, 300);
+    }, function () {
+      $(this).removeClass('closed').animate({top: 76}, 300);
+      $('.header').slideDown(300);
+      $('#slide_info_container').animate({top: 107}, 300);
+    });
+
+    $('#slide_info_toggle').toggle(function(){
+      $(this).addClass('closed');
+      $('#slidecaption, #slidedescription').hide();
+    }, function () {
+      $(this).removeClass('closed');
+      $('#slidecaption, #slidedescription').show();
+    });
+    
+    // extract the supersized link 
+    var slides_array  = [];
+    $("#supersized_wrapper li").each(function(){
+      var $this = $(this);
+      slides_array.push(
+        {
+          image: $(".display_image", $this).text(),
+          thumb: $(".thumb_image", $this).text(),
+          title: $(".title", $this).text(),
+          desc: $(".description", $this).text()
+        }
+      );
+    });
+
+    $.supersized({
+      autoplay                :   1,
+
+      // Functionality
+      slide_interval          :   4500,		// Length between transitions
+      transition              :   1, 			// 0-None, 1-Fade, 2-Slide Top, 3-Slide Right, 4-Slide Bottom, 5-Slide Left, 6-Carousel Right, 7-Carousel Left
+      transition_speed	:   600,		// Speed of transition
+
+      // Components							
+      slide_links		:   'blank',	// Individual links for each slide (Options: false, 'num', 'name', 'blank')
+      slides 			:   slides_array // [     // Slideshow Images
+       //      {image : 'images/supersized/slides/slide_01.jpg', title : 'Why do we use it?', desc: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using Content here, content here, making it look like readable English.', thumb : 'images/supersized/thumb/slide_01_thb.jpg'},
+       //      {image : 'images/supersized/slides/slide_02.jpg', title : 'What is Lorem Ipsum?', desc: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.', thumb : 'images/supersized/thumb/slide_02_thb.jpg'}, 
+       //      {image : 'images/supersized/slides/slide_03.jpg', thumb : 'images/supersized/thumb/slide_03_thb.jpg'},
+       //      {image : 'images/supersized/slides/slide_04.jpg', thumb : 'images/supersized/thumb/slide_04_thb.jpg'},
+       //      {image : 'images/supersized/slides/slide_05.jpg', title : 'Where can I get some?', desc: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using Content here, content here, making it look like readable English.',thumb : 'images/supersized/thumb/slide_05_thb.jpg'},
+       //      {image : 'images/supersized/slides/slide_06.jpg', thumb : 'images/supersized/thumb/slide_06_thb.jpg'},
+       //      {image : 'images/supersized/slides/slide_07.jpg', thumb : 'images/supersized/thumb/slide_07_thb.jpg'},
+       //      {image : 'images/supersized/slides/slide_08.jpg', title : 'Who created it?', desc: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.', thumb : 'images/supersized/thumb/slide_08_thb.jpg'},
+       //      {image : 'images/supersized/slides/slide_09.jpg', thumb : 'images/supersized/thumb/slide_09_thb.jpg'},
+       //      {image : 'images/supersized/slides/slide_10.jpg', thumb : 'images/supersized/thumb/slide_10_thb.jpg'},
+       //      {image : 'images/supersized/slides/slide_11.jpg', title : 'Where does it come from?', desc: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.',thumb : 'images/supersized/thumb/slide_11_thb.jpg'},
+       //      {image : 'images/supersized/slides/slide_12.jpg', thumb : 'images/supersized/thumb/slide_12_thb.jpg'},
+       //      {image : 'images/supersized/slides/slide_13.jpg', thumb : 'images/supersized/thumb/slide_13_thb.jpg'},
+       //      {image : 'images/supersized/slides/slide_14.jpg', thumb : 'images/supersized/thumb/slide_14_thb.jpg'},
+       //      {image : 'images/supersized/slides/slide_15.jpg', thumb : 'images/supersized/thumb/slide_15_thb.jpg'},
+       //      {image : 'images/supersized/slides/slide_16.jpg', title : 'Where can I get some?', desc: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.',thumb : 'images/supersized/thumb/slide_16_thb.jpg'},
+       //      {image : 'images/supersized/slides/slide_17.jpg', thumb : 'images/supersized/thumb/slide_17_thb.jpg'},
+       //      {image : 'images/supersized/slides/slide_18.jpg', thumb : 'images/supersized/thumb/slide_18_thb.jpg'},
+       //      {image : 'images/supersized/slides/slide_19.jpg', thumb : 'images/supersized/thumb/slide_19_thb.jpg'},
+       //      {image : 'images/supersized/slides/slide_20.jpg', thumb : 'images/supersized/thumb/slide_20_thb.jpg'}
+       //      ]        
+    });
+  });
+  </script>
+
+-->
+</head>
+
+<body>
+  <ul id="supersized_wrapper" style="display:none">
+    <%  (0..19).each do |x| %>
+      <li>
+        <span class="display_image"><%= IMAGE_ARRAY[x].html_safe %></span>
+        <span class="thumb_image"><%= THUMB_IMAGE_ARRAY[x].html_safe %></span>
+        <span class="title">Where does it come from?</span>
+        <span class="description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.</span>
+      </li>
+    <% end %>
+  </ul>
+  
+  <%= render :partial => "layouts/front_page/header"%>
+ 
+  <%= yield %>
+
+
+  <!--Supersized Navigation-->
+  <a id="prevslide" class="load-item"></a>
+  <a id="nextslide" class="load-item"></a>
+
+  <div id="thumb-tray" class="load-item">
+    <a id="tray-button">
+      <%= get_static_image_tag(:button_tray_up, {:id => "tray-arrow"})%>
+      <!-- <img alt="" id="tray-arrow" src="images/supersized/button-tray-up.png"/> -->
+    </a>
+  </div>
+
+
+
+  <!-- Le javascript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <%= javascript_tag "var AUTH_TOKEN = #{form_authenticity_token.inspect};" if protect_against_forgery? %>
+  <%= javascript_include_tag "front_page" %>
+  <%= yield :additional_js %>
+  
+  
+  
+</body>
+</html>
+
+
+

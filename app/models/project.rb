@@ -16,6 +16,8 @@ class Project < ActiveRecord::Base
  
  
  attr_accessible :title, :description, :picture_select_quota
+ 
+ has_one :article
    
   
   def members_with_project_role( role_sym_array )
@@ -164,7 +166,29 @@ class Project < ActiveRecord::Base
     #     }
     #   
     
-    self.selected_original_pictures_count == self.approved_selected_files_count
+    (self.selected_original_pictures_count == self.approved_selected_files_count) and 
+    ( self.selected_original_pictures_count > 0 )
+  end
+  
+  
+  def created_by?(user)
+    self.owner_id == user.id 
+  end
+  
+  def finalize
+    self.is_finalized = true 
+    self.save 
+  end
+  
+  def de_finalize
+    self.is_finalized = false 
+    self.save 
+    
+    article = self.article
+    if not article.nil?
+      article.is_displayed = false
+      article.save 
+    end
   end
   
   def approved_selected_files_count
@@ -232,6 +256,22 @@ class Project < ActiveRecord::Base
   end
   
   
+=begin
+  integration with article
+=end
+
+  def create_article
+    if self.has_article?
+      self.article
+    else
+      Article.create :project_id => self.id 
+    end
+  end
+  
+  
+  def has_article?
+    not self.article.nil?
+  end
   
   
 end

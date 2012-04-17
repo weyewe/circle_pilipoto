@@ -183,7 +183,9 @@ class Picture < ActiveRecord::Base
 
 
 
-  def self.extract_uploads(resize_original, resize_index , resize_show, resize_revision, params, uploads )
+  def self.extract_uploads(resize_original, resize_index , resize_show, resize_revision, 
+    resize_front_page_article,
+    params, uploads )
     project = Project.find_by_id(params[:project_id] )
 
     new_picture = ""
@@ -199,16 +201,22 @@ class Picture < ActiveRecord::Base
         index_image_url     = ""
         revision_image_url  = ""
         display_image_url   = ""
+        front_page_article_image_url = ""
         original_image_size    = ""
         index_image_size       = ""
         revision_image_size    = ""
         display_image_size     = ""
+        front_page_article_image_size = ""
+        original_width = ""
+        original_height ="" 
 
 
         resize_original.each do |r_index|
           if r_index[:original_id] == original_id 
             original_image_url  = r_index[:url]
             original_image_size = r_index[:size]
+            original_width  = r_index[:meta][:width]
+            original_height = r_index[:meta][:height]
             image_name = r_index[:name]
             break
           end
@@ -239,19 +247,32 @@ class Picture < ActiveRecord::Base
             break
           end
         end
+        
+        #  resize article_display 
+        resize_front_page_article.each do |r_index|
+          if r_index[:original_id] == original_id 
+            front_page_article_image_url  = r_index[:url]
+            front_page_article_image_size = r_index[:size]
+            break
+          end
+        end
 
         new_picture = Picture.create(
              :original_image_url => original_image_url     ,
              :index_image_url    =>   index_image_url      ,
              :revision_image_url =>   revision_image_url   ,
              :display_image_url  =>  display_image_url     ,
+             :front_page_article_image_url => front_page_article_image_url,
              :project_id => project.id, 
              :original_image_size    => original_image_size      ,
              :index_image_size       => index_image_size         ,
              :revision_image_size    => revision_image_size      ,
              :display_image_size     => display_image_size       ,
+             :front_page_article_image_size => front_page_article_image_size,
              :name => image_name,
-             :is_original => true 
+             :is_original => true ,
+             :width => original_width,
+             :height => original_height 
         )
 
         counter =  counter + 1 
@@ -341,6 +362,8 @@ class Picture < ActiveRecord::Base
       self.save
     end
   end
+  
+
 
 
 end

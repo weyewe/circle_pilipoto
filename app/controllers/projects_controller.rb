@@ -95,7 +95,7 @@ class ProjectsController < ApplicationController
   ACTIVE PROJECTS
 =end
   def select_project_to_be_managed
-    @projects = current_user.projects 
+    @projects = current_user.non_finalized_projects
     add_breadcrumb "Select  project", 'select_project_to_invite_member_path'
   end
   
@@ -108,8 +108,52 @@ class ProjectsController < ApplicationController
       format.js
     end
   end
+
+=begin
+  FINALIZATION
+=end
+
+  def finalize_project
+    if not current_user.has_role?(:premium)
+      redirect_to root_url
+      return
+    end
+
+    @project = Project.find_by_id( params[:entry_id])
+
+    if @project.nil? or not @project.created_by?(current_user)
+      puts "This is the shit\n"*10
+      redirect_to root_url 
+      return 
+    else
+      puts "The cute thing\n"*10
+      @project.finalize
+    end
+  end
   
-  # def
+  
+  
+  def select_project_to_be_de_finalized
+    @projects = current_user.finalized_projects
+    add_breadcrumb "Select  project", 'select_project_to_invite_member_path'
+  end
+  
+  
+  def de_finalize_project
+    if not current_user.has_role?(:premium)
+      redirect_to root_url
+      return
+    end
+
+    @project = Project.find_by_id( params[:entry_id])
+
+    if @project.nil? or not @project.created_by?(current_user)
+      redirect_to root_url 
+      return 
+    else
+      @project.de_finalize
+    end
+  end
       
 =begin
   COllaboration
@@ -121,5 +165,13 @@ class ProjectsController < ApplicationController
     
   end
       
+=begin
+  PAGE MANAGEMENT : MARKETING 
+=end
+
+  def select_project_to_create_article
+    @projects = current_user.finalized_projects
+    add_breadcrumb "Select  project", 'select_project_to_create_article_path'
+  end
 
 end

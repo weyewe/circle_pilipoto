@@ -1,0 +1,70 @@
+<div class="header">	
+
+  <div class="logo">
+    <%= link_to root_url do %>
+    <!-- <a href="index.html"> -->
+      <%= get_static_image_tag(:logo, {} ) %>
+      <!-- <img src="images/logo.png" alt=""> -->
+    <!-- </a> -->
+    <% end %>
+    <h1>Circle Photography</h1>
+  </div>
+  
+  
+
+  <div class="header_play_box">
+    <a id="play-button">
+      <%= get_static_image_tag(:pauseplay, {:id=> "pauseplay"} ) %>
+      <!-- <img id="pauseplay" src="images/supersized/pause.png" alt=""> -->
+    </a>			
+
+    <div class="progress_bar_bg">
+      <div id="progress-back" class="load-item">
+        <div id="progress-bar"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="topmenu">
+    <ul class="dropdown">
+
+      <li class="<%= is_currently_viewed?(params, :home) %>">
+        <%= link_to "Home", root_url %>
+      </li>
+      <li class="<%= is_currently_viewed?(params, :work) %>">
+        <%= link_to past_works_url do %>
+          <span>Work</span>
+        <% end %>
+        <ul>
+          <li><a href="#"><span>LANDSCAPE & NATURE</span></a></li>
+          <li><a href="#"><span>COMMERCIAL</span></a></li>
+          <li><a href="#"><span>PORTRAITS & PEOPLE</span></a></li>
+          <li><a href="#"><span>WEDDING PHOTOGRAHY</span></a></li>
+          <li><a href="#"><span>PERSONAL PROJECTS</span></a></li>
+          <li><a href="#"><span>VIDEO SHOOTING</span></a></li>
+        </ul>
+      </li>
+      <li><a href="contact.html"><span>Contact</span></a></li>
+      <li>
+        <%= link_to "Client Login", new_user_session_url %>
+      </li>
+    </ul>
+    <div class="clear"></div>
+  </div>
+
+  <div class="header_social">
+    <a href="#">
+      <%= get_static_image_tag(:social_facebook_small, {:width => 23, :height => 23}  )%>
+      <!-- <img src="images/icons/social_facebook_small.png" width="23" height="23" alt=""> -->
+    </a>
+    <a href="#">
+      <%= get_static_image_tag(:social_twitter_small, {:width => 23, :height => 23} )%>
+      <!-- <img src="images/icons/social_twitter_small.png" width="23" height="23" alt=""> -->
+    </a>
+    <a href="#">
+      <%= get_static_image_tag(:social_linkedin_small, {:width => 23, :height => 23}  )%>
+      <!-- <img src="images/icons/social_linkin_small.png" width="23" height="23" alt=""> -->
+    </a>
+  </div>
+
+</div>

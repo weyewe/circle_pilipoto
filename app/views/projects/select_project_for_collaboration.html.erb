@@ -37,10 +37,12 @@
                 <% project_membership = project.get_project_membership_for(current_user) %>
                 
                 
-                  <% if project.is_picture_selection_done? %>
+                  <% if project.is_picture_selection_done?  and project.is_finalized == false %>
                     <span class="label label-info">Finalization</span>
-                  <% else %>
-                    	<span class="label">Select Images</span> 
+                  <% elsif project.is_picture_selection_done?  and project.is_finalized == true%>
+                    <span class="label label-success">Finalized</span>
+                  <% elsif not project.is_picture_selection_done? %>
+                    <span class="label">Select Images</span> 
                   <% end %>
                 
                 

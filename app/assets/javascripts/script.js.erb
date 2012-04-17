@@ -16,9 +16,9 @@ $(document).ready(function() {
     
     var text = "" ; 
     if( $entry_link.hasClass("entry-closer")){
-      text = "Are you sure to close this entry?"
+      text = "Are you sure to finalize this entry?"
     }else if ($entry_link.hasClass("entry-recover")){
-      text = "Are you sure to recover this entry?"
+      text = "Are you sure to definalize this entry?"
     }
     
     if( confirm( text ) ){
@@ -39,7 +39,7 @@ $(document).ready(function() {
         success: function(response){
 
           $form.clearForm();
-          $checkbox.hideLoading();
+          $entry_link.hideLoading();
         }
       });
     }

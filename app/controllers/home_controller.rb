@@ -1,6 +1,6 @@
 class HomeController < ApplicationController
   
-  # skip_before_filter :authenticate_user!, :only => [:dashboard]
+  skip_before_filter :authenticate_user!, :only => [:homepage, :article_list ]
   
   def dashboard
     if current_user.has_role?( :premium)
@@ -17,6 +17,16 @@ class HomeController < ApplicationController
       redirect_to project_submissions_url 
       return
     end
+  end
+  
+  
+  def homepage
+    render :layout => 'layouts/front_page'
+  end
+  
+  def article_list
+    render :layout => 'layouts/front_page'
+    
   end
   
   

@@ -118,7 +118,20 @@ class User < ActiveRecord::Base
   end
   
   
+=begin
+  Premium User 
+=end
+
+  def finalized_projects
+    self.projects.where( :is_finalized => true )
+  end
+  
+  def non_finalized_projects
+    self.projects.where( :is_finalized => false )
+  end
+  
 
   
   
 end
+

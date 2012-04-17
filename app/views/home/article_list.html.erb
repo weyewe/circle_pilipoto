@@ -1,0 +1,86 @@
+
+
+<% content_for :additional_js  do %>
+
+  <script type="text/javascript">			
+   jQuery(document).ready(function($) {
+
+     $('#header_pane').toggle(function(){
+       $(this).addClass('closed').animate({top: 0}, 300);
+       $('.header').slideUp(300);
+       $('#slide_info_container').animate({top: 32}, 300);
+     }, function () {
+       $(this).removeClass('closed').animate({top: 76}, 300);
+       $('.header').slideDown(300);
+       $('#slide_info_container').animate({top: 107}, 300);
+     });
+
+     $('#slide_info_toggle').toggle(function(){
+       $(this).addClass('closed');
+       $('#slidecaption, #slidedescription').hide();
+     }, function () {
+       $(this).removeClass('closed');
+       $('#slidecaption, #slidedescription').show();
+     });
+
+     // extract the supersized link 
+     var slides_array  = [];
+     $("#supersized_wrapper li").each(function(){
+       var $this = $(this);
+       slides_array.push(
+         {
+           image: $(".display_image", $this).text(),
+           thumb: $(".thumb_image", $this).text(),
+           title: $(".title", $this).text(),
+           desc: $(".description", $this).text()
+         }
+       );
+     });
+   
+
+     $.supersized({
+       autoplay                :   1,
+
+       // Functionality
+       slide_interval          :   4500,		// Length between transitions
+       transition              :   1, 			// 0-None, 1-Fade, 2-Slide Top, 3-Slide Right, 4-Slide Bottom, 5-Slide Left, 6-Carousel Right, 7-Carousel Left
+       transition_speed	:   600,		// Speed of transition
+
+       // Components							
+       slide_links		:   'blank',	// Individual links for each slide (Options: false, 'num', 'name', 'blank')
+       slides 			:   slides_array 
+     });
+   });
+   </script>
+
+<% end %>
+
+
+<div class="middle cols3_fix">
+
+  <!-- center part -->
+  <div class="content_wrapper" style="float:none; margin:0 auto;">
+    <!-- content -->
+    <div class="content" style="width:875px;">               
+      
+      <% (1..3).each do  %>
+        <%= render :partial => "layouts/front_page/post_item" %>
+      <% end %>
+
+
+      <!-- <p class="text-center"><a href="#" class="button_link">LOAD MORE POSTS</a></p> -->
+<!--  get the pagination over here  -->
+    </div>
+    <!--/ content -->
+    <!--/ sidebar 2 -->
+    <div class="clear"></div>
+  </div>
+  <!--/ center part -->
+
+  <!-- sidebar 1 -->
+ <%#= render :partial => "layouts/front_page/article_sidebar1" %>
+  <!--/ sidebar 1 -->
+
+  <div class="clear"></div>
+</div>
+<!--/ middle -->

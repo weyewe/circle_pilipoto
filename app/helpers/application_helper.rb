@@ -6,6 +6,44 @@ module ApplicationHelper
   
   
   
+  
+=begin
+  For the front page
+=end
+  FRONT_PAGE_SELECTED_TAB_CLASS = "current-menu-item"
+
+  def get_static_image_tag( asset_tag, setting)
+    if setting.length > 0 
+      image_tag(STATIC_IMAGE[asset_tag], setting)
+    else
+      image_tag(STATIC_IMAGE[asset_tag])
+    end
+    
+  end
+
+
+  def is_currently_viewed?(params, tab)
+    if tab == :work 
+      if params[:controller] == "home" and 
+        params[:action] == "article_list"
+        return FRONT_PAGE_SELECTED_TAB_CLASS
+      else
+        return ""
+      end
+    end
+    
+    
+    if tab == :home 
+      if params[:controller] == "home" and 
+        params[:action] == "homepage"
+        return FRONT_PAGE_SELECTED_TAB_CLASS
+      else
+        return ""
+      end
+    end
+    
+  end
+
 =begin
   For Collaboration process nav, determining the view link for :client and :collaborator 
 =end
@@ -398,11 +436,11 @@ module ApplicationHelper
       },
       {
         :title => "Finalized Projects",
-        :destination_link => 'show_finalized_projects_url',
+        :destination_link => 'select_project_to_be_de_finalized_url',
         :conditions => [
           {
             :controller => 'projects',
-            :action => 'show_finalized_projects'
+            :action => 'select_project_to_be_de_finalized'
           }
         ]
       }
@@ -493,7 +531,35 @@ module ApplicationHelper
         ]
       },
       {
-        :title => "Result Publishing",
+        :title => "Publish Article from Project",
+        :destination_link => "select_project_to_create_article_url",
+        :conditions => [
+          {
+            :controller => 'projects',
+            :action => 'select_project_to_create_article'
+          },
+          {
+            :controller => "",
+            :action => ''
+          }
+        ]
+      },
+      {
+        :title => "Publish Independent Article ",
+        :destination_link => "",
+        :conditions => [
+          {
+            :controller => '',
+            :action => ''
+          },
+          {
+            :controller => "",
+            :action => ''
+          }
+        ]
+      },
+      {
+        :title => "Edit Article",
         :destination_link => "",
         :conditions => [
           {

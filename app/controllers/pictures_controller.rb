@@ -21,6 +21,7 @@ class PicturesController < ApplicationController
         params[:transloadit][:results][:resize_index], 
         params[:transloadit][:results][:resize_show], 
         params[:transloadit][:results][:resize_revision], 
+        params[:transloadit][:results][:resize_front_page_article], 
         params, params[:transloadit][:uploads] )
     end 
     
