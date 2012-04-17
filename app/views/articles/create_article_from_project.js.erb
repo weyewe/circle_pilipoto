@@ -1,0 +1,13 @@
+$(document).ready(function(){
+  <% if not @article.nil? %>
+    <% new_row = escape_javascript(
+      render :partial => "projects/article_from_project", :locals => {
+        :project => @project,
+        :article => @article
+      }
+    ) %>
+  
+  
+    $("#entry_row_<%= @project.id %>").replaceWith('<%= new_row %>');
+  <% end %>
+});

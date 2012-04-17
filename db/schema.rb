@@ -23,22 +23,23 @@ ActiveRecord::Schema.define(:version => 20120417053704) do
     t.string   "name"
     t.integer  "article_id"
     t.string   "original_image_url"
+    t.string   "article_image_url"
+    t.string   "front_page_image_url"
     t.string   "index_image_url"
-    t.string   "revision_image_url"
-    t.string   "display_image_url"
     t.integer  "original_image_size"
+    t.integer  "article_image_size"
+    t.integer  "front_page_image_size"
     t.integer  "index_image_size"
-    t.integer  "revision_image_size"
-    t.integer  "display_image_size"
-    t.integer  "article_display_order"
-    t.boolean  "is_displayed",           :default => false
-    t.boolean  "is_displayed_home_page", :default => false
-    t.boolean  "is_displayed_teaser",    :default => false
-    t.boolean  "is_deleted",             :default => false
+    t.integer  "article_display_order",      :default => 0
+    t.boolean  "is_displayed",               :default => false
+    t.boolean  "is_displayed_at_front_page", :default => false
+    t.boolean  "is_displayed_as_teaser",     :default => false
+    t.boolean  "is_deleted",                 :default => false
+    t.integer  "article_picture_type",       :default => 1
     t.integer  "width"
     t.integer  "height"
-    t.datetime "created_at",                                :null => false
-    t.datetime "updated_at",                                :null => false
+    t.datetime "created_at",                                    :null => false
+    t.datetime "updated_at",                                    :null => false
   end
 
   create_table "articles", :force => true do |t|
@@ -46,11 +47,12 @@ ActiveRecord::Schema.define(:version => 20120417053704) do
     t.text     "description"
     t.text     "teaser"
     t.integer  "project_id"
-    t.integer  "article_type",        :default => 1
+    t.integer  "article_type",         :default => 1
+    t.boolean  "has_front_page_image", :default => false
     t.integer  "article_category_id"
-    t.datetime "created_at",                            :null => false
-    t.datetime "updated_at",                            :null => false
-    t.boolean  "is_displayed",        :default => true
+    t.datetime "created_at",                              :null => false
+    t.datetime "updated_at",                              :null => false
+    t.boolean  "is_displayed",         :default => true
   end
 
   create_table "assignments", :force => true do |t|
@@ -89,20 +91,20 @@ ActiveRecord::Schema.define(:version => 20120417053704) do
     t.integer  "index_image_size"
     t.integer  "revision_image_size"
     t.integer  "display_image_size"
-    t.boolean  "is_deleted",                    :default => false
-    t.boolean  "is_selected",                   :default => false
-    t.boolean  "is_original",                   :default => false
+    t.boolean  "is_deleted",           :default => false
+    t.boolean  "is_selected",          :default => false
+    t.boolean  "is_original",          :default => false
     t.boolean  "is_approved"
     t.integer  "approved_revision_id"
     t.integer  "original_id"
-    t.integer  "score",                         :default => 0
+    t.integer  "score",                :default => 0
     t.integer  "user_id"
-    t.datetime "created_at",                                       :null => false
-    t.datetime "updated_at",                                       :null => false
+    t.datetime "created_at",                              :null => false
+    t.datetime "updated_at",                              :null => false
     t.integer  "width"
     t.integer  "height"
-    t.string   "front_page_article_image_url"
-    t.integer  "front_page_article_image_size"
+    t.string   "article_image_url"
+    t.integer  "article_image_size"
   end
 
   create_table "positional_comments", :force => true do |t|

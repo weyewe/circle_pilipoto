@@ -539,8 +539,12 @@ module ApplicationHelper
             :action => 'select_project_to_create_article'
           },
           {
-            :controller => "",
-            :action => ''
+            :controller => "articles",
+            :action => 'edit_article_content'
+          },
+          {
+            :controller => "articles",
+            :action => "edit_image_ordering"
           }
         ]
       },

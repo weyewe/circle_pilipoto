@@ -1,5 +1,4 @@
 $(document).ready(function(){
-  // $("#entry_<%= @project.id %>").hideLoading();
   <% if @project.is_finalized == false %>
     $("#entry_row_<%= @project.id %>").remove();
   <% end %>

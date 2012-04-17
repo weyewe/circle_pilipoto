@@ -70,6 +70,17 @@ class Picture < ActiveRecord::Base
       return last_revision 
     end
   end
+  
+  def last_approved_revision
+    last_revision_id = self.original_picture.approved_revision_id
+    if last_revision_id.nil?
+      return self.original_picture
+    else
+      return Picture.find_by_id( last_revision_id )
+    end
+  end
+  
+  
 
   # restrict commenting capability to several people 
   def allow_comment?(user) 
@@ -184,7 +195,7 @@ class Picture < ActiveRecord::Base
 
 
   def self.extract_uploads(resize_original, resize_index , resize_show, resize_revision, 
-    resize_front_page_article,
+    resize_article,
     params, uploads )
     project = Project.find_by_id(params[:project_id] )
 
@@ -201,12 +212,12 @@ class Picture < ActiveRecord::Base
         index_image_url     = ""
         revision_image_url  = ""
         display_image_url   = ""
-        front_page_article_image_url = ""
+        article_image_url = ""
         original_image_size    = ""
         index_image_size       = ""
         revision_image_size    = ""
         display_image_size     = ""
-        front_page_article_image_size = ""
+        article_image_size = ""
         original_width = ""
         original_height ="" 
 
@@ -249,10 +260,10 @@ class Picture < ActiveRecord::Base
         end
         
         #  resize article_display 
-        resize_front_page_article.each do |r_index|
+        resize_article.each do |r_index|
           if r_index[:original_id] == original_id 
-            front_page_article_image_url  = r_index[:url]
-            front_page_article_image_size = r_index[:size]
+             article_image_url  = r_index[:url]
+             article_image_size = r_index[:size]
             break
           end
         end
@@ -262,13 +273,13 @@ class Picture < ActiveRecord::Base
              :index_image_url    =>   index_image_url      ,
              :revision_image_url =>   revision_image_url   ,
              :display_image_url  =>  display_image_url     ,
-             :front_page_article_image_url => front_page_article_image_url,
+             :article_image_url =>  article_image_url,
              :project_id => project.id, 
              :original_image_size    => original_image_size      ,
              :index_image_size       => index_image_size         ,
              :revision_image_size    => revision_image_size      ,
              :display_image_size     => display_image_size       ,
-             :front_page_article_image_size => front_page_article_image_size,
+             :article_image_size =>  article_image_size,
              :name => image_name,
              :is_original => true ,
              :width => original_width,
@@ -295,7 +306,11 @@ class Picture < ActiveRecord::Base
       index_image_size       = resize_index.first[:size]   
       revision_image_size    = resize_revision.first[:size]
       display_image_size     = resize_show.first[:size]    
-
+      article_image_size   = resize_article.first[:size]
+      article_image_url   = resize_article.first[:url]
+      width = resize_original.first[:meta][:width]
+      height = resize_original.first[:meta][:height]
+      
       # index_picture_url = resize_index.first[:url]
       # show_picture_url = resize_show.first[:url]
       image_name = resize_show.first[:name]
@@ -310,8 +325,15 @@ class Picture < ActiveRecord::Base
            :revision_image_size    => revision_image_size      ,
            :display_image_size     => display_image_size       ,
            :name => image_name,
-           :original_id => original_picture.id
+           :original_id => original_picture.id,
+           :article_image_url => article_image_url,
+           :article_image_size => article_image_size ,
+           :width => width,
+           :height => height 
       )
+      
+      new_picture.is_selected = true
+      new_picture.save
 
       # #  for the UserActivity
       #    UserActivity.create_new_entry(EVENT_TYPE[:submit_picture_revision], 
@@ -362,6 +384,9 @@ class Picture < ActiveRecord::Base
       self.save
     end
   end
+  
+  
+  
   
 
 

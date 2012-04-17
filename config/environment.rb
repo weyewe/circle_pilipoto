@@ -105,3 +105,9 @@ WORK_CATEGORY = ["LANDSCAPE & NATURE",
 
 HOME_IMAGE_WIDTH = 1920
 HOME_IMAGE_HEIGHT = 1080 
+
+
+ARTICLE_PICTURE_TYPE = {
+  :migrated_from_project => 1 ,
+  :new_upload_for_front_page => 2 
+}

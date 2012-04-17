@@ -154,6 +154,14 @@ class Project < ActiveRecord::Base
                         :is_deleted => false, 
                         :is_selected => true ,
                         :is_approved => true 
+     ).count
+  end
+  
+  def selected_and_approved_original_pictures
+    self.pictures.where(:is_original => true, 
+                        :is_deleted => false, 
+                        :is_selected => true ,
+                        :is_approved => true 
      )
   end
 
@@ -264,7 +272,28 @@ class Project < ActiveRecord::Base
     if self.has_article?
       self.article
     else
-      Article.create :project_id => self.id 
+      article = Article.create :project_id => self.id 
+      # wrong wrong
+      #it should be the last approved pic
+      self.selected_original_pictures.each do |pic|
+        last_revision = pic.last_revision
+        article.article_pictures.create(
+          :name                       => last_revision.name                        , 
+          :original_image_size        => last_revision.original_image_size         ,
+          :original_image_url         => last_revision.original_image_url          ,
+                                         
+          :index_image_url            => last_revision.index_image_url              ,
+          :index_image_size           => last_revision.index_image_size             ,
+                                         
+          :article_image_size         => last_revision.article_image_size           ,
+          :article_image_url          => last_revision.article_image_url            ,
+    # to check the front_page url and size : we observe the original pic
+          :width                      => last_revision.width                       ,
+          :height                     => last_revision.height                     
+        )
+      end
+      
+      return article
     end
   end
   

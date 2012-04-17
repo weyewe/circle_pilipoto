@@ -16,9 +16,9 @@ $(document).ready(function() {
     
     var text = "" ; 
     if( $entry_link.hasClass("entry-closer")){
-      text = "Are you sure to finalize this entry?"
+      text = "Are you sure?"
     }else if ($entry_link.hasClass("entry-recover")){
-      text = "Are you sure to definalize this entry?"
+      text = "Are you sure?"
     }
     
     if( confirm( text ) ){

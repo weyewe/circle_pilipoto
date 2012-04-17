@@ -17,9 +17,13 @@ Neopilipoto::Application.routes.draw do
   match 'select_project_to_create_article' => 'projects#select_project_to_create_article', :as => :select_project_to_create_article
   match 'create_article_from_project' => 'articles#create_article_from_project', :as => :create_article_from_project
   # fill in the description , title, teaser 
-  match 'edit_article_from_project/:article_id' => 'articles#edit_article_from_project', :as => :edit_article_from_project
+  match 'edit_article_content/:article_id' => 'articles#edit_article_content', :as => :edit_article_content
+  match 'update_article_content/:article_id' => 'articles#update_article_content', :as => :update_article_content
   # add the display images
   
+  
+  match 'edit_image_ordering/:article_id' => 'articles#edit_image_ordering', :as => :edit_image_ordering
+  match 'update_image_ordering/:article_id' => 'articles#update_image_ordering', :as => :update_image_ordering
   
   match 'publish_independent_article' => 'articles#publish_independent_article', :as => :publish_independent_article
   

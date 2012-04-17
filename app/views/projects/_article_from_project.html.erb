@@ -1,0 +1,36 @@
+
+<tr id="entry_row_<%= project.id %>">
+  <td><%= link_to "#{project.title}", new_project_picture_url(project )%></td>
+ 
+  <td>
+    <%= project.approved_selected_files_count %>
+  </td>
+  
+  <% if  not article.nil? %>
+    <td style="text-align:center;">
+      
+      <!-- edit_article_content -->
+      <%= link_to "Content", edit_article_content_url( article  ), 
+            :class => "btn btn-primary" %>
+      <!-- <button href="#" class="btn btn-primary">Content</button> -->
+    </td>
+    <td style="text-align:center;">
+      <!-- <button href="#" class="btn btn-info">Image Ordering</button> -->
+      <%= link_to "Image Ordering", edit_image_ordering_url( article  ), 
+            :class => "btn btn-info" %>
+    </td>
+    <td style="text-align:center;">
+      <% if article.is_displayed == false %>
+        <button href="#" class="btn btn-success">Show</button>
+      <% elsif article.is_displayed == true %>
+        <button href="#" class="btn btn-danger">Hide</button>
+      <% end %>
+    </td>
+  <% else %>
+    <td colspan="3" style="text-align:center;">
+      <%= link_to "Create Article", '#', 
+                :class => "btn  entry-link entry-recover",
+                :id => "entry_#{project.id}" %>
+    </td>
+  <% end %>
+</tr>

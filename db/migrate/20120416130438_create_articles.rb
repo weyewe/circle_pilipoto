@@ -9,6 +9,7 @@ class CreateArticles < ActiveRecord::Migration
       
       t.integer :article_type , :default => ARTICLE_TYPE[:mapped_from_project]
       
+      t.boolean :has_front_page_image, :default => false 
       
       t.integer :article_category_id 
       t.timestamps
