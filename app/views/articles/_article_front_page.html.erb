@@ -1,0 +1,25 @@
+
+
+<tr>
+  <td>
+    <%= link_to article.title, new_article_article_picture_url( article ) %>
+  </td>
+  
+  <td style="text-align:center;">
+    <% if article.front_page_article_picture.nil? %>
+      	<span class="label">No Front Page Yet</span>
+    <% else %>
+      <%= image_tag article.front_page_article_picture.index_image_url %>
+    <% end %>
+  </td>
+  
+  <td style="text-align:center;">
+    <% if article.total_front_page_candidates == 0  %>
+      	<span class="label">0</span>
+    <% else %>
+      <span class="label label-success"><%= article.total_front_page_candidates %></span>
+    <% end %>
+  </td>
+  
+  
+</tr>

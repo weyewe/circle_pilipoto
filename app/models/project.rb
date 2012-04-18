@@ -186,6 +186,15 @@ class Project < ActiveRecord::Base
   def finalize
     self.is_finalized = true 
     self.save 
+    
+    article = self.article
+    if not article.nil?
+      article.is_displayed = true 
+      article.save
+    end
+    
+    return self 
+    
   end
   
   def de_finalize

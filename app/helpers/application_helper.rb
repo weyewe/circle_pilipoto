@@ -43,6 +43,29 @@ module ApplicationHelper
     end
     
   end
+  
+  def add_picture_selected_class(picture)
+    if picture.is_selected_front_page == true 
+      return "closed-project"
+    else
+      ""
+    end
+  end
+  
+  
+  
+  
+  
+=begin
+  Date helper
+=end
+
+  def format_date_from_datetime( datetime) 
+    if datetime.nil? 
+      return ""
+    end
+    "#{datetime.month}/#{datetime.day}/#{datetime.year}"
+  end
 
 =begin
   For Collaboration process nav, determining the view link for :client and :collaborator 
@@ -72,6 +95,8 @@ module ApplicationHelper
       ""
     end
   end
+  
+
   
 =begin
   For the grade display 
@@ -411,7 +436,7 @@ module ApplicationHelper
         ]
       },
       {
-        :title => "Invite Member",
+        :title => "Invite Member to Project",
         :destination_link => 'select_project_to_invite_member_url',
         :conditions => [
           {
@@ -425,7 +450,7 @@ module ApplicationHelper
         ]
       },
       {
-        :title => "Remove Member",
+        :title => "Remove Member from Project",
         :destination_link => 'root_url',
         :conditions => [
           {
@@ -518,15 +543,15 @@ module ApplicationHelper
     :processes => [
       {
         :title => "Homepage Images",
-        :destination_link => "", 
+        :destination_link => "select_article_to_upload_for_front_page_image_url", 
         :conditions => [
           {
-            :controller => '',
-            :action => ''
+            :controller => 'articles',
+            :action => 'select_article_to_upload_for_front_page_image'
           },
           {
-            :controller => '',
-            :action => ''
+            :controller => 'article_pictures',
+            :action => 'new'
           }
         ]
       },
@@ -545,34 +570,10 @@ module ApplicationHelper
           {
             :controller => "articles",
             :action => "edit_image_ordering"
-          }
-        ]
-      },
-      {
-        :title => "Publish Independent Article ",
-        :destination_link => "",
-        :conditions => [
-          {
-            :controller => '',
-            :action => ''
           },
           {
-            :controller => "",
-            :action => ''
-          }
-        ]
-      },
-      {
-        :title => "Edit Article",
-        :destination_link => "",
-        :conditions => [
-          {
-            :controller => '',
-            :action => ''
-          },
-          {
-            :controller => "",
-            :action => ''
+            :controller => 'articles',
+            :action => 'edit_publication'
           }
         ]
       }

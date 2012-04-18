@@ -403,7 +403,48 @@ $(document).ready(function() {
      }
    });
 
+   /*
+   For publishing articles
+   */
+   
+   $(".publish-link").live('click', function(){
+     var $entry_link = $(this);
 
+
+     var text = "Are you sure?";
+
+     if( confirm( text ) ){
+       var entry_id = $(this).attr('id').split("_")[1];
+
+       var $form = $("#article-publisher form");
+       var $input_entry_id = $("#entry_publish_id");
+       var $action_publisher = $("#publisher_action");
+
+       $input_entry_id.attr("value", entry_id );
+       if( $entry_link.hasClass("publish") ){
+         $action_publisher.attr("value", parseInt('<%= TRUE_CHECK %>') );
+       }else if( $entry_link.hasClass("unpublish") ) {
+         $action_publisher.attr("value", parseInt('<%= FALSE_CHECK %>') );
+       }
+       
+       $entry_link.showLoading();
+
+       $.ajax({
+         url: $form.attr("action"),
+         type: "POST",
+         data: $form.serialize(),
+         dataType: 'script',
+         success: function(response){
+
+           $form.clearForm();
+           // $entry_link.hideLoading();
+         }
+       });
+     }
+
+     return false;
+   });
+       
        
    /* For positional comment */
    

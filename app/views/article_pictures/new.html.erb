@@ -1,0 +1,77 @@
+
+<div class="span9 content">
+  <%= create_guide("Upload Front Page or Select", 
+        "Upload Front Page Picture for article:  <b>#{@article.title}</b>").html_safe %>
+  
+  
+  
+    
+  <%= create_breadcrumb(@breadcrumbs).html_safe %>
+  
+  
+  <div class="row-fluid">
+
+    
+      <%= form_for @new_article_picture, :url => article_article_pictures_url(@article) , 
+                :html => {:class=> "well form-search",
+                  :id => 'upload_picture' }  do |f| %>
+        <%#= hidden_field_tag 'is_original', 
+                ORIGINAL_PICTURE  %>
+        <%#= hidden_field_tag 'from_project_owner', 
+                1  %>
+        <%= transloadit :neopilipoto_circle_front_page %>
+        <%= f.file_field :front_page_image_url, :class => "input-medium search-query transloadit-input" , 
+                  :multiple => "multiple", :style=>"width:200px;" %>
+                  <br />
+                  <br />
+        <button type="submit" class=" hide btn submit-button">Upload</button>
+        <p class="help-inline">You can upload multiple images at once. But, you will only select 1 for the front page.</p>
+      
+      <% end %>
+    
+      <% content_for :additional_js do %>
+        <script type="text/javascript" src="//assets.transloadit.com/js/jquery.transloadit2.js"></script>
+        <script type="text/javascript">
+           // We call .transloadit() after the DOM is initialized:
+           $(document).ready(function() {
+             $('#upload_picture').transloadit({
+               wait : true, 
+               pollTimeout : 15000,
+               processZeroFiles : false,
+               onStart : function(assembly){
+               }
+             });
+           });
+        </script>
+      <% end %>
+  
+    
+    
+
+    
+  </div><!--/row-->
+
+
+  <!-- display the uploaded image here!  -->
+  <div class="span12">
+    
+    <ul class="thumbnails" id="uploaded_image_container">
+      <% @front_page_candidates.each do |pic| %>
+        <%= render :partial => "article_pictures/select_uploaded_front_page_image" , :locals => {
+          :article_picture => pic,
+          :article => @article
+        }%>
+      <% end %>
+    </ul>
+  </div>
+  
+</div><!--/span-->
+
+
+<div class=" hidden" id="checkbox_form_wrapper">
+  <%= form_tag  execute_select_front_page_url , :method => :post  do  %>
+    <%= hidden_field_tag 'membership_provider' , ''  %>
+    <%= hidden_field_tag 'membership_consumer', '' %>
+    <%= hidden_field_tag 'membership_decision', '' %>
+  <% end %>
+</div>

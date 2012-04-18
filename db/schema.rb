@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120417053704) do
+ActiveRecord::Schema.define(:version => 20120418141400) do
 
   create_table "article_categories", :force => true do |t|
     t.string   "name"
@@ -40,6 +40,9 @@ ActiveRecord::Schema.define(:version => 20120417053704) do
     t.integer  "height"
     t.datetime "created_at",                                    :null => false
     t.datetime "updated_at",                                    :null => false
+    t.integer  "front_page_width"
+    t.integer  "front_page_height"
+    t.boolean  "is_selected_front_page",     :default => false
   end
 
   create_table "articles", :force => true do |t|
@@ -52,7 +55,8 @@ ActiveRecord::Schema.define(:version => 20120417053704) do
     t.integer  "article_category_id"
     t.datetime "created_at",                              :null => false
     t.datetime "updated_at",                              :null => false
-    t.boolean  "is_displayed",         :default => true
+    t.boolean  "is_displayed",         :default => false
+    t.datetime "publication_datetime"
   end
 
   create_table "assignments", :force => true do |t|
@@ -105,6 +109,16 @@ ActiveRecord::Schema.define(:version => 20120417053704) do
     t.integer  "height"
     t.string   "article_image_url"
     t.integer  "article_image_size"
+  end
+
+  create_table "polled_deliveries", :force => true do |t|
+    t.boolean  "is_delivered",                 :default => false
+    t.string   "recipient_email"
+    t.integer  "user_activity_id"
+    t.time     "notification_raised_time"
+    t.datetime "notification_raised_datetime"
+    t.datetime "created_at",                                      :null => false
+    t.datetime "updated_at",                                      :null => false
   end
 
   create_table "positional_comments", :force => true do |t|
@@ -162,6 +176,19 @@ ActiveRecord::Schema.define(:version => 20120417053704) do
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "user_activities", :force => true do |t|
+    t.string   "subject_type"
+    t.string   "actor_type"
+    t.string   "secondary_subject_type"
+    t.integer  "subject_id"
+    t.integer  "actor_id"
+    t.integer  "secondary_subject_id"
+    t.boolean  "is_notification_sent",   :default => false
+    t.integer  "event_type"
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
   end
 
   create_table "users", :force => true do |t|

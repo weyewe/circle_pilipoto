@@ -1,8 +1,8 @@
 
 <div class="span9 content">
   
-  <%= create_guide("Project -> Article", 
-        "Select Project (only finalized project)").html_safe %>
+  <%= create_guide("Front Page Display", 
+        "Select Article to add Front Page Display").html_safe %>
   
   <%= create_breadcrumb(@breadcrumbs).html_safe %>
   
@@ -15,16 +15,15 @@
             class="table table-striped table-bordered" id="example">
         <thead>
           <tr>
-            <th>Project Name</th>
-            <th>Approved Pictures</th>
-            <th colspan='3' style="text-align:center;">Action</th> <!-- Change Title, Order Images, pull down-->
+            <th>Article Name</th>
+            <th style="text-align:center;">Front Page Picture</th>
+            <th  style="text-align:center;">Front Page Stock</th> 
           </tr>
         </thead>
         <tbody>
-          <% @projects.each do |project| %>
-            <%= render :partial =>"projects/article_from_project", :locals => {
-              :project => project,
-              :article => project.article
+          <% @articles.each do |article| %>
+            <%= render :partial =>"articles/article_front_page", :locals => {
+              :article => article
             }%>
           <% end %>
           

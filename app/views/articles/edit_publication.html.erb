@@ -1,0 +1,85 @@
+
+<div class="span9 content">
+    <%= create_guide("Edit Publication Date", 
+        "For Article: <b>#{@article.title}</b>" + "<br />" +
+        "Total Images:<b>#{@article.article_pictures.count}</b>."+ "<br />" +
+        "Schedule the article publication <b>date</b> and <b>time</b>." ).html_safe %>
+
+  
+  <% if params[:notice] %>
+    <div class="alert alert-success">
+      <a data-dismiss="alert" class="close">×</a>
+      <strong>Well done!</strong> <%= "#{params[:notice]}".html_safe %>. 
+    </div>
+  <% end %>
+  
+  <% if params[:error] %>
+    <div class="alert alert-error">
+      <a data-dismiss="alert" class="close">×</a>
+      <strong>Error!</strong> <%= "#{params[:error]}".html_safe %>. 
+    </div>
+  <% end %>
+
+
+  <%= create_breadcrumb(@breadcrumbs).html_safe %>
+  
+  <div class="row-fluid">
+    <div class="span8">
+      
+      
+      <%= form_for @article  ,:url => update_publication_url(@article), :html => {:class => "form-horizontal"} do |f| %>
+    
+        
+        
+        <div class="control-group">
+          <%= f.label :publication_datetime, "Publication Date" %>
+          <div class="controls">
+            <%= f.text_field :publication_datetime, 
+                  :class=>"input-xlarge"  ,'data-datepicker'=>'datepicker' , 
+                  :value =>format_date_from_datetime(@article.publication_datetime_localtime) %>
+            
+ 
+              
+              
+            <p class="help-block">
+              The article will only be visible after the publication date.  
+              <br />(Date format: MM/dd/yyyy)
+              <br />The article will be made available to public at <b>1am , local time</b>. 
+            </p>
+          </div>
+        </div>
+        
+        
+        
+       
+        
+        
+        
+        <div class="form-actions">
+          <button class="btn btn-primary" type="submit">Publish</button>
+        </div>
+      <% end %>
+
+    
+    </div><!--/span-->
+
+    <div class="span4">
+      
+      <div class="alert">
+        <strong>Notification!</strong> Don't worry. You can still pull down the published article for maintenance purposes.
+      </div>
+      
+      <!-- Status: will be published at 25/5/2009 -->
+      <br />
+      
+      <!-- <%# if @article.is_displayed == true %>
+        is published
+        <%# else %>
+        not published
+        <%# end %> -->
+    </div>
+    
+    
+  </div><!--/row-->
+
+</div><!--/span-->

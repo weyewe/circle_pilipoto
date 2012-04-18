@@ -11,25 +11,51 @@
       
       <!-- edit_article_content -->
       <%= link_to "Content", edit_article_content_url( article  ), 
-            :class => "btn btn-primary" %>
+            :class => "btn btn-info" %>
+            
+      <% if not article.has_content? %>
+        <span class="label label-important">No Content</span>
+      <% end %>
       <!-- <button href="#" class="btn btn-primary">Content</button> -->
     </td>
     <td style="text-align:center;">
       <!-- <button href="#" class="btn btn-info">Image Ordering</button> -->
       <%= link_to "Image Ordering", edit_image_ordering_url( article  ), 
             :class => "btn btn-info" %>
-    </td>
-    <td style="text-align:center;">
-      <% if article.is_displayed == false %>
-        <button href="#" class="btn btn-success">Show</button>
-      <% elsif article.is_displayed == true %>
-        <button href="#" class="btn btn-danger">Hide</button>
+      
+      <% if not article.any_article_pictures_shown? %>
+        <span class="label label-important">No Image Shown</span>
+      <% else %>
+        <span class="label label-success"><%= article.total_article_pictures_shown %> Images</span>
       <% end %>
     </td>
+    <td style="text-align:center;">
+      
+      <%= link_to "Publication", edit_publication_url(article), 
+            :class => "btn btn-info" %>
+            
+      <%#= link_to "Publication", "#" %>
+      <% if article.is_displayed == true %>
+      	<span class="label label-success">
+      	  <%= format_date_from_datetime( article.publication_datetime_localtime ) %>
+      	</span>
+      <!-- <a id="entry_<%= article.id %>" class="btn btn-success publish-link publish" href="#">Publish</a> -->
+      
+        <!-- <button href="#" class="btn btn-success">Publish</button> -->
+      <% elsif article.is_displayed == false %>
+        <!-- <a id="entry_<%= article.id %>" class="btn btn-danger publish-link unpublish" href="#">Un-Publish</a> -->
+        <span class="label label-important">Not Published</span>
+      <% end %>
+    </td>
+    
+    <td style="text-align:center;">
+      <%= link_to "Preview", "#", :class => "btn"%>
+      <!-- <button href="#" class="btn">Preview</button> -->
+    </td>
   <% else %>
-    <td colspan="3" style="text-align:center;">
+    <td colspan="4" style="text-align:center;">
       <%= link_to "Create Article", '#', 
-                :class => "btn  entry-link entry-recover",
+                :class => "btn  entry-link entry-closer",
                 :id => "entry_#{project.id}" %>
     </td>
   <% end %>

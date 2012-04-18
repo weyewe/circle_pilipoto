@@ -20,11 +20,31 @@
       <%= form_tag update_image_ordering_url(@article) do %>
         <table cellpadding="0" cellspacing="0" border="0" 
               class="table table-striped table-bordered" id="approval_status">
+          <thead>
+            <tr>
+              <th style="text-align:center;">
+                Image
+              </th>
+              <th style="text-align:center;">
+                Current Ordering
+              </th>
+              <th style="text-align:center;">
+                Edit Ordering
+              </th>
+            </tr>
+          </thead>
           <tbody>
             <% @article_pictures.each do |pic| %>
               <tr>
-                <td>
+                <td style="text-align:center;">
                   <%= image_tag pic.index_image_url %>
+                </td>
+                <td style="text-align:center;">
+                  <% if pic.article_display_order <=  0 %>
+                    <span class="label">Not Shown</span>
+                  <% else %>
+                    <span class="label label-success"><%= pic.article_display_order %></span> 
+                  <% end %>
                 </td>
                 <td>
                   <%= text_field_tag "article_picture_#{pic.id}", "#{pic.article_display_order}" %>

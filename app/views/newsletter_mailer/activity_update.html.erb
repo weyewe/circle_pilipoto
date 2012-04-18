@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> -->
+
+    <!-- <meta charset="utf-8"> -->
+    <title>potoSchool | Photography Course Management</title>
+    <!-- <meta name="description" content="">
+      <meta name="author" content="">
+    
+       
+       <meta name="google-site-verification" content="p7DB-AfmjgGOsgsKnCe2viT1xmQ9xrBwhy62C3kd91I" /> -->
+     
+     
+      
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+   
+    
+    
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="<%=asset_path "favicon.ico"%>">
+    <link rel="apple-touch-icon" href="http://twitter.github.com/bootstrap/examples/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="http://twitter.github.com/bootstrap/examples/images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="http://twitter.github.com/bootstrap/examples/images/apple-touch-icon-114x114.png">
+  
+    <%#= stylesheet_link_tag    "application" %>
+    <%#= yield :additional_css %>
+</head>
+<body>
+  
+  
+  
+  <div class="container" style="padding-top:0;">
+    <!-- Main hero unit for a primary marketing message or call to action -->
+    <div class="hero-unit">
+      <h1>potoSchool Updates</h1>
+    </div>
+
+    <!-- Example row of columns -->
+    <div class="row">
+      
+
+      <% if @user_activity.event_type == EVENT_TYPE[:create_comment] %>
+      <!-- # actor is the teacher 
+                    # subject is the comment 
+                    # secondary subject is the picture -->
+        <div class="row">
+          
+          <% title = "#{@actor.name} telah meninggalkan feedback di file untuk" + 
+                " project #{@secondary_subject.project_submission.project.title }" %>
+          
+          <!-- <h3>This is the one for EVENT_TYPE[:create_comment]</h3> -->
+          <h3><%= title.html_safe %></h3>
+          <table>
+            <tbody>
+              <tr>
+                <td>
+                  <%= image_tag @secondary_subject.index_image_url %>
+                </td>
+                <td style="vertical-align:top;">
+                  <blockquote><%= @subject_object.body %></blockquote>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- Recipient is the student. so, show_url  -->
+          <p>
+            <%= link_to "See Details",
+             project_submission_picture_url(@secondary_subject.project_submission, @secondary_subject)%>
+          </p>
+        </div><hr />
+        
+      <% elsif @user_activity.event_type == EVENT_TYPE[:reply_comment] %>
+      
+      
+      <!-- # actor is the user, can be teacher or student   
+                  # the subject is the comment itself 
+                  # the  secondary_subject is the picture -->
+          
+        <% title = "#{@actor.name} meninggalkan comment di diskusi untuk "  + 
+                    " project #{@secondary_subject.project_submission.project.title}" %>
+      
+        <div class="row">
+          <!-- <h3>This is the feed for EVENT_TYPE[:reply_comment]</h3> -->
+          <h3><%= title.html_safe %></h3>
+          <table>
+            <tbody>
+              <tr>
+                <td>
+                  <%= image_tag @secondary_subject.index_image_url %>
+                </td>
+                <td style="vertical-align:top;">
+                  <% if @subject_object.nil?%>
+                    <blockquote></blockquote>
+                  <% else %>
+                    <blockquote><%= @subject_object.body %></blockquote>
+                  <% end %>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        
+          <p>
+            <% if @actor.has_role?(:teacher) %>
+              <!-- the recipient is gonna be the student  -->
+              <%= link_to "See Details",
+               project_submission_picture_url(@secondary_subject.project_submission, @secondary_subject)%>
+            <% elsif @actor.has_role?(:student)%>
+            <!-- the recipient is gonna be the teacher  -->
+              <%= link_to "See Details",
+               grade_project_submission_picture_url(@secondary_subject)%>
+            <% end %>
+            
+            
+             
+             
+            
+            <!-- <a href="#" class="btn">Lihat Gambar »</a> -->
+          </p>
+        </div><hr />
+      
+      
+      <% elsif @user_activity.event_type == EVENT_TYPE[:submit_picture] %>
+      
+      
+       <!-- # actor is the uploader (student ) 
+          # subject  is the uploaded picture  itself 
+          # secondary_subject is the project -->
+       
+       
+        <% title = "#{@actor.name} telah mengupload sebuah file untuk project #{@secondary_subject.title}."%>
+        <div class="row">
+          <!-- <h3>This is the feed for EVENT_TYPE[:submit_picture].</h3> -->
+          <h3><%= title %></h3>
+          <%= image_tag  @subject_object.index_image_url %>
+          <p><%= link_to "See Details",
+           grade_project_submission_picture_url(@subject_object)%>
+           <!-- <a href="#" class="btn">View details »</a> -->
+          </p>
+        </div><hr />
+        
+        
+      <% elsif @user_activity.event_type == EVENT_TYPE[:submit_picture_revision] %>
+      
+        <!-- # actor is the student (uploader)
+                               # subject is the new uploaded picture 
+                               # secondary_subject is the original_picture  -->
+        <% title = "#{@actor.name} telah mengupload sebuah file revisi " + 
+                " untuk project #{@subject_object.project_submission.project.title}."%>
+        <div class="row">
+          <!-- <h3>This is the feed for EVENT_TYPE[:submit_picture_revision].</h3> -->
+          <h3><%= title %></h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Original Picture</th>
+                <th>Revision</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <%= image_tag @secondary_subject.index_image_url %>
+                </td>
+                <td>
+                  <%= image_tag @subject_object.index_image_url %>
+                </td>
+              </tr>
+      
+            </tbody>
+          </table>
+          <p>
+            
+            <%= link_to "See Details",
+             grade_project_submission_picture_url(@subject_object)%>
+             
+            <%#= link_to "See Details",
+             project_submission_picture_url(@subject_object.project_submission, @subject_object)%>
+            <!-- <a href="#" class="btn">View details »</a> -->
+          </p>
+        </div><hr />
+        
+        
+      <% elsif @user_activity.event_type == EVENT_TYPE[:grade_picture]  %>
+        
+        <!-- # actor is the teacher
+                    # subject is the picture being graded
+                    # secondary_subject is the project -->
+      
+        <% title = "Guru #{@actor.name} menilai gambar untuk project #{@secondary_subject.title} "%>
+        <div class="row">
+          <!-- <h3>This is the feed for EVENT_TYPE[:grade_picture].</h3> -->
+          <h3><%= title  %></h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Score</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><%= image_tag @subject_object.index_image_url %></td>
+                <td style="vertical-align:top;"> 
+                  <% if @subject_object.is_approved == false %>
+                    <span style="background-color:rgb(230,230,230); font-size:x-large; font-weight:bold;">
+                      REJECTED
+                    </span>
+                  <% elsif @subject_object.is_approved == true  %>
+                    <span style="background-color:rgb(230,230,230);">
+                      <!-- Score: <%#= @subject_object.score %> -->
+                      APPROVED
+                    </span>
+                  <% end %>
+                  
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+
+          <p>
+            <%= link_to "See Details",
+             project_submission_picture_url(@subject_object.project_submission, @subject_object)%>
+            <!-- <a href="#" class="btn">View details »</a> -->
+          </p>
+        </div><hr />
+        
+      <% elsif  @user_activity.event_type == EVENT_TYPE[:create_project] %>
+      
+   
+  <!--                         # actor is teacher (project_creator)
+                          # subject is the project being created
+                          # seconadary_subject is the course -->
+        <div class="row">
+          <!-- <h3>This is the feed for EVENT_TYPE[:create_project].</h3> -->
+          <h3>Guru <%= @actor.name %> telah membuat project baru: <%= Project.last.title %></h3>
+          <blockquote>
+            <b>Description:</b> <%= Project.last.description %>
+          </blockquote>
+
+          <!-- <p><a href="#" class="btn">View details »</a></p> -->
+        </div><hr />
+
+
+
+     
+      
+      <% end %>
+      
+    
+      
+    </div>
+    <hr />
+    
+ 
+
+    <footer>
+      <p>&copy; poto 2011 - <%= Time.now.year %></p>
+    </footer>
+
+  </div>
+
+</body>
+</html>
+
+

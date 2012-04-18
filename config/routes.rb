@@ -13,7 +13,15 @@ Neopilipoto::Application.routes.draw do
     resources :pictures
   end
   
-  resources :articles
+  resources :articles do 
+    resources :article_pictures
+  end
+  
+  
+  
+=begin
+  creating article from project 
+=end
   match 'select_project_to_create_article' => 'projects#select_project_to_create_article', :as => :select_project_to_create_article
   match 'create_article_from_project' => 'articles#create_article_from_project', :as => :create_article_from_project
   # fill in the description , title, teaser 
@@ -25,8 +33,20 @@ Neopilipoto::Application.routes.draw do
   match 'edit_image_ordering/:article_id' => 'articles#edit_image_ordering', :as => :edit_image_ordering
   match 'update_image_ordering/:article_id' => 'articles#update_image_ordering', :as => :update_image_ordering
   
-  match 'publish_independent_article' => 'articles#publish_independent_article', :as => :publish_independent_article
   
+  match 'edit_publication/:article_id' => 'articles#edit_publication', :as => :edit_publication
+  match 'update_publication/:article_id' => "articles#update_publication", :as => :update_publication , :method => :post
+  
+  match 'select_article_to_upload_for_front_page_image' => 'articles#select_article_to_upload_for_front_page_image', :as => :select_article_to_upload_for_front_page_image
+  match 'select_or_upload_front_page_image' => 'articles#select_or_upload_front_page_image', :as => :select_or_upload_front_page_image
+  # match 'upload_front_page_image' => 'articles#upload_front_page_image', :as => :upload_front_page_image
+
+  match 'execute_select_front_page' => "article_pictures#execute_select_front_page", :as => :execute_select_front_page, :method => :post 
+  # match 'publish_independent_article' => 'articles#publish_independent_article', :as => :publish_independent_article
+  
+=begin
+  Creating a brand new article, independent from the project
+=end
   
   
   # the commenting for pictures 
