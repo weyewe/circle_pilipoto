@@ -118,3 +118,39 @@ ARTICLE_PICTURE_TYPE = {
 
 
 JAKARTA_HOUR_OFFSET = 7 
+=begin
+  For company setup 
+=end
+
+
+TOWN_OFFSET_HASH = {"Samoa"=>-11, " International Date Line West"=>-11, " Midway Island"=>-11, "Hawaii"=>-10, "Alaska"=>-9, "Pacific Time (US & Canada)"=>-8, " Tijuana"=>-8, "Mountain Time (US & Canada)"=>-7, " Arizona"=>-7, " Chihuahua"=>-7, " Mazatlan"=>-7, 
+  "Central Time (US & Canada) "=>-6, "Central America"=>-6, " Guadalajara"=>-6, " Mexico City"=>-6, 
+  " Monterrey"=>-6, " Saskatchewan"=>-6, "Eastern Time (US & Canada)"=>-5, " Bogota"=>-5, 
+  " Indiana (East)"=>-5, " Lima"=>-5, " Quito"=>-5, "Caracas"=>-4.5, "Atlantic Time (Canada)"=>-4, 
+  "Georgetown"=>-4, " La Paz"=>-4, " Santiago"=>-4, "Newfoundland"=>-3.5, "Buenos Aires"=>-3,
+  "Brasilia"=>-3, " Greenland"=>-3, "Mid-Atlantic"=>-2, "Cape Verde Is."=>-1, "Azores"=>-1, "London"=>0, 
+  " Casablanca"=>0, " Dublin"=>0, " Edinburgh"=>0, " Lisbon"=>0, " Monrovia"=>0, " UTC"=>0, "Paris"=>1, 
+  "Amsterdam"=>1, " Belgrade"=>1, " Berlin"=>1, " Bern"=>1, " Bratislava"=>1, " Brussels"=>1, " Budapest"=>1,
+  " Copenhagen"=>1, " Ljubljana"=>1, " Madrid"=>1, " Prague"=>1, " Rome"=>1, " Sarajevo"=>1, " Skopje"=>1,
+  " Stockholm"=>1, " Vienna"=>1, " Warsaw"=>1, " West Central Africa"=>1, " Zagreb"=>1, "Cairo"=>2,
+  "Athens"=>2, " Bucharest"=>2, " Harare"=>2, " Helsinki"=>2, " Istanbul"=>2, " Jerusalem"=>2,
+  " Kyiv"=>2, " Minsk"=>2, " Pretoria"=>2, " Riga"=>2, " Sofia"=>2, " Tallinn"=>2, " Vilnius"=>2, 
+  "Moscow"=>3, "Baghdad"=>3, " Kuwait"=>3, " Nairobi"=>3, " Riyadh"=>3, " St. Petersburg"=>3,
+  " Volgograd"=>3, "Tehran"=>3.5, "Baku"=>4, "Abu Dhabi"=>4, " Muscat"=>4, " Tbilisi"=>4,
+  " Yerevan"=>4, "Kabul"=>4.5, "Karachi"=>5, "Ekaterinburg"=>5, " Islamabad"=>5, " Tashkent"=>5, 
+  "Mumbai"=>5.5, "Chennai"=>5.5, " Kolkata"=>5.5, " New Delhi"=>5.5, " Sri Jayawardenepura"=>5.5, 
+  "Kathmandu"=>5.75, "Dhaka"=>6, "Almaty"=>6, " Astana"=>6, " Novosibirsk"=>6, "Rangoon"=>6.5, 
+  "Jakarta"=>7, "Bangkok"=>7, " Hanoi"=>7, " Krasnoyarsk"=>7, "Hong Kong"=>8, "Beijing"=>8, " Chongqing"=>8, 
+  " Irkutsk"=>8, " Kuala Lumpur"=>8, " Perth"=>8, " Singapore"=>8, " Taipei"=>8, " Ulaan Bataar"=>8,
+  " Urumqi"=>8, "Tokyo"=>9, "Osaka"=>9, " Sapporo"=>9, " Seoul"=>9, " Yakutsk"=>9, "Adelaide"=>9.5, 
+  "Darwin"=>9.5, "Sydney"=>10, "Brisbane"=>10, " Canberra"=>10, " Guam"=>10, " Hobart"=>10, 
+  " Melbourne"=>10, " Port Moresby"=>10, " Vladivostok"=>10, "Solomon Is."=>11, "Kamchatka"=>11,
+  " Magadan"=>11, " New Caledonia"=>11, "Auckland"=>12, "Fiji"=>12, " Marshall Is."=>12,
+  " Wellington"=>12, "Nuku'alofa"=>13} 
+  
+POSITIONAL_COMMENT_MARKER_WIDTH = 44  # 52 - 4padding*2   << left and right
+
+NOTIFICATION_DELIVERY_METHOD = {
+  :instant => 1, 
+  :scheduled => 2
+}
