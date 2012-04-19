@@ -422,7 +422,7 @@ module ApplicationHelper
     :header_title => "Project Management",
     :processes => [
       {
-        :title => "Monitor Project",
+        :title => "Monitor + Upload Images +  Finalize",
         :destination_link => 'select_project_to_be_managed_url', 
         :conditions => [
           {

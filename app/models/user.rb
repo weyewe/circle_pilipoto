@@ -25,7 +25,19 @@ class User < ActiveRecord::Base
   # has_many :pictures
   after_create :send_confirmation_email 
   
+  has_many :articles 
   
+  
+=begin
+  all users, manage company
+=end  
+
+  def company_under_perspective
+    self.enrollments.find(:first, :conditions => {
+      :is_current_perspective => true 
+      }).company 
+  end
+
 =begin
   Inviting collaborator to the project 
   User.create_and_confirm_and_send_project_invitation( email, project_role_sym, project ) 

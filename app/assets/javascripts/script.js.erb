@@ -445,6 +445,30 @@ $(document).ready(function() {
      return false;
    });
        
+  /*
+  Independent Article 
+  */
+  
+  $("#trigger-independent-article-form").click(function(){
+    var $trigger_button = $(this);
+    
+    if( $trigger_button.hasClass('btn-success') ){
+      $("#new_independent_article_wrapper").show();
+      $trigger_button.removeClass('btn-success');
+      $trigger_button.addClass('btn-danger');
+      $trigger_button.text("Cancel  New Independent Article Creation");
+    }else if( $trigger_button.hasClass('btn-danger')  ){
+      $("#new_independent_article_wrapper").hide();
+      $trigger_button.removeClass('btn-danger');
+      $trigger_button.addClass('btn-success');
+      $trigger_button.text("Add New Independent Article");
+      var $form = $("#new_independent_article_wrapper form");
+      $form.clearForm();
+    }
+    
+    return false ;
+    
+  });
        
    /* For positional comment */
    

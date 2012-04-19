@@ -9,7 +9,7 @@ class CreateProjects < ActiveRecord::Migration
       t.boolean :is_private , :default => false 
       t.boolean :is_locked, :default => false 
       
-   
+      t.integer :company_id 
       
       t.timestamps
     end

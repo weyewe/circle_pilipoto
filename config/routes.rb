@@ -26,6 +26,8 @@ Neopilipoto::Application.routes.draw do
 =end
   match 'select_project_to_create_article' => 'projects#select_project_to_create_article', :as => :select_project_to_create_article
   match 'create_article_from_project' => 'articles#create_article_from_project', :as => :create_article_from_project
+ 
+ 
   # fill in the description , title, teaser 
   match 'edit_article_content/:article_id' => 'articles#edit_article_content', :as => :edit_article_content
   match 'update_article_content/:article_id' => 'articles#update_article_content', :as => :update_article_content
@@ -45,8 +47,24 @@ Neopilipoto::Application.routes.draw do
 
   match 'execute_select_front_page' => "article_pictures#execute_select_front_page", :as => :execute_select_front_page, :method => :post 
   
+=begin
+  For independent Articles 
+=end
   match 'new_independent_article' => 'articles#new_independent_article', :as => :new_independent_article
+  match 'create_independent_article' => 'articles#create_independent_article', :as => :create_independent_article
   
+  # fill in the description , title, teaser 
+  match 'edit_independent_article_content/:article_id' => 'articles#edit_independent_article_content', :as => :edit_independent_article_content
+  match 'update_independent_article_content/:article_id' => 'articles#update_independent_article_content', :as => :update_independent_article_content
+  # add the display images
+  
+  
+  match 'edit_independent_article_image_ordering/:article_id' => 'articles#edit_independent_article_image_ordering', :as => :edit_independent_article_image_ordering
+  match 'update_independent_article_image_ordering/:article_id' => 'articles#update_independent_article_image_ordering', :as => :update_independent_article_image_ordering
+  
+  
+  match 'edit_independent_article_publication/:article_id' => 'articles#edit_independent_article_publication', :as => :edit_independent_article_publication
+  match 'update_independent_article_publication/:article_id' => "articles#update_independent_article_publication", :as => :update_independent_article_publication , :method => :post
   
   
   

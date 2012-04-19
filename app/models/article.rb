@@ -6,6 +6,8 @@ class Article < ActiveRecord::Base
   
   before_destroy :clear_article_pictures
   
+  belongs_to :company
+  belongs_to :user 
   
   
   
@@ -32,9 +34,9 @@ class Article < ActiveRecord::Base
   end
   
   def has_content?
-    ( not self.title.nil?   or not self.title.length == 0 ) or 
-    (not self.description.nil? or not self.description.length == 0 ) or 
-    (not self.teaser.nil? or not self.teaser.length == 0 )
+    ( not self.title.nil?   and not self.title.length == 0 ) or 
+    (not self.description.nil? and not self.description.length == 0 ) or 
+    (not self.teaser.nil? and not self.teaser.length == 0 )
   end
   
   def any_article_pictures_shown?
@@ -101,6 +103,26 @@ class Article < ActiveRecord::Base
       ( front_page_width.eq FRONT_PAGE_IMAGE_WIDTH )  & 
       ( front_page_height.eq FRONT_PAGE_IMAGE_HEIGHT)
     }
+  end
+  
+=begin
+  Creating Independent Article
+=end
+
+  def self.create_article_with_user_company(article_hash, current_user)
+    if not current_user.has_role?(:company_admin)
+      return false
+    end
+    
+    company = current_user.company_under_perspective
+    article = Article.create article_hash 
+    
+    article.user_id = current_user.id
+    article.company_id = company.id
+    article.article_type = ARTICLE_TYPE[:independent_article]
+    article.save 
+    
+    return article
   end
   
   protected

@@ -1,0 +1,56 @@
+
+<tr id="entry_row_<%= article.id %>">
+  <td><%= article.title %></td>
+ 
+  <td>
+    <%= article.description %>
+  </td>
+  
+
+    <td style="text-align:center;">
+      
+      <!-- edit_article_content -->
+      <%= link_to "Content", edit_independent_article_content_url( article  ), 
+            :class => "btn btn-info" %>
+            
+      <% if not article.has_content? %>
+        <span class="label label-important">No Content</span>
+      <% end %>
+      <!-- <button href="#" class="btn btn-primary">Content</button> -->
+    </td>
+    <td style="text-align:center;">
+      <!-- <button href="#" class="btn btn-info">Image Ordering</button> -->
+      <%= link_to "Image Ordering", edit_independent_article_image_ordering_url( article  ), 
+            :class => "btn btn-info" %>
+      
+      <% if not article.any_article_pictures_shown? %>
+        <span class="label label-important">No Image Shown</span>
+      <% else %>
+        <span class="label label-success"><%= article.total_article_pictures_shown %> Images</span>
+      <% end %>
+    </td>
+    <td style="text-align:center;">
+      
+      <%= link_to "Publication", edit_independent_article_publication_url(article), 
+            :class => "btn btn-info" %>
+            
+      <%#= link_to "Publication", "#" %>
+      <% if article.is_displayed == true %>
+      	<span class="label label-success">
+      	  <%= format_date_from_datetime( article.publication_datetime_localtime ) %>
+      	</span>
+      <!-- <a id="entry_<%= article.id %>" class="btn btn-success publish-link publish" href="#">Publish</a> -->
+      
+        <!-- <button href="#" class="btn btn-success">Publish</button> -->
+      <% elsif article.is_displayed == false %>
+        <!-- <a id="entry_<%= article.id %>" class="btn btn-danger publish-link unpublish" href="#">Un-Publish</a> -->
+        <span class="label label-important">Not Published</span>
+      <% end %>
+    </td>
+    
+    <td style="text-align:center;">
+      <%= link_to "Preview", "#", :class => "btn"%>
+      <!-- <button href="#" class="btn">Preview</button> -->
+    </td>
+
+</tr>

@@ -18,6 +18,31 @@ class Project < ActiveRecord::Base
  attr_accessible :title, :description, :picture_select_quota
  
  has_one :article
+ 
+ belongs_to :company
+ 
+ 
+=begin
+  Project Creation
+=end
+  def self.create_with_user_company( project_hash , current_user )
+    if not current_user.has_role?(:company_admin)
+      return false
+    end
+    
+    company = current_user.company_under_perspective
+    project = Project.create project_hash 
+    
+    project.set_company( company )
+    project.add_owner( current_user )
+    
+    return project 
+  end
+  
+  def set_company( company)
+    self.company_id = company.id
+    self.save 
+  end
    
   
   def members_with_project_role( role_sym_array )
@@ -275,11 +300,14 @@ class Project < ActiveRecord::Base
   integration with article
 =end
 
-  def create_article
+  def create_article(current_user ) 
     if self.has_article?
       self.article
     else
-      article = Article.create :project_id => self.id 
+      article = Article.create :project_id => self.id , 
+                      :company_id => self.company_id , 
+                      :user_id => current_user.id ,
+                      :article_type => ARTICLE_TYPE[:mapped_from_project]
       # wrong wrong
       #it should be the last approved pic
       self.selected_original_pictures.each do |pic|
@@ -287,8 +315,7 @@ class Project < ActiveRecord::Base
         article.article_pictures.create(
           :name                       => last_revision.name                        , 
           :original_image_size        => last_revision.original_image_size         ,
-          :original_image_url         => last_revision.original_image_url          ,
-                                         
+          :original_image_url         => last_revision.original_image_url          ,           
           :index_image_url            => last_revision.index_image_url              ,
           :index_image_size           => last_revision.index_image_size             ,
                                          

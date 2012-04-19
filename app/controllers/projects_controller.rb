@@ -1,14 +1,17 @@
 class ProjectsController < ApplicationController
   def new 
-    @project= Project.new
+    @project = Project.new
     @projects = current_user.projects 
     
   end
   
   def create
-    @project = Project.new( params[:project] )
-    if @project.save
-      @project.add_owner( current_user )
+    # @project = Project.new( params[:project] )
+    
+    
+    # if @project.save
+    if @project = Project.create_with_user_company( params[:project], current_user )
+      # @project.add_owner( current_user )
       redirect_to new_project_url
     end
   end

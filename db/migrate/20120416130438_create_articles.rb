@@ -6,6 +6,8 @@ class CreateArticles < ActiveRecord::Migration
       t.text :teaser 
       t.integer :project_id 
       
+      t.integer :company_id 
+      t.integer :user_id 
       
       t.integer :article_type , :default => ARTICLE_TYPE[:mapped_from_project]
       

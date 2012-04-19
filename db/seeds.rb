@@ -94,12 +94,11 @@ puts "Done with enrollment"
 
 
               
-project_1  = Project.create :title => "First Project", 
+project_hash = {:title => "First Project", 
                 :description => "The first ever project to describe that this shit is working. And you agree with it ",
-                :picture_select_quota => 8
+                :picture_select_quota => 8 } 
                 
-
-project_1.add_owner( company_admin )
+project_1 = Project.create_with_user_company( project_hash , company_admin )
 
 =begin
   After the project is created, owner will upload the feed pictures. For the user to select and comment. 
