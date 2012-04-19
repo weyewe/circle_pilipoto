@@ -83,10 +83,8 @@ class Project < ActiveRecord::Base
     end
     
     if not project_collaborator.valid?
-      puts "It is all nice and smooth over here\n"*5
       return project_collaborator 
     else
-      puts "We are inside this shit add project membership\n"*10
       self.add_project_membership( project_role_sym, project_collaborator )
       return project_collaborator
     end

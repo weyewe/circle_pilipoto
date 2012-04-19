@@ -1,34 +1,105 @@
 =begin
-  Initially, there is nothing. 
-  So, we create the first user that happens to be an owner 
+  Seeds for the article
 =end
-premium_user = User.create :email => "premium@gmail.com",
-              :password => "willy1234",
-              :password_confirmation => "willy1234"
-              
-owner_role  = Role.create( :name => "Premium")
-standard_role  = Role.create(:name => "Standard")
 
-project_owner_role = ProjectRole.create(:name => "Owner")
-project_collaborator_role = ProjectRole.create(:name => "Collaborator")
-project_client_role = ProjectRole.create(:name => "Client")
-      
-# we give the owner a premium status         
-premium_user.add_roles([:premium])
+WORK_CATEGORY.each do |category|
+  ArticleCategory.create :name => category
+end
+
 
 =begin
-  Then, we shall proceeed by creating first project .
-  Of course, only owner that can create project 
+  Setting up the roles.
+  
+  There are 2 roles associated with this app: company-wide role
+  and the project role 
 =end
+
+
+
+
+company_admin_role  = Role.create( :name => ROLE_MAP[:company_admin] )
+company_employee_role  = Role.create(:name => ROLE_MAP[:employee] )
+company_client_role  = Role.create(:name => ROLE_MAP[:client])
+
+project_owner_role = ProjectRole.create(:name => PROJECT_ROLE_MAP[:owner])
+project_collaborator_role = ProjectRole.create(:name => PROJECT_ROLE_MAP[:collaborator])
+project_client_role = ProjectRole.create(:name => PROJECT_ROLE_MAP[:client])
+      
+puts "Done with creating company-roles and project-roles"
+      
+=begin
+  Start creating the key-entities:
+  1. company
+  2. Company Admin, employee, and clients 
+=end
+# create the company 
+circle_company = Company.create :name => "Circle Photography"
+
+#create the company admin user 
+company_admin = User.create :email => "company_admin@gmail.com",
+              :password => "company_admin",
+              :password_confirmation => "company_admin"
+
+company_admin.roles << company_admin_role
+company_admin.save 
+
+employee_1 = User.create :email => "employee_1@gmail.com",
+              :password => "employee_1",
+              :password_confirmation => "employee_1"
+
+employee_1.roles << company_employee_role
+employee_1.save
+
+employee_2 = User.create :email => "employee_2@gmail.com",
+              :password => "employee_2",
+              :password_confirmation => "employee_2"
+
+employee_2.roles << company_employee_role
+employee_2.save
+
+
+client_1 = User.create :email => "client_1@gmail.com",
+              :password => "client_1",
+              :password_confirmation => "client_1"
+
+client_1.roles << company_client_role
+client_1.save
+
               
-first_project = Project.new :title => "First Project", 
+client_2 = User.create :email => "client_2@gmail.com",
+              :password => "client_2",
+              :password_confirmation => "client_2"
+
+client_2.roles << company_client_role
+client_2.save 
+
+puts "Done with creating user entities"
+
+#enrolling the users to the company
+
+circle_company.users << client_1
+circle_company.users << client_2
+
+circle_company.users << employee_1
+circle_company.users << employee_2
+circle_company.users << company_admin
+circle_company.save
+
+puts "Done with enrollment"
+
+=begin
+  Company has many project to begin with. 
+  
+=end
+
+
+              
+project_1  = Project.create :title => "First Project", 
                 :description => "The first ever project to describe that this shit is working. And you agree with it ",
                 :picture_select_quota => 8
                 
 
-first_project.save 
-
-first_project.add_owner(premium_user )
+project_1.add_owner( company_admin )
 
 =begin
   After the project is created, owner will upload the feed pictures. For the user to select and comment. 
@@ -43,25 +114,16 @@ first_project.add_owner(premium_user )
 
 # by using :client, the invited collaborator can only give comment/feedback
 # and select the images they want to be used 
-client_email = "client@gmail.com"
-collaborator_email = "collaborator@gmail.com"
-first_project.invite_project_collaborator(:client, client_email) 
+client_email = "client_1@gmail.com"
+collaborator_email = "employee_1@gmail.com"
+project_1.invite_project_collaborator(:client, client_email) 
 # :client_service can't communicate directly to the client. He can only do what the client asked
-first_project.invite_project_collaborator(:collaborator, collaborator_email  )
+project_1.invite_project_collaborator(:collaborator, collaborator_email  )
 =begin
   After confirming the invitation, the client will select the images he like. 
   Then, he will proceed in clicking the button "FINALIZE"
 =end
 
-
-WORK_CATEGORY.each do |category|
-  ArticleCategory.create :name => category
-end
-
-
-=begin
-  Parse PICTURE JSON DATA
-=end
 
 
 

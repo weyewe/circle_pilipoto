@@ -14,6 +14,29 @@ class ProjectsController < ApplicationController
   end
   
   
+  def select_project_to_be_edited
+    @projects = current_user.non_finalized_projects
+    
+    add_breadcrumb "Select  project", 'select_project_to_be_edited_path'
+  end
+  
+  
+  def edit
+    @project = Project.find_by_id params[:id]
+    add_breadcrumb "Select  project", 'select_project_to_be_edited_path'
+    set_breadcrumb_for @project, 'edit_project_path' + "(#{@project.id})", 
+          "Edit Project #{@project.title}"
+  end
+  
+  def update
+    # editable_fields = [:title, :description, :picture_select_quota]
+    @project = Project.find_by_id params[:id]
+    @project.update_attributes( params[:project] )
+    
+    redirect_to edit_project_url( @project, :notice => "Project is edited successfully")
+    
+  end
+  
   
 =begin
   TO invite member 
@@ -114,7 +137,7 @@ class ProjectsController < ApplicationController
 =end
 
   def finalize_project
-    if not current_user.has_role?(:premium)
+    if not current_user.has_role?(:company_admin)
       redirect_to root_url
       return
     end
@@ -140,7 +163,7 @@ class ProjectsController < ApplicationController
   
   
   def de_finalize_project
-    if not current_user.has_role?(:premium)
+    if not current_user.has_role?(:company_admin)
       redirect_to root_url
       return
     end

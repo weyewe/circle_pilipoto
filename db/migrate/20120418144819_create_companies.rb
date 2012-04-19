@@ -10,7 +10,7 @@ class CreateCompanies < ActiveRecord::Migration
       t.string :contact_email 
       t.string :website_address
       
-      t.text_area :office_address
+      t.text :office_address
       
       t.integer  :delivery_method,       :integer,     :default => NOTIFICATION_DELIVERY_METHOD[:instant]
       t.string   :scheduled_delivery_hours, :string  , :default => ""

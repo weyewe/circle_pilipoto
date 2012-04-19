@@ -403,15 +403,15 @@ module ApplicationHelper
      },
      {
       :title => "Edit Project",
-      :destination_link => "root_url",
+      :destination_link => "select_project_to_be_edited_path",
       :conditions => [
         {
-          :controller => '', 
-          :action => ''
+          :controller => 'projects', 
+          :action => 'select_project_to_be_edited'
         },
         {
-          :controller => '',
-          :action => ''
+          :controller => 'projects',
+          :action => 'edit'
         }
           ]
       }
@@ -574,6 +574,16 @@ module ApplicationHelper
           {
             :controller => 'articles',
             :action => 'edit_publication'
+          }
+        ]
+      },
+      {
+        :title => "Independent Article",
+        :destination_link => "new_independent_article_url",
+        :conditions => [
+          {
+            :controller =>'articles',
+            :action => 'new_independent_article'
           }
         ]
       }

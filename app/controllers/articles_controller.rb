@@ -1,11 +1,8 @@
 class ArticlesController < ApplicationController
   
-  def select_project_to_create_article
-  end
-  
-  def publish_independent_article
-  end
-  
+=begin
+  Article Creation : from project and independent 
+=end
   def create_article_from_project
     if not current_user.has_role?(:premium)
       redirect_to root_url

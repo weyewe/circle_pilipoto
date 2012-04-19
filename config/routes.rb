@@ -13,6 +13,8 @@ Neopilipoto::Application.routes.draw do
     resources :pictures
   end
   
+  match 'select_project_to_be_edited' => 'projects#select_project_to_be_edited' , :as => :select_project_to_be_edited
+  
   resources :articles do 
     resources :article_pictures
   end
@@ -42,7 +44,11 @@ Neopilipoto::Application.routes.draw do
   # match 'upload_front_page_image' => 'articles#upload_front_page_image', :as => :upload_front_page_image
 
   match 'execute_select_front_page' => "article_pictures#execute_select_front_page", :as => :execute_select_front_page, :method => :post 
-  # match 'publish_independent_article' => 'articles#publish_independent_article', :as => :publish_independent_article
+  
+  match 'new_independent_article' => 'articles#new_independent_article', :as => :new_independent_article
+  
+  
+  
   
 =begin
   Creating a brand new article, independent from the project

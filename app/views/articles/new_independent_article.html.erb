@@ -1,0 +1,40 @@
+
+<div class="span9 content">
+  <%= create_guide("New Article", 
+        "Create the Article details: <b>title</b>, <b>teaser</b>, <b>description</b>. ").html_safe %>
+  
+  <%#= create_breadcrumb(@breadcrumbs).html_safe %>
+  
+  <div class="row-fluid">
+    <div class="span8">
+      <%= simple_form_for(@new_article, :html => {:class => 'form-horizontal' }) do |f| %>
+        <%= f.input :title , :input_html => {:class => "input-xlarge "}, 
+        :hint => "Title dari project ini"%>
+        <%= f.input :teaser, :input_html => {:rows => 5, :class => "input-xlarge" },
+        :hint => "Deskripsi? Apakah konsep yang melandasi album ini? Latar belakang?"%>
+
+        <%= f.input :description , :input_html => {:class => "input-xlarge span4"}, 
+        :hint => "Jumlah Image yang boleh dipilih client"%>
+
+        <div class="form-actions">
+          <%= f.button :submit , :class => "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div><!--/span-->
+
+    <div class="span4">
+    
+    </div><!--/span-->
+    
+  </div><!--/row-->
+  
+  
+  <div class="row-fluid">
+    <div class="span12">
+    </div>
+
+  </div><!--/row-->
+   
+   
+
+</div><!--/span-->

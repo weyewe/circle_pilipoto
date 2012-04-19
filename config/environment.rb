@@ -7,9 +7,18 @@ Neopilipoto::Application.initialize!
 
 
 ROLE_MAP = {
-  :premium => "Premium",
-  :standard => "Standard"
+  :company_admin => "CompanyAdmin",
+  :employee => "Employee", 
+  :client => "Client"
+  
 }
+
+=begin
+  new role-structure
+  :company_admin
+  :employee
+  :client
+=end
 
 PROJECT_ROLE_MAP = {
   :client => "Client",

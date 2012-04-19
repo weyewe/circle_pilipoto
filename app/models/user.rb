@@ -18,6 +18,10 @@ class User < ActiveRecord::Base
   has_many :project_memberships 
   has_many :projects, :through => :project_memberships 
   
+  #enrollment to the company
+  has_many :companies, :through => :enrollments
+  has_many :enrollments
+  
   # has_many :pictures
   after_create :send_confirmation_email 
   
@@ -121,7 +125,7 @@ class User < ActiveRecord::Base
 =begin
   Premium User 
 =end
-
+  # this has to change.. using the role of company_admin
   def finalized_projects
     self.projects.where( :is_finalized => true )
   end

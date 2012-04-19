@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120418141400) do
+ActiveRecord::Schema.define(:version => 20120419025308) do
 
   create_table "article_categories", :force => true do |t|
     t.string   "name"
@@ -82,6 +82,33 @@ ActiveRecord::Schema.define(:version => 20120418141400) do
 
   add_index "comments", ["commentable_id"], :name => "index_comments_on_commentable_id"
   add_index "comments", ["user_id"], :name => "index_comments_on_user_id"
+
+  create_table "companies", :force => true do |t|
+    t.string   "facebook_link"
+    t.string   "twitter_link"
+    t.string   "linkedin_link"
+    t.string   "name"
+    t.string   "phone_number"
+    t.string   "contact_email"
+    t.string   "website_address"
+    t.text     "office_address"
+    t.integer  "delivery_method",          :default => 1
+    t.integer  "integer",                  :default => 1
+    t.string   "scheduled_delivery_hours", :default => ""
+    t.string   "string",                   :default => ""
+    t.datetime "created_at",                               :null => false
+    t.datetime "updated_at",                               :null => false
+  end
+
+  create_table "enrollments", :force => true do |t|
+    t.integer  "company_id"
+    t.integer  "user_id"
+    t.string   "enrollment_code"
+    t.boolean  "is_current_perspective", :default => true
+    t.boolean  "is_active",              :default => true
+    t.datetime "created_at",                               :null => false
+    t.datetime "updated_at",                               :null => false
+  end
 
   create_table "pictures", :force => true do |t|
     t.string   "name"
@@ -187,6 +214,8 @@ ActiveRecord::Schema.define(:version => 20120418141400) do
     t.integer  "secondary_subject_id"
     t.boolean  "is_notification_sent",   :default => false
     t.integer  "event_type"
+    t.integer  "project_id"
+    t.integer  "actor_role_id"
     t.datetime "created_at",                                :null => false
     t.datetime "updated_at",                                :null => false
   end

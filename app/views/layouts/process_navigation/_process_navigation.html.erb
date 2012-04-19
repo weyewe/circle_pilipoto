@@ -3,7 +3,7 @@
      
      
      
-     <% if current_user.has_role?(:premium) %>
+     <% if current_user.has_role?(:company_admin) %>
      <!-- Premium user has access to all features -->
        <%= get_process_nav( :project_setup , params ).html_safe %> 
        <%= get_process_nav( :project_management , params ).html_safe %> 
@@ -16,16 +16,16 @@
      <% end %>
      
      
-     <% if current_user.has_role?(:standard) %>
+     <% if ( current_user.has_role?(:employee)  ) or ( current_user.has_role?(:client))%>
      <!-- Standard user can only collaborate (passive) -->
        <%= get_process_nav( :collaboration , params ).html_safe %> 
        <%#= get_process_nav( :submission_grading , params ).html_safe %> 
      <% end %>
+    
      
-     
-     <% if current_user.has_role?(:student) %>
-        <%= get_process_nav( :student , params ).html_safe %> 
-      <% end %>
+     <%# if current_user.has_role?(:student) %>
+        <%#= get_process_nav( :student , params ).html_safe %> 
+      <%# end %>
      
      
      <!-- <ul class="nav nav-list">
