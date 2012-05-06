@@ -533,6 +533,16 @@ module ApplicationHelper
             :action => "show_picture_for_feedback"
           }
         ]
+      },
+      {
+        :title => "Past Projects", 
+        :destination_link => "select_project_for_collaboration_url",
+        :conditions => [
+          {
+            :action => '',
+            :controller => ''
+          }
+        ]
       }
       
     ]

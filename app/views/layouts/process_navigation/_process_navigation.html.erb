@@ -17,6 +17,7 @@
      
      
      <% if ( current_user.has_role?(:employee)  ) or ( current_user.has_role?(:client))%>
+     
      <!-- Standard user can only collaborate (passive) -->
        <%= get_process_nav( :collaboration , params ).html_safe %> 
        <%#= get_process_nav( :submission_grading , params ).html_safe %> 
