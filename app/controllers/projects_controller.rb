@@ -12,7 +12,7 @@ class ProjectsController < ApplicationController
     # if @project.save
     if @project = Project.create_with_user_company( params[:project], current_user )
       # @project.add_owner( current_user )
-      redirect_to new_project_url
+      redirect_to new_project_url(:notice => "Project #{@project.title} is succesfuly created.")
     end
   end
   
@@ -62,12 +62,14 @@ class ProjectsController < ApplicationController
   def execute_project_invitation
     @project = Project.find_by_id( params[:project_id] )
     
-    if params[:user][:email].nil?  or params[:role_option].nil?
+    project_role = ProjectRole.find_by_name(params[:role_name])
+    
+    if params[:user][:email].nil?  or params[:role_name].nil? or project_role.nil? 
       redirect_to invite_member_for_project_url(@project)
       return
     end
     
-    @new_user = @project.invite_project_collaborator(params[:role_option].to_sym, params[:user][:email])
+    @new_user = @project.invite_project_collaborator( project_role , params[:user][:email])
     
     if  @new_user.valid?
       redirect_to  invite_member_for_project_url(@project)

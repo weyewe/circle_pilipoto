@@ -3,6 +3,13 @@
   <%= create_guide("New Project", 
         "Create the projects details.").html_safe %>
   
+  <% if not params[:notice].nil? %>
+    <div class="alert alert-success">
+      <strong>Well done!</strong> <%= params[:notice]%>.
+    </div>
+  <% end %>
+
+
   <%#= create_breadcrumb(@breadcrumbs).html_safe %>
   
   <div class="row-fluid">

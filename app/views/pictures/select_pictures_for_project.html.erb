@@ -23,6 +23,8 @@
           :project => @project
         } %>
       <% end %>
+    <% elsif @project_membership.has_role?(:collaborator) %>
+    <!-- any upload form? -->
     <% end %>
     
   </div><!--/row-->

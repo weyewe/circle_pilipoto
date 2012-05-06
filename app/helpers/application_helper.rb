@@ -192,9 +192,63 @@ module ApplicationHelper
     else
       ""
     end
+  end
+  
+=begin
+  PREV and NEXT for show_picture_for_feedback
+=end
+  def get_feedback_mode_next_pic(current_picture, something)
+    next_pic =  current_picture.next_pic
+    
+    if not next_pic.nil?
+      destination_url = show_picture_for_feedback_url(  next_pic)
+      return  create_galery_navigation_button( NEXT_BUTTON_TEXT, "next",destination_url )
+    else
+      ""
+    end
     
   end
   
+  def get_feedback_mode_prev_pic(current_picture, something)
+    prev_pic =  current_picture.prev_pic
+    
+    if not prev_pic.nil?
+      destination_url = show_picture_for_feedback_url(  prev_pic)
+      return  create_galery_navigation_button( PREV_BUTTON_TEXT, "previous",destination_url )
+    else
+      ""
+    end
+    
+  end
+  
+
+
+=begin
+  PREV and NEXT for selection mode
+=end
+  def get_selection_mode_next_pic(current_picture, something)
+    next_pic =  current_picture.next_pic_selection_mode
+    
+    if not next_pic.nil?
+      destination_url = large_picture_preview_for_selection_url(  next_pic)
+      return  create_galery_navigation_button( NEXT_BUTTON_TEXT, "next",destination_url )
+    else
+      ""
+    end
+    
+  end
+  
+  def get_selection_mode_prev_pic(current_picture, something)
+    prev_pic =  current_picture.prev_pic_selection_mode
+    
+    if not prev_pic.nil?
+      destination_url = large_picture_preview_for_selection_url(  prev_pic)
+      return  create_galery_navigation_button( PREV_BUTTON_TEXT, "previous",destination_url )
+    else
+      ""
+    end
+    
+  end
   
   
   def create_galery_navigation_button( text, class_name, destination_url )
@@ -531,6 +585,10 @@ module ApplicationHelper
           {
             :controller => "pictures",
             :action => "show_picture_for_feedback"
+          },
+          {
+            :controller => 'pictures', 
+            :action => 'large_picture_preview_for_selection'
           }
         ]
       },

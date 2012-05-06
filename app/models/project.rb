@@ -89,7 +89,8 @@ class Project < ActiveRecord::Base
     self.save 
     
     owner_membership = ProjectMembership.create(:user_id => user.id, :project_id => self.id )
-    owner_membership.add_roles([:owner])
+    owner_project_role = ProjectRole.find_by_name( PROJECT_ROLE_MAP[:owner])
+    owner_membership.add_roles([owner_project_role])
   end
   
   def members
@@ -100,8 +101,11 @@ class Project < ActiveRecord::Base
   end
   
   
-  def invite_project_collaborator( project_role_sym, email )
+  def invite_project_collaborator( project_role, email )
+    
     project_collaborator = User.find_or_create_and_confirm(email)
+    
+    
     
     if project_collaborator == self.project_owner
       return project_collaborator
@@ -110,14 +114,14 @@ class Project < ActiveRecord::Base
     if not project_collaborator.valid?
       return project_collaborator 
     else
-      self.add_project_membership( project_role_sym, project_collaborator )
+      self.add_project_membership( project_role, project_collaborator )
       return project_collaborator
     end
     
   end
   
   
-  def add_project_membership( project_role_sym, project_collaborator )
+  def add_project_membership( project_role, project_collaborator )
     
     project_membership = ProjectMembership.find(:first, :conditions => {
       :user_id => project_collaborator.id ,
@@ -131,7 +135,7 @@ class Project < ActiveRecord::Base
                   )
     end
                 
-    project_membership.add_roles( [project_role_sym] )
+    project_membership.add_roles( [project_role] )
   end
   
   def get_project_membership_for( user )

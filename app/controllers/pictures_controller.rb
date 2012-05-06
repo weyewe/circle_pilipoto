@@ -53,10 +53,20 @@ class PicturesController < ApplicationController
     @pictures = @project.original_pictures
     @project_membership = @project.get_project_membership_for( current_user )
     
-    add_breadcrumb "Select  project", 'select_project_for_collaboration_path'
-    set_breadcrumb_for @project, 'select_pictures_for_project_path' + "(#{@project.id})", 
-          "Select Pictures for #{@project.title}"
+    if @project.done_with_selection == true 
+      redirect_to finalize_pictures_for_project_url(@project)
+    else
+      
+      add_breadcrumb "Select  project", 'select_project_for_collaboration_path'
+      set_breadcrumb_for @project, 'select_pictures_for_project_path' + "(#{@project.id})", 
+            "Select Pictures for #{@project.title}"
+    end
+      
+    
+    
   end
+  
+  
   
   def execute_select_picture
     @project = Project.find_by_id( params[:membership_provider])
@@ -71,6 +81,40 @@ class PicturesController < ApplicationController
       format.js
     end
   end
+  
+  
+  def large_picture_preview_for_selection
+    @picture = Picture.find_by_id( params[:picture_id])
+    @project = @picture.project 
+    @project_membership = @project.get_project_membership_for( current_user )
+    
+    add_breadcrumb "Select  project", 'select_project_for_collaboration_path'
+    set_breadcrumb_for @project, 'select_pictures_for_project_path' + "(#{@project.id})", 
+          "Select Pictures for #{@project.title}"
+    set_breadcrumb_for @project, 'large_picture_preview_for_selection_url' + "(#{@picture.id})", 
+          "Large Preview"    
+        
+          
+          
+    
+  end
+  
+  
+  
+  def execute_picture_selection_from_large_picture_preview
+    @project = Project.find_by_id( params[:membership_provider])
+    @picture = Picture.find_by_id( params[:membership_consumer])
+    
+    if not params[:membership_decision].nil?
+      @picture.set_selected_value( params[:membership_decision].to_i )
+    end
+    
+    respond_to do |format|
+      format.html {  redirect_to root_url } 
+      format.js
+    end
+  end
+  
   
 =begin
   The real shit: uploading revision, adding comment, etc

@@ -16,14 +16,21 @@
       <% else %>
       	<span class="label label-success">Revision </span>
       <% end %>
+      <ul class="pager">
+        <li class="previous">
+          <%= link_to " ← Back to Gallery", finalize_pictures_for_project_url(@project)%>
+        </li>
+      </ul>
+      
+      
       <hr />
       
       
       <!-- The navigation element (<= Prev)  and (Next =>)-->
       <ul class="pager">
           <!-- new version -->
-          <%#= get_previous_selected_picture(@picture, false ).html_safe %>
-          <%#= get_next_selected_picture(@picture, false).html_safe %>
+          <%= get_feedback_mode_next_pic(@picture, false ).html_safe %>
+          <%= get_feedback_mode_prev_pic(@picture, false).html_safe %>
           
           <!-- old version -->
             <%#= get_previous_project_picture(@picture, false ).html_safe %>

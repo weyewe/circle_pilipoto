@@ -166,9 +166,29 @@ class Picture < ActiveRecord::Base
     end
   end
 
+=begin
+  selection mode
+=end
+  def next_pic_selection_mode
+    picture_id_list = self.project.pictures.where(:is_deleted => false).order("created_at ASC").map {|x| x.id }
+    self.nav_next_pic( picture_id_list)
+  end
+  
+  def prev_pic_selection_mode
+    picture_id_list = self.project.pictures.where(:is_deleted => false).order("created_at ASC").map {|x| x.id }
+    self.nav_prev_pic( picture_id_list)
+  end
+
+=begin
+  finalization mode
+=end
+
   def next_pic
     original_pic = self.original_picture
-    id_list = original_pic.project_submission.original_pictures_id
+    # id_list = original_pic.project_submission.original_pictures_id
+    id_list = original_pic.project.pictures.
+                      where(:is_original => true, :is_deleted => false , :is_selected => true  ).
+                      order("created_at ASC") .map {|x| x.id }
 
     current_pic_index = id_list.index( original_pic.id )
 
@@ -181,7 +201,11 @@ class Picture < ActiveRecord::Base
 
   def prev_pic
     original_pic = self.original_picture
-    id_list = original_pic.project_submission.original_pictures_id
+    # id_list = original_pic.project_submission.original_pictures_id
+    id_list = original_pic.project.pictures.
+                      where(:is_original => true, :is_deleted => false, :is_selected => true   ).
+                      order("created_at ASC").map {|x| x.id}
+                      
     current_pic_index = id_list.index( original_pic.id )
 
     if current_pic_index > 0 

@@ -6,12 +6,19 @@ Neopilipoto::Application.initialize!
 
 
 
+# ROLE_MAP = {
+#   :company_admin => "CompanyAdmin",
+#   :employee => "Employee", 
+#   :client => "Client"
+# }
+
 ROLE_MAP = {
   :company_admin => "CompanyAdmin",
-  :employee => "Employee", 
-  :client => "Client"
-  
+  :standard => "Standard"
 }
+
+# in the company wide, there can only be 2 role maps: company_admin , or standard_user 
+# in project, they might be collaborator and client 
 
 =begin
   new role-structure

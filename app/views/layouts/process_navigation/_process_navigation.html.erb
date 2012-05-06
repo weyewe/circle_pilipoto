@@ -16,9 +16,12 @@
      <% end %>
      
      
-     <% if ( current_user.has_role?(:employee)  ) or ( current_user.has_role?(:client))%>
+     <% if ( current_user.has_role?(:standard)  )  %>
      
-     <!-- Standard user can only collaborate (passive) -->
+     
+     <!-- Standard user can only collaborate (passive), can't create project -->
+     <!--  depending on the project membership role, it can have: previledges like upload picture ( collaborator) 
+     or just commenter (client) -->
        <%= get_process_nav( :collaboration , params ).html_safe %> 
        <%#= get_process_nav( :submission_grading , params ).html_safe %> 
      <% end %>

@@ -1,0 +1,101 @@
+
+<div class="span9 content" >
+  <%= create_guide("Select Picture", 
+        "Selection quota: <b>#{@project.picture_select_quota}</b>" + "<br />" + 
+        "Total Selected: <b>#{@project.selected_original_pictures.count}</b>").html_safe %>
+        
+        
+  <%= create_breadcrumb(@breadcrumbs).html_safe %>
+  
+
+
+  <%= hidden_field_tag 'max_selection' , "#{@project.picture_select_quota}", :id => "max_selection"  %>
+  <%= hidden_field_tag 'selected_pics_count' , "#{@project.selected_original_pictures.count}"  %>
+  
+ 
+  
+  <div class="row-fluid" id="actionWrapper">
+    <div class="span8">
+      <h3> <%= @picture.name %></h3>
+      <h4> Uploaded on: <%= @picture.created_at.in_time_zone("Jakarta") %></h4>
+      <% if @picture.is_original == true  %>
+        <span class="label">Original </span>
+      <% else %>
+      	<span class="label label-success">Revision </span>
+      <% end %>
+      
+      <ul class="pager">
+        <li class="previous">
+          <%= link_to " ← Back to Gallery", select_pictures_for_project_url(@project)%>
+          <!-- <a href="http://localhost:3000/pictures/5/large_picture_preview_for_selection"> </a> -->
+        </li>
+      </ul>
+
+
+      <hr />
+      
+      
+      <!-- The navigation element (<= Prev)  and (Next =>)-->
+      <ul class="pager">
+          <!-- new version -->
+          <%= get_selection_mode_prev_pic(@picture, false ).html_safe %>
+          <%= get_selection_mode_next_pic(@picture, false).html_safe %>
+          
+          <!-- old version -->
+            <%#= get_previous_project_picture(@picture, false ).html_safe %>
+            <%#= get_next_project_picture(@picture, false).html_safe %>
+      </ul>
+      
+      
+      <!-- The image in display -->
+        <div class="thumbnail image display_image_wrapper" >
+          
+          <%#= render :partial => "pictures/positional_comment_form", 
+                          :locals => {:picture => @picture}%>
+       
+          <%= image_tag @picture.display_image_url,  
+                :style => "width:590px;", :id => "target" %>
+                
+          <!-- render all the positional_comment -->
+          <%#= render :partial => "pictures/feedback_map", :locals => {:picture => @picture }%>
+        </div>
+       
+                
+                
+  
+      
+
+                
+    </div><!--/span8 -->
+    
+    
+    
+    <!-- Upload new revision, show original picture, and revision list -->
+    <div class="span4" style="padding-top:10px;">
+        
+        
+        <% if @project_membership.has_role?(:client) %>
+          <!-- Grading Form -->
+          <%# if current_user.is_allowed_to_grade?(@project_submission) %>
+            <%= render :partial => "pictures/select_image_for_finalization", :locals => {
+              :picture => @picture, 
+              :project => @project
+            } %>
+          <%# end %>
+        <% end %>
+        
+        
+    </div><!--/span-->
+    
+  </div><!--/row-->
+
+</div><!--/span-->
+
+<div class=" hidden" id="checkbox_form_wrapper">
+   <%= form_tag  execute_picture_selection_from_large_picture_preview_url(@picture) , :method => :post  do  %>
+     <%= hidden_field_tag 'membership_provider' , ''  %>
+     <%= hidden_field_tag 'membership_consumer', '' %>
+     <%= hidden_field_tag 'membership_decision', '' %>
+   <% end %>
+ </div>
+ 

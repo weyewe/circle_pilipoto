@@ -50,7 +50,7 @@ class User < ActiveRecord::Base
     new_user.password_confirmation = temporary_password
     new_user.save 
     
-    standard_role = Role.find_by_name("Standard")
+    standard_role = Role.find_by_name(ROLE_MAP[:standard])
     new_user.roles << standard_role
     new_user.save 
     
@@ -109,8 +109,10 @@ class User < ActiveRecord::Base
   Related with project 
 =end
   
-  def User.find_or_create_and_confirm( email )
+  def User.find_or_create_and_confirm(email )
     user =  User.find_by_email email 
+    
+    #  if there is user, check the role as well
     
     if user.nil? 
       return User.create_and_confirm( email) 

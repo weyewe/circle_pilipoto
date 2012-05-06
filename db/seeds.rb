@@ -18,8 +18,8 @@ end
 
 
 company_admin_role  = Role.create( :name => ROLE_MAP[:company_admin] )
-company_employee_role  = Role.create(:name => ROLE_MAP[:employee] )
-company_client_role  = Role.create(:name => ROLE_MAP[:client])
+standard_role  = Role.create(:name => ROLE_MAP[:standard] )
+# company_client_role  = Role.create(:name => ROLE_MAP[:client])
 
 project_owner_role = ProjectRole.create(:name => PROJECT_ROLE_MAP[:owner])
 project_collaborator_role = ProjectRole.create(:name => PROJECT_ROLE_MAP[:collaborator])
@@ -47,14 +47,14 @@ employee_1 = User.create :email => "employee_1@gmail.com",
               :password => "employee_1",
               :password_confirmation => "employee_1"
 
-employee_1.roles << company_employee_role
+employee_1.roles << standard_role
 employee_1.save
 
 employee_2 = User.create :email => "employee_2@gmail.com",
               :password => "employee_2",
               :password_confirmation => "employee_2"
 
-employee_2.roles << company_employee_role
+employee_2.roles << standard_role
 employee_2.save
 
 
@@ -62,7 +62,7 @@ client_1 = User.create :email => "client_1@gmail.com",
               :password => "client_1",
               :password_confirmation => "client_1"
 
-client_1.roles << company_client_role
+client_1.roles << standard_role
 client_1.save
 
               
@@ -70,7 +70,7 @@ client_2 = User.create :email => "client_2@gmail.com",
               :password => "client_2",
               :password_confirmation => "client_2"
 
-client_2.roles << company_client_role
+client_2.roles << standard_role
 client_2.save 
 
 puts "Done with creating user entities"
@@ -115,9 +115,9 @@ project_1 = Project.create_with_user_company( project_hash , company_admin )
 # and select the images they want to be used 
 client_email = "client_1@gmail.com"
 collaborator_email = "employee_1@gmail.com"
-project_1.invite_project_collaborator(:client, client_email) 
+project_1.invite_project_collaborator( project_client_role, client_email) 
 # :client_service can't communicate directly to the client. He can only do what the client asked
-project_1.invite_project_collaborator(:collaborator, collaborator_email  )
+project_1.invite_project_collaborator( project_collaborator_role , collaborator_email  )
 =begin
   After confirming the invitation, the client will select the images he like. 
   Then, he will proceed in clicking the button "FINALIZE"

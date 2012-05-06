@@ -16,11 +16,11 @@
           <label class="control-label">Assign role as:</label>
           <div class="controls">
             <label class="radio">
-              <input type="radio" checked="" value="<%= INVITE_AS_CLIENT %>" id="optionsRadios1" name="role_option">
+              <input type="radio" checked="" value="<%= PROJECT_ROLE_MAP[:client] %>" id="optionsRadios1" name="role_name">
               Client 
             </label>
             <label class="radio">
-              <input type="radio" value="<%= INVITE_AS_COLLABORATOR %>" id="optionsRadios2" name="role_option">
+              <input type="radio" value="<%= PROJECT_ROLE_MAP[:collaborator] %>" id="optionsRadios2" name="role_name">
               Collaborator
             </label>
           </div>

@@ -1,0 +1,19 @@
+<table cellpadding="0" cellspacing="0" border="0" 
+      class="table table-striped table-bordered" id="example">
+
+  <tbody>
+    <tr>
+      <td>Is Selected?</td>
+      <td>
+        <label class="checkbox">
+          <% checkbox_value = picture.is_selected?  %>
+    
+          <%= check_box_tag 'is_checked', get_checkbox_value(checkbox_value )   , 
+              checkbox_value, :class => "checkbox_tracker #{add_project_closed_class(project)}", 
+              :id => "provider_#{project.id}-consumer_#{picture.id}" %> Selected
+        </label>
+      </td>
+    </tr>
+ 
+  </tbody>
+</table>

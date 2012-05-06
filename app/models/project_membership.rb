@@ -25,9 +25,9 @@ class ProjectMembership < ActiveRecord::Base
   #   
   
   
-  def add_roles( role_symbol_array )
-    role_symbol_array.each do |role_sym|
-      add_role_if_not_exist( ProjectRole.find_by_name( PROJECT_ROLE_MAP[role_sym] ).id )
+  def add_roles( project_role_array )
+    project_role_array.each do |project_role|
+      add_role_if_not_exist(  project_role.id )
     end
   end
   
