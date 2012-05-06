@@ -3,6 +3,10 @@ task :call_page => :environment do
   uri = URI.parse('http://www.pilipoto.com/')
   Net::HTTP.get(uri)
   puts "this is it"
+  
+  uri = URI.parse('http://www.lapoto.herokuapp.com/')
+  Net::HTTP.get(uri)
+  puts "this is it"
 end
 
 
