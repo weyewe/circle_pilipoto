@@ -166,6 +166,44 @@ class Picture < ActiveRecord::Base
     end
   end
 
+
+=begin
+  company-admin large view mode
+=end
+
+  def next_pic_large_view_company_admin
+    original_pic = self.original_picture
+    # id_list = original_pic.project_submission.original_pictures_id
+    id_list = original_pic.project.pictures.
+                      where(:is_original => true, :is_deleted => false ).
+                      order("created_at ASC") .map {|x| x.id }
+
+    current_pic_index = id_list.index( original_pic.id )
+
+    if current_pic_index <  ( id_list.length - 1 )
+      return  Picture.find_by_id( id_list.at ( current_pic_index + 1  ) ).last_revision 
+    else
+      return nil 
+    end
+  end
+
+  def prev_pic_large_view_company_admin
+    original_pic = self.original_picture
+    # id_list = original_pic.project_submission.original_pictures_id
+    id_list = original_pic.project.pictures.
+                      where(:is_original => true, :is_deleted => false   ).
+                      order("created_at ASC").map {|x| x.id}
+
+    current_pic_index = id_list.index( original_pic.id )
+
+    if current_pic_index > 0 
+      return Picture.find_by_id(  id_list.at( current_pic_index - 1 )   ).last_revision
+    else
+      return nil 
+    end
+  end
+  
+  
 =begin
   selection mode
 =end

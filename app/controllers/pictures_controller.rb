@@ -43,7 +43,8 @@ class PicturesController < ApplicationController
          #  end
   end
   
-  
+
+
 =begin
   For Collaboration : client and collaborator 
 =end
@@ -61,9 +62,6 @@ class PicturesController < ApplicationController
       set_breadcrumb_for @project, 'select_pictures_for_project_path' + "(#{@project.id})", 
             "Select Pictures for #{@project.title}"
     end
-      
-    
-    
   end
   
   
@@ -226,5 +224,19 @@ class PicturesController < ApplicationController
       format.js
     end
   end
+  
+  
+  
+=begin
+  company admin, view the uploaded pictures
+=end
+
+  def large_picture_preview_for_company_admin
+    @picture = Picture.find_by_id(params[:picture_id])
+    @project = @picture.project
+    @project_membership =   @project.get_project_membership_for(current_user)
+  end
+  
+  
   
 end

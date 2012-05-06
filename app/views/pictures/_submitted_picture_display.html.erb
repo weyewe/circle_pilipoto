@@ -4,7 +4,7 @@
 <li class="span3">
   <div class="thumbnail">
     
-    <%= link_to  root_url,
+    <%= link_to  large_picture_preview_for_company_admin_url(picture),
         :class => "thumbnail" , :style => "height:160px; overflow:hidden;" do %>
       <%= image_tag picture.index_image_url %>
     <% end %>

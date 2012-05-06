@@ -195,6 +195,33 @@ module ApplicationHelper
   end
   
 =begin
+  PREV and NEXT for uploaded picture gallery company_admin (large picture preview)
+=end
+  def get_large_view_admin_next_pic(current_picture, something)
+    next_pic =  current_picture.next_pic_large_view_company_admin
+
+    if not next_pic.nil?
+      destination_url = large_picture_preview_for_company_admin_url(  next_pic)
+      return  create_galery_navigation_button( NEXT_BUTTON_TEXT, "next",destination_url )
+    else
+      ""
+    end
+
+  end
+
+  def get_large_view_admin_prev_pic(current_picture, something)
+    prev_pic =  current_picture.prev_pic_large_view_company_admin
+
+    if not prev_pic.nil?
+      destination_url = large_picture_preview_for_company_admin_url(  prev_pic)
+      return  create_galery_navigation_button( PREV_BUTTON_TEXT, "previous",destination_url )
+    else
+      ""
+    end
+
+  end
+  
+=begin
   PREV and NEXT for show_picture_for_feedback
 =end
   def get_feedback_mode_next_pic(current_picture, something)
@@ -521,6 +548,10 @@ module ApplicationHelper
           {
             :controller => "pictures",
             :action => 'new'
+          },
+          {
+            :controller => 'pictures',
+            :action => 'large_picture_preview_for_company_admin'
           }
         ]
       },

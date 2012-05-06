@@ -128,6 +128,9 @@ Neopilipoto::Application.routes.draw do
   match 'finalize_pictures_for_project/:project_id' => "pictures#finalize_pictures_for_project", :as => :finalize_pictures_for_project
   match 'show_picture_for_feedback/:picture_id' => "pictures#show_picture_for_feedback", :as => :show_picture_for_feedback
   
+  #show the large picture, for company_admin/
+  match 'pictures/:picture_id/large_picture_preview_for_company_admin' => 'pictures#large_picture_preview_for_company_admin', :as => :large_picture_preview_for_company_admin
+  
   #show the large picture, for collaborator/
   match 'pictures/:picture_id/large_picture_preview_for_selection' => 'pictures#large_picture_preview_for_selection', :as => :large_picture_preview_for_selection
   match 'execute_picture_selection/:picture_id/from_large_picture_preview_for_selection' => 'pictures#execute_picture_selection_from_large_picture_preview', :as => :execute_picture_selection_from_large_picture_preview, :method => :post
