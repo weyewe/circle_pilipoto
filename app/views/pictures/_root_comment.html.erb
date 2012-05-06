@@ -4,11 +4,19 @@
   </a>
 
   <div class="particulars">
-    <div class="name" > Jimmy Lin 
-      <% if root_comment.user.has_role?(:student)%>
-        <span class="label">Student</span>
-      <% elsif root_comment.user.has_role?(:teacher) %>
-        <span class="label label-info">Teacher</span>
+    <div class="name" >
+      <% user = root_comment.user %>
+      <% project = picture.project %>
+      <% project_membership = project.get_project_membership_for(user) %>
+      <% if project_membership.has_project_role?(:client)%>
+        Jimmy Lin 
+        <span class="label">Client</span>
+      <% elsif project_membership.has_project_role?(:collaborator) %>
+        Christian Tan
+        <span class="label label-info">Collaborator</span>
+      <% elsif project_membership.has_project_role?(:owner) %>
+        Michael Leo
+        <span class="label label-info">Project Lead</span>
       <% end %>
       
     </div>

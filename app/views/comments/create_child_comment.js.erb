@@ -1,6 +1,7 @@
 <% new_child_comment =  escape_javascript(    render  :partial => "pictures/child_comment", 
           :locals => {:root_comment => @root_comment, 
-                      :child_comment => @comment} ) %>
+                      :child_comment => @comment, 
+                      :picture =>@picture} ) %>
                       
 $(document).ready(function(){
   $("#child_root_comment-<%= @root_comment.id %>").before('<%= new_child_comment %>');

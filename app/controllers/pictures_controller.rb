@@ -26,11 +26,11 @@ class PicturesController < ApplicationController
     end 
     
     
-    if not params[:is_original].nil?
-      redirect_to  new_project_picture_url( @project  )#
+    if not params[:is_original].nil? and params[:is_original].to_i == FALSE_CHECK
+      redirect_to  show_picture_for_feedback_url(new_picture) 
        # show_picture_for_feedback_url( params[:original_picture_id ] )
-    else
-      redirect_to new_project_picture_url(@project)
+    elsif not params[:is_original].nil? and params[:is_original].to_i == TRUE_CHECK
+      redirect_to new_project_picture_url( @project  )#
     end
          # 
          #  if params[:from_project_owner].nil?

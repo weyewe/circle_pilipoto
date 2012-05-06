@@ -7,13 +7,26 @@
 
   <div class="child-particulars">
     <div class="name" > 
-      <% if child_comment.user.has_role?(:student)%>
-        <span class="label">Student</span>
-      <% elsif child_comment.user.has_role?(:teacher) %>
-        <span class="label label-info">Teacher</span>
+      <% user = root_comment.user %>
+      <% project = picture.project %>
+      <% project_membership = project.get_project_membership_for(user) %>
+      
+      <% if project_membership.has_project_role?(:client)%>
+        Jimmy Lin
+        <span class="label">Client</span>
+      <% elsif project_membership.has_project_role?(:collaborator) %>
+        Christian Tan
+        <span class="label label-info">Collaborator</span>
+      <% elsif project_membership.has_project_role?(:owner) %>
+        Michael Leo
+        <span class="label label-info">Project Lead</span>
       <% end %>
-      Jimmy Lin Child 
     </div>
+    
+    
+    
+    
+    
     
     <blockquote class="pull-right">
       <p><%= child_comment.body%></p>

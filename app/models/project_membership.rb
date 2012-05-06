@@ -5,12 +5,19 @@ class ProjectMembership < ActiveRecord::Base
   has_many :project_assignments 
   has_many :project_roles, :through => :project_assignments 
   
+  
+  
+  def ProjectMembership.find_for( user, project )
+  end
+  
   def has_role?(role_sym)
     project_roles.any? { |r| r.name.underscore.to_sym == role_sym }
   end
   
   
-  
+  def has_project_role?(role_sym)
+    has_role?(role_sym)
+  end
   
   # def add_project_role( project_role_sym )
   #     self.add_roles( [project_role_sym] )
