@@ -144,7 +144,7 @@ class PicturesController < ApplicationController
     @project = @picture.project
     @project_membership = @project.get_project_membership_for( current_user )
     @original_picture = @picture.original_picture
-    @all_revisions = @original_picture.revisions
+    @all_revisions = @original_picture.revisions.order("created_at DESC")
     @root_comments = @picture.root_comments.order("created_at ASC")
     
     

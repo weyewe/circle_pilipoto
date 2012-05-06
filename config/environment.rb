@@ -170,3 +170,5 @@ NOTIFICATION_DELIVERY_METHOD = {
   :instant => 1, 
   :scheduled => 2
 }
+
+AVATAR_IMAGE = "https://s3.amazonaws.com/potoschool_icon/default_profile_pic.jpg"
