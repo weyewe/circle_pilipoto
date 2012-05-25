@@ -19,10 +19,10 @@
                 ORIGINAL_PICTURE  %>
         <%= hidden_field_tag 'from_project_owner', 
                 1  %>
-        <%#= transloadit :neopilipoto_image_store %>
-        <% tranloadit_array = transloadit_with_max_size('neopilipoto_image_store', 5) %>
-        <%= hidden_field_tag 'params',  tranloadit_array[0]  %>
-        <%= hidden_field_tag 'signature',  tranloadit_array[1]  %>
+        <%= transloadit :neopilipoto_image_store %>
+        <% tranloadit_array = transloadit_with_max_size('neopilipoto_image_store', 100) %>
+        <%#= hidden_field_tag 'params',  tranloadit_array[0]  %>
+        <%#= hidden_field_tag 'signature',  tranloadit_array[1]  %>
         
         <%= f.file_field :original_image_url, :class => "input-medium search-query transloadit-input" , 
                   :multiple => "multiple", :style=>"width:200px;" %>
