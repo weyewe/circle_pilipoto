@@ -10,6 +10,10 @@ $(document).ajaxSend(function(event, request, settings) {
 $(document).ready(function() {
   
   
+  // show the loader, if everything is loaded
+  $("#loading_uploader_notification").fadeOut();
+  $("#upload_picture").fadeIn();
+  
   $(".entry-link").click(function(){
     var $entry_link = $(this);
     

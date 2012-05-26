@@ -11,10 +11,17 @@
   
   <div class="row-fluid">
 
-    
+      <button href="#" class="btn btn-info" id="loading_uploader_notification" style="margin-bottom:20px;">Loading Uploader...</button>
+      
+      <button href="#" class="btn btn-info" id="uploading_progress_notification" style="margin-bottom:20px; display:none;">Uploading...</button>
+      
+      <button href="#" class="btn btn-info" id="refreshing_progress_notification" style="margin-bottom:20px; display:none;">Refreshing..</button>
+      
+      
+      <br />
       <%= form_for @new_picture, :url => project_pictures_url(@project) , 
                 :html => {:class=> "well form-search",
-                  :id => 'upload_picture' }  do |f| %>
+                  :id => 'upload_picture', :style => "display:none;" }  do |f| %>
         <%= hidden_field_tag 'is_original', 
                 ORIGINAL_PICTURE  %>
         <%= hidden_field_tag 'from_project_owner', 
@@ -43,6 +50,13 @@
                pollTimeout : 15000,
                processZeroFiles : false,
                onStart : function(assembly){
+                 $("#upload_picture").fadeOut();
+                 $("#uploading_progress_notification").fadeIn();
+               },
+               onCancel: function(){
+                 window.location.reload(true);
+                 $("#uploading_progress_notification").hide();
+                 $("#refreshing_progress_notification").fadeIn();
                }
              });
            });
