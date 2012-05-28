@@ -78,6 +78,7 @@ GEM
       rubyzip
       term-ansicolor (~> 1.0.5)
     hike (1.2.1)
+    hirefireapp (0.0.8)
     i18n (0.6.0)
     journey (1.0.3)
     jquery-rails (2.0.1)
@@ -190,6 +191,7 @@ DEPENDENCIES
   delayed_job_active_record (~> 0.2.1)
   devise
   heroku
+  hirefireapp
   jquery-rails
   kaminari
   pg
