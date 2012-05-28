@@ -42,6 +42,45 @@ module ApplicationHelper
     [params, signature]
   end
   
+  
+  def transloadit_manual_extract(template)
+    if Rails.env.production?
+      transloadit_read = YAML::load( File.open( Rails.root.to_s + "/config/transloadit.yml") )
+    elsif Rails.env.development?
+      transloadit_read = YAML::load( File.open( Rails.root.to_s + "/config/transloadit_dev.yml") )
+    end
+    
+    auth_key = transloadit_read['auth']['key']
+    auth_secret = transloadit_read['auth']['secret']
+    duration = transloadit_read['auth']['duration']
+    template = transloadit_read['templates'][template]
+  
+    params = JSON.generate({
+      :auth => {
+        :expires => (Time.now + duration).utc.strftime('%Y/%m/%d %H:%M:%S+00:00') ,
+      # Time.now.utc.strftime('%Y/%m/%d %H:%M:%S+00:00'),
+        :key => auth_key
+      },
+      :template_id => template 
+    })
+    
+    
+    puts "+++++++++++The params is #{params}\n"*10
+    puts "-----------The CGI escaped  params is #{CGI::escape(params)}\n"*10
+    
+    # %7B%22auth%22%3A%7B%22expires%22%3A%222012%2F05%2F28+05%3A40%3A31%2B00%3A00%22%2C%22key%22%3A%22a919ae5378334f20b8db4f7610cdd1a7%22%7D%2C%22template_id%22%3A%226ff1923c56ef4eafa94b22c9cb4ac940%22%7D
+    
+    # params=%7B%22auth%22%3A%7B%22expires%22%3A%222009%2F11%2F27%2016%3A53%3A14%2B00%3A00%22%2C%22key%22%3A%222b0c45611f6440dfb64611e872ec3211%22%7D%7D&signature=4e14c4b0a16d01991c0f7276d68e03ded49cc212
+    
+    digest = OpenSSL::Digest::Digest.new('sha1')
+    signature = OpenSSL::HMAC.hexdigest(digest, auth_secret, params)
+    [ params , signature]
+  end
+  
+  
+  def compose_transloadit_upload_url(params, signature)
+    TRANSLOADIT_UPLOAD_URL + "?params=#{params}&signature=#{signature}"
+  end
 =begin
   For the front page
 =end

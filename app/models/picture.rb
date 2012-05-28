@@ -1,3 +1,4 @@
+require 'open-uri'
 class Picture < ActiveRecord::Base
   belongs_to :user 
   belongs_to :project 
@@ -253,7 +254,58 @@ class Picture < ActiveRecord::Base
     end
   end
 
+  def Picture.create_from_assembly_url(assembly_url, project)
+    pic = Picture.create(:assembly_url => assembly_url, :is_completed => false , :project_id => project.id)
+    
+    pic.delay.extract_from_assembly_url
+    return pic
+  end
+  
+  def transloadit_params
+    content = open(self.assembly_url).read
 
+    transloadit_params = ActiveSupport::HashWithIndifferentAccess.new(
+    ActiveSupport::JSON.decode content
+    )
+  end
+  
+  def extract_from_assembly_url
+    content = open(self.assembly_url).read
+    # json = JSON.parse(content)
+    
+    
+    
+    transloadit_params = ActiveSupport::HashWithIndifferentAccess.new(
+          ActiveSupport::JSON.decode content
+        )
+        
+    while transloadit_params[:ok] != "ASSEMBLY_COMPLETED"
+      sleep 2
+      puts "in the loop"
+      content = open(self.assembly_url).read
+      transloadit_params = ActiveSupport::HashWithIndifferentAccess.new(
+            ActiveSupport::JSON.decode content
+          )
+    end
+
+    self.original_image_url  = transloadit_params[:results][':original'].first[:url]
+    self.index_image_url     = transloadit_params[:results][:resize_index].first[:url]   
+    self.revision_image_url  = transloadit_params[:results][:resize_revision].first[:url] 
+    self.display_image_url   = transloadit_params[:results][:resize_show].first[:url]     
+    self.article_image_url   = transloadit_params[:results][:resize_article].first[:url]   
+    self.original_image_size = transloadit_params[:results][':original'].first[:size]
+    self.index_image_size    = transloadit_params[:results][:resize_index].first[:size]         
+    self.revision_image_size = transloadit_params[:results][:resize_revision].first[:size]               
+    self.display_image_size  = transloadit_params[:results][:resize_show].first[:size]                
+    self.article_image_size  = transloadit_params[:results][:resize_article].first[:size]    
+    self.name                = transloadit_params[:results][':original'].first[:name]
+    self.is_original         = true 
+    self.width               = transloadit_params[:results][':original'].first[:meta][:width]
+    self.height              = transloadit_params[:results][':original'].first[:meta][:height] 
+    self.is_completed        = true
+    self.save
+      
+  end
 
 
   def self.extract_uploads(resize_original, resize_index , resize_show, resize_revision, 
@@ -345,7 +397,8 @@ class Picture < ActiveRecord::Base
              :name => image_name,
              :is_original => true ,
              :width => original_width,
-             :height => original_height 
+             :height => original_height ,
+             :is_completed => true 
         )
 
         counter =  counter + 1 
@@ -391,7 +444,8 @@ class Picture < ActiveRecord::Base
            :article_image_url => article_image_url,
            :article_image_size => article_image_size ,
            :width => width,
-           :height => height 
+           :height => height ,
+           :is_completed => true 
       )
       
       new_picture.is_selected = true

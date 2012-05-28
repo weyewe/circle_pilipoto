@@ -11,7 +11,7 @@ class CreatePictures < ActiveRecord::Migration
       t.string   :display_image_url
       t.integer  :original_image_size
       t.integer  :index_image_size
-      t.integer  :revision_image_size
+      t.integer  :revision_image_size 
       t.integer  :display_image_size
       t.boolean  :is_deleted ,            :default => false
       t.boolean  :is_selected ,           :default => false
@@ -21,8 +21,6 @@ class CreatePictures < ActiveRecord::Migration
       t.integer  :original_id
       t.integer  :score,                 :default => 0
       t.integer   :user_id  # the uploader 
-        
-        
         
 
       t.timestamps

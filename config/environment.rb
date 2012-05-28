@@ -172,3 +172,9 @@ NOTIFICATION_DELIVERY_METHOD = {
 }
 
 AVATAR_IMAGE = "https://s3.amazonaws.com/potoschool_icon/default_profile_pic.jpg"
+
+TRANSLOADIT_UPLOAD_URL = "http://api2.transloadit.com/assemblies"
+UPLOADIFY_SWF_URL = "http://s3.amazonaws.com/circle-static-assets/uploadify.swf"
+UPLOADIFY_CANCEL_URL = "http://s3.amazonaws.com/circle-static-assets/uploadify-cancel.png"
+
+UPLOADIFIVE_CANCEL_URL = "http://s3.amazonaws.com/circle-static-assets/uploadify-cancel.png"

@@ -29,6 +29,16 @@
         
         <tbody>
           <tr>
+            <td colspan="2">
+              
+              <!-- <a rel="tooltip" href="#" data-original-title="<%=  picture.name %>"><%= picture.name[0..10] %></a> -->
+              
+              
+            <a href="#" rel="tooltip" title="<%=  picture.name %>" class='tooltip-able'><%= picture.name[0..10] %></a>
+            
+            </td>
+          </tr>
+          <tr>
             <td>Revisions</td>
             <td><%= picture.revisions.count %></td>
           </tr>

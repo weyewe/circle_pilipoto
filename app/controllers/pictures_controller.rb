@@ -1,13 +1,22 @@
 class PicturesController < ApplicationController
   def new
     @project = Project.find_by_id( params[:project_id] )
-    @pictures = @project.original_pictures  
+    @pictures = @project.original_pictures.where(:is_completed => true ).includes(:revisions).order("name ASC")
     @new_picture = Picture.new
     
     
     add_breadcrumb "Select  project", 'select_project_to_be_managed_path'
     set_breadcrumb_for @project, 'new_project_picture_path' + "(#{@project.id})", 
           "Add Pictures for #{@project.title}"
+  end
+  
+  def create_picture_from_assembly
+    @project = Project.find_by_id( params[:project_id] )
+    assembly_url = params[:assembly_url]
+    
+    Picture.create_from_assembly_url(assembly_url, @project)
+    
+    
   end
   
   

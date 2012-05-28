@@ -1,0 +1,108 @@
+
+<div class="span9 content">
+  <%= create_guide("Upload Pictures", 
+        "Upload Pictures for project:  <b>#{@project.title}</b>").html_safe %>
+  
+  
+  
+    
+  <%= create_breadcrumb(@breadcrumbs).html_safe %>
+  
+  
+  <div class="row-fluid">
+
+      <button href="#" class="btn btn-info" id="loading_uploader_notification" style="margin-bottom:20px;">Loading Uploader...</button>
+      
+      <button href="#" class="btn btn-success" id="uploading_progress_notification" style="margin-bottom:20px; display:none;">Uploading...</button>
+      
+      <button href="#" class="btn btn-warning" id="refreshing_progress_notification" style="margin-bottom:20px; display:none;">Refreshing..</button>
+      
+      
+      <br />
+      
+      <!-- form with uploadify -->
+      
+      <% content_for :additional_js do %>
+        <%= javascript_include_tag "jquery.uploadify-3.1.min"%>
+      <% end %>
+    
+      
+      <!-- form with standard jquery transloadit -->
+      <%= form_for @new_picture, :url => project_pictures_url(@project) , 
+                :html => {:class=> "well form-search",
+                  :id => 'upload_picture', :style => "display:none;" }  do |f| %>
+        <%= hidden_field_tag 'is_original', 
+                ORIGINAL_PICTURE  %>
+        <%= hidden_field_tag 'from_project_owner', 
+                1  %>
+        <%= transloadit :neopilipoto_image_store %>
+        <%# tranloadit_array = transloadit_with_max_size('neopilipoto_image_store', 100) %>
+        <%#= hidden_field_tag 'params',  tranloadit_array[0]  %>
+        <%#= hidden_field_tag 'signature',  tranloadit_array[1]  %>
+        
+        <%= f.file_field :original_image_url, :class => "input-medium search-query transloadit-input" , 
+                  :multiple => "multiple", :style=>"width:200px;" %>
+                  <br />
+                  <br />
+        <button type="submit" class=" hide btn submit-button">Upload</button>
+        <p class="help-inline">You can upload multiple images at once.</p>
+      
+      <% end %>
+    
+      <%# content_for :additional_js do %>
+        <script type="text/javascript" src="//assets.transloadit.com/js/jquery.transloadit2.js"></script>
+        <script type="text/javascript">
+           // We call .transloadit() after the DOM is initialized:
+           $(document).ready(function() {
+             // create the set time out
+             
+             
+             // setTimeout(function() {
+             //                  checkUploadValidity();
+             //              }, 4000)
+             
+             
+             
+             $('#upload_picture').transloadit({
+               wait : true, 
+               pollTimeout : 15000,
+               processZeroFiles : false,
+               onStart : function(assembly){
+                 $("#upload_picture").fadeOut();
+                 $("#uploading_progress_notification").fadeIn();
+                 action_tracker_status = 1 ;
+               },
+               onCancel: function(){
+                 $("#uploading_progress_notification").hide();
+                 $("#refreshing_progress_notification").fadeIn();
+                 window.location.reload(true);
+               }
+             });
+           });
+        </script>
+      <%# end %>
+  
+    
+    
+
+    
+  </div><!--/row-->
+
+
+  <!-- display the uploaded image here!  -->
+  <div class="span12">
+    
+    <ul class="thumbnails" id="uploaded_image_container">
+      <% @pictures.each do |picture| %>
+        <%= render :partial => "pictures/submitted_picture_display" , :locals => {
+          :picture => picture
+        }%>
+      
+      
+   
+
+      <% end %>
+    </ul>
+  </div>
+  
+</div><!--/span-->

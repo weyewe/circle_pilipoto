@@ -19,4 +19,4 @@
 var PilipotoJcropApi ;   /* global variable  */
 
 
-
+var action_tracker_status = 0 ;

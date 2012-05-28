@@ -19,7 +19,166 @@
       
       
       <br />
-      <%= form_for @new_picture, :url => project_pictures_url(@project) , 
+      
+      <!-- form with uploadify -->
+      
+      <table cellpadding="0" cellspacing="0" border="0" 
+            class="table table-striped table-bordered" id="example">
+          
+        <tbody>
+          <td>
+            
+            <%= form_for @new_picture, :url => project_pictures_url(@project) , 
+                        :html => {:class=> "well form-search", :id => 'upload_picture', :style => "display:none;" }  do |f| %>
+              <%#= hidden_field_tag 'is_original', 
+                  ORIGINAL_PICTURE  %>
+              <input type="file" name="file_upload" id="file_upload" />
+              <%#= hidden_field_tag 'from_project_owner', 
+              1  %>
+              <%#= transloadit :neopilipoto_image_store %>
+              <% tranloadit_array = transloadit_with_max_size('neopilipoto_image_store', 100) %>
+              <%= hidden_field_tag 'params',  tranloadit_array[0]  %>
+              <%= hidden_field_tag 'signature',  tranloadit_array[1]  %>
+              <%= hidden_field_tag 'wait',  true   %>
+
+              <%#= f.file_field :original_image_url, :class => "input-medium search-query transloadit-input" , 
+              :multiple => "multiple", :style=>"width:200px;" %>
+
+            <% end %>
+
+
+            
+            
+          </td>
+          <td style="text-align:center;"><a href="javascript:$('#file_upload').uploadifive('upload')" class="btn btn-primary" style="margin-left:20px;">Upload Files</a></td>
+        </tbody>
+      </table>
+      <br />
+      <br />
+      
+      <% content_for :additional_css do %>
+        <%= stylesheet_link_tag "uploadifive"%>
+      <% end %>
+      
+      
+      <% content_for :additional_js do %>
+        <% tranloadit_array = transloadit_manual_extract('neopilipoto_image_store') %>
+        <% params =  tranloadit_array[0] %>
+        <% signature = tranloadit_array[1] %>
+        <%= javascript_include_tag "jquery.uploadifive-v1.0.min"%>
+        <script type="text/javascript">
+          $(document).ready(function(){
+            // var uploadify_script_data = {};
+            //        var csrf_token = $('meta[name=csrf-token]').attr('content');
+            //        var csrf_param = $('meta[name=csrf-param]').attr('content');
+            //        console.log("the token is " + csrf_token);
+            //        console.log("The param is " + csrf_param);
+            // 
+            //  uploadify_script_data[csrf_token] = encodeURI(encodeURI(csrf_param));
+            var params_value = $("#params").attr("value");
+            var signature_value = $("#signature").attr("value");
+            var wait_value = $("#wait").attr("value");
+            var form_data = $("#upload_picture").serialize();
+            
+            var uploaded_file = [];
+            
+            // {
+            //        'picture_id' : 54,
+            //        'is_completed' : [0,1]
+            //      }
+            
+            $('#file_upload').uploadifive({
+              'auto' :false,
+              'uploadScript' : '<%= TRANSLOADIT_UPLOAD_URL %>',
+              'removeCompleted' : true,
+              'formData'      : {
+                'params' : params_value,
+                'signature' : signature_value,
+                'wait' : wait_value
+              },
+              'onFallback'   : function() {
+                alert('Please use the latest version of Google Chrome or Safari.');
+              },
+              // 'onSelect' : function(data) {
+              //     alert(data.selected + ' files were added to the queue.');
+              //   },
+              'onQueueComplete' : function(uploads) {
+                console.log("Uploaded " + uploads.successful + " pictures");
+              },
+              
+              'onUploadComplete' : function(file, data) {
+                
+                parsedData = jQuery.parseJSON( data )
+                console.log("The assembly_url: " + parsedData["ok"]);
+                console.log("The assembly_url: " + parsedData["assembly_url"]);
+                //  send the assembly_url to the server 
+                // delayed_job to extract the data, poll every 1 second
+                // poll that assembly_url 
+                console.log("Gonna create pseudo picture file");
+                $.ajax({
+                  url: '<%= create_picture_from_assembly_url(@project)%>',
+                  type: "POST",
+                  data: {
+                    'assembly_url' : parsedData["assembly_url"]
+                  },
+                  dataType: 'script',
+                  success: function(response){
+
+                    console.log("ajax request is done");
+                  }
+                });
+                
+                
+                
+              }
+
+
+            });
+            
+            // $.getJSON('ajax/test.json', function(data) {
+            //        var items = [];
+            // 
+            //        $.each(data, function(key, val) {
+            //          items.push('<li id="' + key + '">' + val + '</li>');
+            //        });
+            // 
+            //        $('<ul/>', {
+            //          'class': 'my-new-list',
+            //          html: items.join('')
+            //        }).appendTo('body');
+            //      });
+            
+            
+            // $('#file_upload').uploadifive({
+            //               'uploadScript' : '<%= compose_transloadit_upload_url(CGI::escape(params) ,  CGI::escape(signature) ).html_safe  %>'
+            //             });
+            
+                    //     
+                    // {'params' : '<%= CGI::escape(params)  %>', 
+                    //            'signature' : '<%= CGI::escape(signature)  %>',
+                    //            uploadify_script_data[csrf_token] : encodeURI(encodeURI(csrf_param))  }
+                    //             
+            // $('#file_upload').uploadify({
+            //       'progressData' : 'speed',
+            //       'swf'      : '<%= UPLOADIFY_SWF_URL %>',
+            //       'uploader' : '<%= TRANSLOADIT_UPLOAD_URL %>',
+            //       'auto'     : false,
+            //       'formData'      : {'params' : '<%= params %>', 'signature' : '<%= signature %>'},
+            //       'onUploadError' : function(file, errorCode, errorMsg, errorString) {
+            //                   console.log('The file ' + file.name + ' could not be uploaded: ' + errorString);
+            //                   console.log('The error message: ' + errorMsg);
+            //                   console.log("the error code: " + errorCode);
+            //                   console.log("the error string: " + errorString);
+            //       }
+            //       // Your options here
+            //     });
+          });
+        </script>
+      <% end %>
+    
+      
+      <!-- form with standard jquery transloadit -->
+      <!-- <%= form_for @new_picture, :url => project_pictures_url(@project) , 
                 :html => {:class=> "well form-search",
                   :id => 'upload_picture', :style => "display:none;" }  do |f| %>
         <%= hidden_field_tag 'is_original', 
@@ -38,30 +197,9 @@
         <button type="submit" class=" hide btn submit-button">Upload</button>
         <p class="help-inline">You can upload multiple images at once.</p>
       
-      <% end %>
+      <% end %> -->
     
-      <% content_for :additional_js do %>
-        <script type="text/javascript" src="//assets.transloadit.com/js/jquery.transloadit2.js"></script>
-        <script type="text/javascript">
-           // We call .transloadit() after the DOM is initialized:
-           $(document).ready(function() {
-             $('#upload_picture').transloadit({
-               wait : true, 
-               pollTimeout : 15000,
-               processZeroFiles : false,
-               onStart : function(assembly){
-                 $("#upload_picture").fadeOut();
-                 $("#uploading_progress_notification").fadeIn();
-               },
-               onCancel: function(){
-                 window.location.reload(true);
-                 $("#uploading_progress_notification").hide();
-                 $("#refreshing_progress_notification").fadeIn();
-               }
-             });
-           });
-        </script>
-      <% end %>
+    
   
     
     

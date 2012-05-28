@@ -20,7 +20,8 @@ Neopilipoto::Application.routes.draw do
   end
   
   
-  
+  # uploading assembly_url to project 
+  match 'create_picture_from_assembly/:project_id' => "pictures#create_picture_from_assembly", :as => :create_picture_from_assembly, :method => :post
 =begin
   creating article from project 
 =end
