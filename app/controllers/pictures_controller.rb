@@ -14,9 +14,40 @@ class PicturesController < ApplicationController
     @project = Project.find_by_id( params[:project_id] )
     assembly_url = params[:assembly_url]
     
-    Picture.create_from_assembly_url(assembly_url, @project)
+    @picture = Picture.create_from_assembly_url(assembly_url, @project)
+    
+    respond_to do |format| 
+      format.js do 
+        is_completed_result = 0 
+        if @picture.is_completed == true
+          is_completed_result= 1
+        end
+        render :json => {'picture_id' => @picture.id, 'is_completed' => is_completed_result}.to_json  
+      end
+    end
+  end
+  
+  def transloadit_status_for_picture
+    @picture = Picture.find_by_id( params[:picture_id])
+    
+    respond_to do |format| 
+      format.js do 
+        is_completed_result = 0 
+        if @picture.is_completed == true
+          is_completed_result= 1
+        end
+        render :json => {'picture_id' => @picture.id, 'is_completed' => is_completed_result}.to_json  
+      end
+    end
+  end
+  
+  def update_transloadit_processing_status
+    @picture_id_value_list = JSON.parse(params[:picture_id_value_list])
     
     
+    # {
+    #    picture_id : 1_or_0
+    #  }
   end
   
   

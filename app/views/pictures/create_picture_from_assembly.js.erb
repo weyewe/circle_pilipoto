@@ -1,4 +1,7 @@
 $(document).ready(function(){
   console.log("Yummy, devoured. I will send the pic id so that you can query the progress");
   
+  var new_data ={};
+  new_data["picture_id"] = <%= @picture.id %>;
+  new_data["is_completed"] = false;
 });

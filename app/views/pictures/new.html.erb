@@ -90,6 +90,36 @@
         <%= javascript_include_tag "jquery.uploadifive-v1.0.min"%>
         <script type="text/javascript">
           $(document).ready(function(){
+            function checkTransloaditProcessing(uploaded_pic_object){
+              $.ajax({
+                url: '<%= transloadit_status_for_picture_url %>',
+                type: "POST",
+                data: uploaded_pic_object,
+                dataType: 'json',
+                success: function(response){
+                  // prepend the new image 
+                  if( response['is_completed'] == 1 ){
+                  //                   $.ajax({
+                  //                     url: '<%= transloadit_status_for_picture_url %>',
+                  //                     type: "POST",
+                  //                     data: uploaded_pic_object,
+                  //                     dataType: 'script',
+                  //                     success: function(response){
+                  //                   
+                  //                     }
+                  //                   });
+                    
+                    // update the processed count 
+                    processed_counter+=1 ;
+                    $("#processed_counter").text(processed_counter);
+                  }else{
+                    setTimeout(function(){ 
+                      checkTransloaditProcessing(response); 
+                      }, 3000);
+                  }
+                }
+              });
+            }
             
             // upload starter
             $("#upload_starter").click(function(){
@@ -105,8 +135,11 @@
               
               $("#upload_cancel").hide();
               $("#preloader").hide();
+              console.log("hiding preloader");
               $("#upload_starter").show();
+              console.log("gonna clear queue");
               $('#file_upload').uploadifive('clearQueue');
+              
               return false;
             });
             
@@ -118,6 +151,11 @@
             var form_data = $("#upload_picture").serialize();
             
             var uploaded_file = [];
+            
+            // console.log("gonna set the time out");
+            // setTimeout(function(){ 
+            //               checkTransloaditProcessing(uploaded_file); 
+            //               }, 3000);
             
             // {
             //        'picture_id' : 54,
@@ -151,6 +189,10 @@
               'onCancel'     : function() {
                 console.log("one file is cancelled");
                 selected_counter -= 1 ;
+                
+                if(selected_counter < 0 ) {
+                  selected_counter  =0 ;
+                }
                 $("#selected_counter").text(selected_counter);
               },
 
@@ -167,6 +209,7 @@
               },
               'onClearQueue' : function(queue) {
                 console.log("queue is cleared");
+                $("#selected_counter").text(0);
               },
               
               'onUploadComplete' : function(file, data) {
@@ -184,11 +227,26 @@
                   data: {
                     'assembly_url' : parsedData["assembly_url"]
                   },
-                  dataType: 'script',
+                  dataType: 'json',
                   success: function(response){
+                    // uploaded_file.push( jQuery.parseJSON( response ) )
+                    
+                    console.log( response );
+                    // uploaded_file.push( response ) ;
+                    setTimeout(function(){ 
+                      checkTransloaditProcessing(response); 
+                      }, 3000);
+                      
+
                     uploaded_counter +=1 ;
                     $("#uploaded_counter").text(uploaded_counter);
+                    console.log("outside uploaded_file length is " + uploaded_file.length );
                     console.log("ajax request is done");
+                    console.log("gonna set the time out");
+                    
+                    // setTimeout(function(){ 
+                    //                checkTransloaditProcessing(uploaded_file); 
+                    //                }, 3000);
                   }
                 });
                 
