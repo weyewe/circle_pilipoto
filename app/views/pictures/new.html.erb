@@ -50,7 +50,29 @@
             
             
           </td>
-          <td style="text-align:center;"><a href="javascript:$('#file_upload').uploadifive('upload')" class="btn btn-primary" style="margin-left:20px;">Upload Files</a></td>
+          <td style="text-align:center;">
+            <a id="upload_starter" href="#" class="btn btn-primary" style="margin-left:20px;">Upload Files</a>
+            <%= image_tag PRELOADER_URL, :id => "preloader", :style => "display:none;" %>
+            <a id="upload_cancel" href="#" class="btn btn-danger" style="margin-left:20px; display:none;">Cancel Upload</a>
+            <br />
+            <table cellpadding="0" cellspacing="0" border="0" 
+                  class="table table-striped table-bordered" id="stat" style="margin-top:10px;">
+                <thead>
+                  <tr>
+                    <th style="text-align:center;">Selected</th>
+                    <th style="text-align:center;">Uploaded</th>
+                    <th style="text-align:center;">Processed</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style="text-align:center;" id="selected_counter">0</td>
+                    <td style="text-align:center;" id="uploaded_counter">0</td>
+                    <td style="text-align:center;" id="processed_counter">0</td>
+                  </tr>
+                </tbody>
+            </table>
+          </td>
         </tbody>
       </table>
       <br />
@@ -68,13 +90,28 @@
         <%= javascript_include_tag "jquery.uploadifive-v1.0.min"%>
         <script type="text/javascript">
           $(document).ready(function(){
-            // var uploadify_script_data = {};
-            //        var csrf_token = $('meta[name=csrf-token]').attr('content');
-            //        var csrf_param = $('meta[name=csrf-param]').attr('content');
-            //        console.log("the token is " + csrf_token);
-            //        console.log("The param is " + csrf_param);
-            // 
-            //  uploadify_script_data[csrf_token] = encodeURI(encodeURI(csrf_param));
+            
+            // upload starter
+            $("#upload_starter").click(function(){
+              $('#file_upload').uploadifive('upload');
+              $("#upload_cancel").show();
+              $("#preloader").show();
+              $("#upload_starter").hide();
+              return false;
+            });
+            
+            $("#upload_cancel").click(function(){
+              
+              
+              $("#upload_cancel").hide();
+              $("#preloader").hide();
+              $("#upload_starter").show();
+              $('#file_upload').uploadifive('clearQueue');
+              return false;
+            });
+            
+            
+            
             var params_value = $("#params").attr("value");
             var signature_value = $("#signature").attr("value");
             var wait_value = $("#wait").attr("value");
@@ -86,6 +123,10 @@
             //        'picture_id' : 54,
             //        'is_completed' : [0,1]
             //      }
+            
+            var selected_counter = 0 ;
+            var uploaded_counter = 0;
+            var processed_counter = 0 ;
             
             $('#file_upload').uploadifive({
               'auto' :false,
@@ -99,11 +140,33 @@
               'onFallback'   : function() {
                 alert('Please use the latest version of Google Chrome or Safari.');
               },
+              'onInit'       : function() {
+                console.log('Add the loader');
+              },
+              'onAddQueueItem' : function(file) {
+                console.log("file is added to the queue");
+                selected_counter += 1 ;
+                $("#selected_counter").text(selected_counter);
+              },
+              'onCancel'     : function() {
+                console.log("one file is cancelled");
+                selected_counter -= 1 ;
+                $("#selected_counter").text(selected_counter);
+              },
+
+                      
               // 'onSelect' : function(data) {
               //     alert(data.selected + ' files were added to the queue.');
               //   },
               'onQueueComplete' : function(uploads) {
                 console.log("Uploaded " + uploads.successful + " pictures");
+                // $('#file_upload').uploadifive('upload');
+                $("#upload_cancel").fadeOut();
+                $("#preloader").fadeOut();
+                $("#upload_starter").fadeIn();
+              },
+              'onClearQueue' : function(queue) {
+                console.log("queue is cleared");
               },
               
               'onUploadComplete' : function(file, data) {
@@ -123,11 +186,14 @@
                   },
                   dataType: 'script',
                   success: function(response){
-
+                    uploaded_counter +=1 ;
+                    $("#uploaded_counter").text(uploaded_counter);
                     console.log("ajax request is done");
                   }
                 });
                 
+                
+                // update the counter: file uploaded
                 
                 
               }
