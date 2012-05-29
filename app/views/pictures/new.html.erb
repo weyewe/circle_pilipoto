@@ -23,7 +23,7 @@
       <!-- form with uploadify -->
       
       <table cellpadding="0" cellspacing="0" border="0" 
-            class="table table-striped table-bordered" id="example">
+            class="table table-striped table-bordered" id="uploadifive_wrapper_table" style="display:none;">
           
         <tbody>
           <td>
@@ -90,6 +90,9 @@
         <%= javascript_include_tag "jquery.uploadifive-v1.0.min"%>
         <script type="text/javascript">
           $(document).ready(function(){
+            $("#uploadifive_wrapper_table").show();
+            
+            
             function checkTransloaditProcessing(uploaded_pic_object){
               $.ajax({
                 url: '<%= transloadit_status_for_picture_url %>',
