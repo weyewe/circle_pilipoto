@@ -280,11 +280,12 @@
                  console.log("Uploaded " + uploads.successful + " pictures");
                  // $('#file_upload').uploadifive('upload');
                  $("#upload_cancel").hide();
-                 $("#preloader").hide();
+                 
                  // $("#file_upload").uploadify('disable', false);
                  // $("#upload_starter").show();
                  
                  if( is_from_cancel == 1 ){
+                   $("#preloader").hide();
                    is_from_cancel = 0 ; 
                  }else{
                    $("#processing_images_notification").show();
@@ -299,7 +300,8 @@
                  $("#selected_counter").text(0);
                  $("#file_upload").uploadify('disable', false);
                  is_from_cancel = 1 ;
-                 
+                 window.location.reload(true);
+                 //  refresh
                },
 
                'onUploadSuccess' : function(file, data, response) {
