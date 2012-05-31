@@ -261,6 +261,14 @@ class Picture < ActiveRecord::Base
     return pic
   end
   
+  def Picture.assembled_pic_id_from( pic_id_list ) 
+    Picture.find(:all, :conditions => {
+      :id => pic_id_list, 
+      :is_completed => true 
+    }).map{|x| x.id }
+  end
+  
+  
   def transloadit_params
     content = open(self.assembly_url).read
 

@@ -28,15 +28,18 @@ class PicturesController < ApplicationController
   end
   
   def transloadit_status_for_picture
-    @picture = Picture.find_by_id( params[:picture_id])
+    # @picture = Picture.find_by_id( params[:picture_id])
+    array_of_assembled_pic_id = Picture.assembled_pic_id_from( params[:non_completed_pic_id_list].split(",").map{|x| x.to_i })
+      
+    
     
     respond_to do |format| 
       format.js do 
-        is_completed_result = 0 
-        if @picture.is_completed == true
-          is_completed_result= 1
-        end
-        render :json => {'picture_id' => @picture.id, 'is_completed' => is_completed_result}.to_json  
+        # is_completed_result = 0 
+        # if @picture.is_completed == true
+        #   is_completed_result= 1
+        # end
+        render :json => array_of_assembled_pic_id.to_json  
       end
     end
   end
