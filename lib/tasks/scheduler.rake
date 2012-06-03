@@ -3,6 +3,22 @@ task :call_page => :environment do
   uri = URI.parse('http://www.pilipoto.com/')
   Net::HTTP.get(uri)
   puts "this is it"
+end
+
+
+task :extract_transloadit_image => :environment do
+  total_pic_pending = Picture.find(:all, :conditions => {
+    :is_completed => false 
+  }).count
+  
+  if total_pic_pending > 0
+    Picture.find(:all, :conditions => {
+      :is_completed => false 
+    }).each do |pic|
+      pic.extract_from_assembly_url
+    end
+  end
+  
   
 end
 
