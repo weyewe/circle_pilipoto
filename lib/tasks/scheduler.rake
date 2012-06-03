@@ -6,24 +6,24 @@ task :call_page => :environment do
 end
 
 
-task :extract_transloadit_image => :environment do
-  total_pic_pending = Picture.find(:all, :conditions => {
-    :is_completed => false 
-  }).count
-  
-  if total_pic_pending > 0
-    puts "There are pending assembly_url"
-    Picture.find(:all, :conditions => {
-      :is_completed => false 
-    }).each do |pic|
-      pic.extract_from_assembly_url
-    end
-  else
-    puts "There are no pending assembly_url"
-  end
-  
-  
-end
+# task :extract_transloadit_image => :environment do
+#   total_pic_pending = Picture.find(:all, :conditions => {
+#     :is_completed => false 
+#   }).count
+#   
+#   if total_pic_pending > 0
+#     puts "There are pending assembly_url"
+#     Picture.find(:all, :conditions => {
+#       :is_completed => false 
+#     }).each do |pic|
+#       pic.extract_from_assembly_url
+#     end
+#   else
+#     puts "There are no pending assembly_url"
+#   end
+#   
+#   
+# end
 
 
 task :parse_uni => :environment do
