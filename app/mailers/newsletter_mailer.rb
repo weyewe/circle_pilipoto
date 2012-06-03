@@ -10,6 +10,7 @@ class NewsletterMailer < ActionMailer::Base
   
   
   def welcome_email
+    # NewsletterMailer.welcome_email.deliver
     mail(:to => "rajakuraemas@gmail.com", :subject => "Welcome to My Awesome Site")
   end
 

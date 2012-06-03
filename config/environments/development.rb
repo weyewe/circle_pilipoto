@@ -44,8 +44,8 @@ Neopilipoto::Application.configure do
     domain: "railscasts.com",
     authentication: "plain",
     enable_starttls_auto: true,
-    user_name: 'mailer@pilipoto.com',
-    password: 'mailer_pilipoto_1234P'
+    user_name: 'pilipoto_mailer@pilipoto.com',
+    password: 'pilipoto_mailer_1234P'
   }
   
   
