@@ -7,6 +7,9 @@ class UserActivity < ActiveRecord::Base
   # after_create :deliver_update
   
   
+  # in pilipoto, it is always linked with project. where can we create the project id ? 
+  # we have the project id.
+  
   
   def self.create_new_entry(event, actor, subject , secondary_subject)
     options = {}
@@ -209,6 +212,10 @@ a  = UserActivity.find(:first, :conditions => {
           puts ">>>>>>The email is #{recipient}\n"*5
           puts "The school delivery method is #{school.delivery_method}\n"*5
           
+          
+          
+          #  in pilipoto, everyone can set their own delivery method
+          # the default is real time. ahahha. 
           if recipient_user.has_role?(:teacher) && 
               school.delivery_method == NOTIFICATION_DELIVERY_METHOD[:scheduled]
             puts "Gonna create Polled Delivery\n"*5

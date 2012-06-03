@@ -54,6 +54,17 @@ class User < ActiveRecord::Base
     new_user.roles << standard_role
     new_user.save 
     
+    # def self.new_user_activity_for_new_comment( event_type, commenter, subject, secondary_subject )
+    #   UserActivity.create_new_entry(event_type , 
+    #                       commenter , 
+    #                       subject , 
+    #                       secondary_subject  )
+    # end
+    
+    
+    
+    
+    
     return new_user 
     # return new_user 
     # send the project invitation mail 
@@ -113,6 +124,8 @@ class User < ActiveRecord::Base
     user =  User.find_by_email email 
     
     #  if there is user, check the role as well
+    
+    
     
     if user.nil? 
       return User.create_and_confirm( email) 

@@ -102,7 +102,11 @@ class Project < ActiveRecord::Base
   
   
   def invite_project_collaborator( project_role, email )
+    # How can we edit the role? 
+    # later. now , ensure that we can send the email 
     
+    
+    # sending the pilipoto registration over here
     project_collaborator = User.find_or_create_and_confirm(email)
     
     
@@ -114,6 +118,7 @@ class Project < ActiveRecord::Base
     if not project_collaborator.valid?
       return project_collaborator 
     else
+      # sending the project role  assignment over here
       self.add_project_membership( project_role, project_collaborator )
       return project_collaborator
     end

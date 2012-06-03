@@ -70,10 +70,15 @@ class ProjectsController < ApplicationController
     end
     
     @new_user = @project.invite_project_collaborator( project_role , params[:user][:email])
+    # send email notification for the creation + for the role 
+    # if it is new user, send the password  + project invitation
+    # if it is old user, send the project invitation 
+    # solve this 
     
-    if  @new_user.valid?
+    # if  @new_user.valid?
       redirect_to  invite_member_for_project_url(@project)
-    end
+    # end
+    # give different error messages according to the shite
     
     add_breadcrumb "Select project", 'select_project_to_invite_member_path'
     set_breadcrumb_for @project, 'invite_member_for_project_path' + "(#{@project.id})", 
