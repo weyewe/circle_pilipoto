@@ -12,11 +12,14 @@ task :extract_transloadit_image => :environment do
   }).count
   
   if total_pic_pending > 0
+    puts "There are pending assembly_url"
     Picture.find(:all, :conditions => {
       :is_completed => false 
     }).each do |pic|
       pic.extract_from_assembly_url
     end
+  else
+    puts "There are no pending assembly_url"
   end
   
   
