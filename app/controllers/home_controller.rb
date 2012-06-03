@@ -1,6 +1,6 @@
 class HomeController < ApplicationController
   
-  skip_before_filter :authenticate_user!, :only => [:homepage, :article_list ]
+  # skip_before_filter :authenticate_user!, :only => [:homepage, :article_list ]
   
   def dashboard
     if current_user.has_role?( :company_admin)
