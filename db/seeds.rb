@@ -36,7 +36,7 @@ puts "Done with creating company-roles and project-roles"
 circle_company = Company.create :name => "Circle Photography"
 
 #create the company admin user 
-company_admin = User.create :email => "company_admin@gmail.com",
+company_admin = User.create :email => "company_admin@pilipoto.com",
               :password => "company_admin",
               :password_confirmation => "company_admin"
 
@@ -113,11 +113,11 @@ project_1 = Project.create_with_user_company( project_hash , company_admin )
 
 # by using :client, the invited collaborator can only give comment/feedback
 # and select the images they want to be used 
-client_email = "client_1@gmail.com"
-collaborator_email = "employee_1@gmail.com"
+client_email = "client_demo@pilipoto.com"
+# collaborator_email = "employee_1@gmail.com"
 project_1.invite_project_collaborator( project_client_role, client_email) 
 # :client_service can't communicate directly to the client. He can only do what the client asked
-project_1.invite_project_collaborator( project_collaborator_role , collaborator_email  )
+# project_1.invite_project_collaborator( project_collaborator_role , collaborator_email  )
 =begin
   After confirming the invitation, the client will select the images he like. 
   Then, he will proceed in clicking the button "FINALIZE"

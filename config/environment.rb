@@ -69,7 +69,12 @@ EVENT_TYPE  = {
   :create_project => 6 ,
   
   :submit_document_original => 100,
-  :submit_document_revision => 101
+  :submit_document_revision => 101,
+  
+  :add_new_user => 500, # not user activity.. just a registration 
+  :assign_project_role => 501,
+    
+  :done_with_picture_selection => 601
 }
 
 

@@ -25,7 +25,7 @@ gem "timeline_fu"
 gem 'airbrake'
 gem 'heroku'
 
-gem 'roadie' # for sending email 
+gem 'roadie', ">= 2.3.1"  # for sending email 
 
 gem "delayed_job_active_record", "~> 0.2.1" # delayed_job 
 gem 'hirefireapp'

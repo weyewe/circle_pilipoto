@@ -65,7 +65,7 @@ class PicturesController < ApplicationController
         params[:transloadit][:results][:resize_show], 
         params[:transloadit][:results][:resize_revision], 
         params[:transloadit][:results][:resize_article], 
-        params, params[:transloadit][:uploads] )
+        params, params[:transloadit][:uploads] , current_user )
     end 
     
     
@@ -253,12 +253,13 @@ class PicturesController < ApplicationController
     #   else
     #   end
     #   
-    # Picture.new_user_activity_for_grading(
-    #     EVENT_TYPE[:grade_picture],
-    #     current_user ,  #this is the teacher
-    #     @picture,  #picture being graded
-    #     @picture.project_submission.project   #the project where that picture belongs to 
-    #   )
+    Picture.new_user_activity_for_grading(
+        EVENT_TYPE[:grade_picture],
+        current_user ,  #this is the teacher
+        @picture,  #picture being graded
+        nil,
+        @picture.project   #the project where that picture belongs to 
+      )
     
     # create checking for the whole selections.. if all of them are approved, send notification to the owner 
     

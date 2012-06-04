@@ -71,11 +71,12 @@ class Comment < ActiveRecord::Base
   end
   
   
-  def self.new_user_activity_for_comment_reply( event_type, author, subject, secondary_subject )
+  def self.new_user_activity_for_comment_reply( event_type, author, subject, secondary_subject, project )
     UserActivity.create_new_entry(event_type , 
                         author , 
                         subject , 
-                        secondary_subject  )
+                        secondary_subject,
+                        project   )
   end
   
   

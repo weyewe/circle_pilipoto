@@ -105,9 +105,10 @@ class Project < ActiveRecord::Base
     # How can we edit the role? 
     # later. now , ensure that we can send the email 
     
+    # project_owner ?
     
     # sending the pilipoto registration over here
-    project_collaborator = User.find_or_create_and_confirm(email)
+    project_collaborator = User.find_or_create_and_confirm(email , self )
     
     
     
@@ -141,6 +142,15 @@ class Project < ActiveRecord::Base
     end
                 
     project_membership.add_roles( [project_role] )
+    UserActivity.create_new_entry(
+          EVENT_TYPE[:assign_project_role],
+          self.owner,  # actor 
+          project_collaborator ,  # subject 
+          project_role ,  # secondary subjet
+          self  # the project 
+    )
+    
+    
   end
   
   def get_project_membership_for( user )
@@ -213,6 +223,10 @@ class Project < ActiveRecord::Base
   
   def created_by?(user)
     self.owner_id == user.id 
+  end
+  
+  def owner
+    User.find_by_id self.owner_id 
   end
   
   def finalize
@@ -290,9 +304,29 @@ class Project < ActiveRecord::Base
     self.selected_original_pictures.count < self.picture_select_quota 
   end
   
-  def set_done_with_pic_selection
+  def set_done_with_pic_selection(user)
+    # if user.project_role != client_role 
+    #   return nil
+    # end
+    
+    if not user.has_project_role?( :client, self)
+      return nil 
+    end
+    
     self.done_with_selection  = true 
     self.save 
+    
+    UserActivity.create_new_entry(
+          EVENT_TYPE[:done_with_picture_selection],
+          user,  # actor 
+          self ,  # subject 
+          nil ,  # secondary subjet
+          self  # the project 
+    )
+    
+    
+    
+    #  create usre activity 
   end
   
   def cancel_done_with_pic_selection

@@ -42,9 +42,9 @@ class User < ActiveRecord::Base
   Inviting collaborator to the project 
   User.create_and_confirm_and_send_project_invitation( email, project_role_sym, project ) 
 =end
-  def User.create_and_confirm( email  ) 
+  def User.create_and_confirm( email , project  ) 
     new_user = User.new  :email => email 
-    temporary_password =  "willy1234" #UUIDTools::UUID.timestamp_create.to_s[0..7]
+    temporary_password =  UUIDTools::UUID.timestamp_create.to_s[0..7]
     
     new_user.password = temporary_password
     new_user.password_confirmation = temporary_password
@@ -54,21 +54,15 @@ class User < ActiveRecord::Base
     new_user.roles << standard_role
     new_user.save 
     
-    # def self.new_user_activity_for_new_comment( event_type, commenter, subject, secondary_subject )
-    #   UserActivity.create_new_entry(event_type , 
-    #                       commenter , 
-    #                       subject , 
-    #                       secondary_subject  )
-    # end
-    
-    
-    
-    
-    
+
+    User.delay.send_new_registration_notification( new_user , temporary_password, project)
+
+ 
     return new_user 
-    # return new_user 
-    # send the project invitation mail 
-    
+  end
+  
+  def User.send_new_registration_notification( new_user, new_password, project)
+    NewsletterMailer.notify_new_user_registration( new_user, new_password, project ).deliver
   end
 
 
@@ -76,6 +70,43 @@ class User < ActiveRecord::Base
     puts "Hey ya baby, we have created the new user. Please log in"
   end
   
+  def change_email_admin( new_email )
+    password  = UUIDTools::UUID.timestamp_create.to_s[0..7]
+    self.email = new_email
+    self.password = password
+    self.password_confirmation = password
+    self.save
+    
+    
+    User.delay.send_reset_login_info( self, password  )
+  end
+  
+  def reset_password
+    password  = UUIDTools::UUID.timestamp_create.to_s[0..7]
+    self.password = password
+    self.password_confirmation = password
+    self.save
+    User.delay.send_reset_login_info( self, password  )
+  end
+  
+  def User.send_reset_login_info( new_user, new_password )
+    NewsletterMailer.notify_reset_login_info( new_user, new_password ).deliver
+  end
+  
+  
+=begin
+  Project Role
+=end
+  def has_project_role?( project_role_sym, project)
+    project_membership = ProjectMembership.find(:first, :conditions => {
+      :project_id => project.id, 
+      :user_id => self.id 
+    })
+    
+    project_membership.has_project_role?(project_role_sym)
+  end
+
+
 =begin
   Role assignment related 
 =end
@@ -120,7 +151,7 @@ class User < ActiveRecord::Base
   Related with project 
 =end
   
-  def User.find_or_create_and_confirm(email )
+  def User.find_or_create_and_confirm(email , project )
     user =  User.find_by_email email 
     
     #  if there is user, check the role as well
@@ -128,7 +159,7 @@ class User < ActiveRecord::Base
     
     
     if user.nil? 
-      return User.create_and_confirm( email) 
+      return User.create_and_confirm( email, project) 
     else
       return user
     end

@@ -134,7 +134,8 @@ class ProjectsController < ApplicationController
   
   def execute_project_selection_done
     @project = Project.find_by_id( params[:project_id] )
-    @project.set_done_with_pic_selection
+    #  reject if current_uses's project role is not client 
+    @project.set_done_with_pic_selection( current_user ) 
     
     respond_to do |format|
       format.html {  redirect_to root_url } 

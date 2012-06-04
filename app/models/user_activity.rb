@@ -11,7 +11,7 @@ class UserActivity < ActiveRecord::Base
   # we have the project id.
   
   
-  def self.create_new_entry(event, actor, subject , secondary_subject)
+  def self.create_new_entry(event, actor, subject , secondary_subject, project)
     options = {}
     options[:event_type] = event 
     options[:actor_type] = actor.class.to_s
@@ -19,6 +19,7 @@ class UserActivity < ActiveRecord::Base
     
     options[:subject_type] = subject.class.to_s
     options[:subject_id]  = subject.id 
+    options[:project_id] = project.id
     
     if not secondary_subject.nil?
       # for example: willy replied on your comment -> 
@@ -31,7 +32,7 @@ class UserActivity < ActiveRecord::Base
     # puts "Gonna create in create_new_entry\n"*10
     result = self.create( options ) 
      # puts "Done creation, gonna send update now \n"*10
-    result.deliver_update
+    # result.deliver_update
     
     return result 
     

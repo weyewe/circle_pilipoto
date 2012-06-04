@@ -318,7 +318,7 @@ class Picture < ActiveRecord::Base
 
   def self.extract_uploads(resize_original, resize_index , resize_show, resize_revision, 
     resize_article,
-    params, uploads )
+    params, uploads , current_user  )
     project = Project.find_by_id(params[:project_id] )
 
     new_picture = ""
@@ -460,10 +460,12 @@ class Picture < ActiveRecord::Base
       new_picture.save
 
       # #  for the UserActivity
-      #    UserActivity.create_new_entry(EVENT_TYPE[:submit_picture_revision], 
-      #                       project_submission.user , 
-      #                       new_picture , 
-      #                       original_picture  )
+         UserActivity.create_new_entry(
+                            EVENT_TYPE[:submit_picture_revision], 
+                            current_user ,  #actor
+                            original_picture ,   # first subject 
+                            new_picture, # secondary subject
+                            new_picture.project   )
       # 
       #   project_submission.update_submission_data( new_picture )
     end
@@ -474,11 +476,12 @@ class Picture < ActiveRecord::Base
     return new_picture
   end
 
-  def self.new_user_activity_for_grading( event_type, grader, subject, secondary_subject )
+  def self.new_user_activity_for_grading( event_type, grader, subject, secondary_subject, project )
     UserActivity.create_new_entry(event_type , 
                         grader , 
                         subject , 
-                        secondary_subject  )
+                        secondary_subject,
+                        project  )
   end
 
 =begin

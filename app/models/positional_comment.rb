@@ -9,11 +9,11 @@ class PositionalComment < ActiveRecord::Base
     @root_comment.create_comment_position( params[:x1], params[:y1], params[:x2], params[:y2] ,  picture)
   end
   
-  def self.new_user_activity_for_new_comment( event_type, commenter, subject, secondary_subject )
+  def self.new_user_activity_for_new_comment( event_type, commenter, subject, secondary_subject, project )
     UserActivity.create_new_entry(event_type , 
                         commenter , 
                         subject , 
-                        secondary_subject  )
+                        secondary_subject, project   )
   end
   
   

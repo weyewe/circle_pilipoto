@@ -1,6 +1,6 @@
 class NewsletterMailer < ActionMailer::Base
   # helper UserActivityMailerHelper
-  default :css => :bootstrap_email , from: "admin@potoschool.com"
+  default from: "pilipoto_mailer@pilipoto.com"
 
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
@@ -28,17 +28,26 @@ class NewsletterMailer < ActionMailer::Base
   end
   
   
-  def notify_new_user_registration( user , password ) 
+  def notify_new_user_registration( user , password , project) 
     @password = password 
     @user = user 
-    @school = user.get_enrolled_school
+    @project =  project
     
     mail( :to  => user.email, 
-    :subject => "potoSchool | Pendaftaran #{@school.name}  " ,
-     :bcc => ["rajakuraemas@gmail.com", "christian@potoschool.com"] )
+    :subject => "pilipoto | Registrasi project #{@project.title}  " ,
+     :bcc => ["rajakuraemas@gmail.com", "christian@potoschool.com"],
+     :css => [:bootstrap_email] )
     
-    # mail( :to  => "w.yunnal@potoschool.com", 
-    #    :subject => "potoSchool | Pendaftaran #{@school.name}  " )
+  end
+  
+  def notify_reset_login_info( new_user, new_password )
+    @password = new_password 
+    @user = new_user 
+    
+    mail( :to  => @user.email, 
+    :subject => "pilipoto | Reset  Password",
+     :bcc => ["rajakuraemas@gmail.com", "christian@potoschool.com"],
+     :css => [:bootstrap_email] )
   end
   
   # notify course registration
