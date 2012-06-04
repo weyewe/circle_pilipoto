@@ -7,6 +7,7 @@ Neopilipoto::Application.routes.draw do
   match 'works' => "home#article_list", :as => :past_works
   
   match 'dashboard'           => 'home#dashboard'  , :as => :dashboard
+  match 'raise_exception' => 'home#raise_exception', :as => :raise_exception 
  
   
   resources :projects do 
