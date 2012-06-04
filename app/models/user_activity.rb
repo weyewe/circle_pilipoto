@@ -32,7 +32,7 @@ class UserActivity < ActiveRecord::Base
     # puts "Gonna create in create_new_entry\n"*10
     result = self.create( options ) 
      # puts "Done creation, gonna send update now \n"*10
-    # result.deliver_update
+    result.deliver_update
     
     return result 
     
@@ -61,7 +61,11 @@ class UserActivity < ActiveRecord::Base
     extraction_id = "#{symbol}_id"
     
     extraction_class = eval( "self." + "#{extraction_type}")
+    
     extraction_id = eval( "self." + "#{extraction_id}" )
+    if extraction_class.nil? or extraction_id.nil?
+      return nil
+    end
     command = "#{extraction_class}" + "." + "find_by_id(#{extraction_id})"
     puts command 
     object =   eval( command )
@@ -85,11 +89,22 @@ a  = UserActivity.find(:first, :conditions => {
   
   
   def extract_recipient
+    
     @actor = self.extract_object :actor
     @subject = self.extract_object :subject
     @secondary_subject = self.extract_object :secondary_subject
+    @project = Project.find_by_id self.project_id 
     
+    puts "the actor is #{self.actor_type}  "
+    puts "the actor is #{actor}"
+    
+    
+    puts "The subject is #{@subject}"
+    puts "The secondary_subject is #{@secondary_subject}"
+    puts "The project is #{@project}"
     case self.event_type
+  
+        
     when EVENT_TYPE[:create_comment]
       # actor is the teacher # wrong .. actor is the user, can be teacher or student 
       # subject is the comment 
@@ -97,90 +112,83 @@ a  = UserActivity.find(:first, :conditions => {
       # @user = @secondary_subject.project_submission.user 
       #       return [@user.email ]
       
-      if @actor.has_role?(:student)
-        #student make comment for the teacher
-        @course = @secondary_subject.project_submission.project.course 
-        return [ CourseTeachingAssignment.find(:first, :conditions => {
-                         :course_id => @course.id,
-                         :is_active => true 
-                       }).user.email ]
-                       
-      elsif @actor.has_role?(:teacher)
-        #teacher make comment for the student 
-        @user = @secondary_subject.project_submission.user 
-        return [@user.email ]
+ 
+      project_membership_list = []
+      @project.project_memberships.each do |project_membership|
+        if project_membership.user_id == @actor.id
+          next
+        else
+          project_membership_list << project_membership
+        end
       end
+                    
+      email_list = project_membership_list.map do |project_membership|
+        project_membership.user.email 
+      end
+
+      return email_list
+                       
+ 
     when EVENT_TYPE[:reply_comment]
-      # actor is the user, can be teacher or student   
-      # the subject is the comment itself 
-      # the  secondary_subject is the picture
-      if @actor.has_role?(:student)
-        #we have to get the teacher 
-        @course = @secondary_subject.project_submission.project.course 
-        # if 2 teachers are handling 1 class, use this method
-        # @teachers  = CourseTeachingAssignment.find(:a, :conditions => {
-        #          :course_id => @course.id,
-        #          :is_active => true 
-        #        }).map {|x|   x.user.email }
-        #        
-        #        return teachers
-        
-        
-        
-        return [ CourseTeachingAssignment.find(:first, :conditions => {
-                         :course_id => @course.id,
-                         :is_active => true 
-                       }).user.email ] 
-        
-      elsif @actor.has_role?(:teacher)
-        @user = @secondary_subject.project_submission.user
-        return  [@user.email  ]
-      else
-        return [ "rajakuraemas@gmail.com" ]
-      end  
       
+      project_membership_list = []
+      @project.project_memberships.each do |project_membership|
+        if project_membership.user_id == @actor.id
+          next
+        else
+          project_membership_list << project_membership
+        end
+      end
+                    
+      email_list = project_membership_list.map do |project_membership|
+        project_membership.user.email 
+      end
+
+      return email_list
       
     when EVENT_TYPE[:submit_picture] 
-      # actor is the uploader (student ) 
-      # subject  is the uploaded picture  itself 
-      # secondary_subject is the project
-      @course = @secondary_subject.course
-      @teacher = CourseTeachingAssignment.find(:first, :conditions => {
-        :course_id => @course.id
-      }).user
-      
-      return [@teacher.email ] 
-      
+      # nope, we are not updating the initial picture submit 
       
     when EVENT_TYPE[:submit_picture_revision]
-      # actor is the student (uploader)
+      # actor is the  (uploader) -> employee or company admin 
       # subject is the new uploaded picture 
       # secondary_subject is the original_picture
       
-      @course = @secondary_subject.project_submission.project.course
-      
-      # original_picture.project_submission.project.course
-      
-      @teacher = CourseTeachingAssignment.find(:first, :conditions => {
-        :course_id => @course.id
-        }).user
+      project_membership_list = []
+      @project.project_memberships.each do |project_membership|
+        if project_membership.user_id == @actor.id
+          next
+        else
+          project_membership_list << project_membership
+        end
+      end
+                    
+      email_list = project_membership_list.map do |project_membership|
+        project_membership.user.email 
+      end
 
-      return [@teacher.email]
+      return email_list
+      
+      
       
     when EVENT_TYPE[:grade_picture]
-      # actor is the teacher
-      # subject is the picture being graded
-      # secondary_subject is the project
-      @student = @subject.project_submission.user 
-      return [@student.email ]
+      project_membership_list = []
+      @project.project_memberships.each do |project_membership|
+        if project_membership.user_id == @actor.id
+          next
+        else
+          project_membership_list << project_membership
+        end
+      end
+                    
+      email_list = project_membership_list.map do |project_membership|
+        project_membership.user.email 
+      end
+
+      return email_list
                      
     when EVENT_TYPE[:create_project]
-      # actor is teacher (project_creator)
-      # subject is the project being created
-      # seconadary_subject is the course
-      @students = @secondary_subject.students
-      collection_of_students_email = @students.map {|x| x.email }
-      return collection_of_students_email
+      # 
     else
     end
     
@@ -206,31 +214,33 @@ a  = UserActivity.find(:first, :conditions => {
         end
       
         recipients.each do |recipient| 
-          #  if  recipient == teacher , don't send.
-          recipient_user = User.find_by_email recipient 
-          school  = recipient_user.get_managed_school
           
-          puts ">>>>>>The email is #{recipient}\n"*5
-          puts "The school delivery method is #{school.delivery_method}\n"*5
-          
-          
-          
-          #  in pilipoto, everyone can set their own delivery method
-          # the default is real time. ahahha. 
-          if recipient_user.has_role?(:teacher) && 
-              school.delivery_method == NOTIFICATION_DELIVERY_METHOD[:scheduled]
-            puts "Gonna create Polled Delivery\n"*5
-            PolledDelivery.create :user_activity_id => self.id , 
-                                  :recipient_email => recipient,
-                                  :notification_raised_datetime => DateTime.now
-          elsif ( recipient_user.has_role?(:teacher ) && 
-                  school.delivery_method == NOTIFICATION_DELIVERY_METHOD[:instant] )  or 
-                ( recipient_user.has_role?(:student) )
-                
-                puts "****Gonna create the realtime \n"*5
-            NewsletterMailer.activity_update( recipient , Time.now, self).deliver
-            
-          end
+          NewsletterMailer.activity_update( recipient , Time.now, self).deliver
+          # #  if  recipient == teacher , don't send.
+          # recipient_user = User.find_by_email recipient 
+          # school  = recipient_user.get_managed_school
+          # 
+          # puts ">>>>>>The email is #{recipient}\n"*5
+          # puts "The school delivery method is #{school.delivery_method}\n"*5
+          # 
+          # 
+          # 
+          # #  in pilipoto, everyone can set their own delivery method
+          # # the default is real time. ahahha. 
+          # if recipient_user.has_role?(:teacher) && 
+          #     school.delivery_method == NOTIFICATION_DELIVERY_METHOD[:scheduled]
+          #   puts "Gonna create Polled Delivery\n"*5
+          #   PolledDelivery.create :user_activity_id => self.id , 
+          #                         :recipient_email => recipient,
+          #                         :notification_raised_datetime => DateTime.now
+          # elsif ( recipient_user.has_role?(:teacher ) && 
+          #         school.delivery_method == NOTIFICATION_DELIVERY_METHOD[:instant] )  or 
+          #       ( recipient_user.has_role?(:student) )
+          #       
+          #       puts "****Gonna create the realtime \n"*5
+          #   NewsletterMailer.activity_update( recipient , Time.now, self).deliver
+          #   
+          # end
           # NewsletterMailer.activity_update( recipient , Time.now, self).deliver
         end
     end

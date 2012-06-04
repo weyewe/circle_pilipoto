@@ -50,6 +50,26 @@ class NewsletterMailer < ActionMailer::Base
      :css => [:bootstrap_email] )
   end
   
+  def send_ready_to_be_finalized_notification(project)
+    @project = project
+    @receiver = @project.owner 
+    
+    mail( :to  => @receiver.email, 
+    :subject => "pilipoto | Ready To Be Finalized: #{@project.title}",
+     :bcc => ["rajakuraemas@gmail.com", "christian@potoschool.com"],
+     :css => [:bootstrap_email] )
+  end
+  
+  def send_done_selection_notification(project)
+    @project = project
+    @receiver = @project.owner 
+    
+    mail( :to  => @receiver.email, 
+    :subject => "pilipoto | Client Selection Done: #{@project.title}",
+     :bcc => ["rajakuraemas@gmail.com", "christian@potoschool.com"],
+     :css => [:bootstrap_email] )
+  end
+  
   # notify course registration
   def notify_course_registration( user , course ) 
     @course = course
@@ -79,11 +99,17 @@ class NewsletterMailer < ActionMailer::Base
 =end
   
   def activity_update(email, time, user_activity )
+    # @actor = user_activity.extract_object(:actor)
+    #  @subject_object = user_activity.extract_object(:subject)
+    # 
+    #  @secondary_subject = user_activity.extract_object(:secondary_subject)
+    #  @event_type = user_activity.event_type
+    #  @project
     extract_params(user_activity) 
     @user_activity = user_activity
     
     mail( :to  => email, 
-    :subject => "potoSchool | Tarumanegara Updates new #{time}", 
+    :subject => "piliPoto | Activity Update: #{time}", 
     :bcc => ["rajakuraemas@gmail.com", "christian@potoschool.com"] )
     
     user_activity.mark_notification_sent 
@@ -119,6 +145,7 @@ class NewsletterMailer < ActionMailer::Base
 
     @secondary_subject = user_activity.extract_object(:secondary_subject)
     @event_type = user_activity.event_type
+    @project = Project.find_by_id user_activity.project_id 
   end
   
   def send_statistic(course, subject)

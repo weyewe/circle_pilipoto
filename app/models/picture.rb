@@ -463,8 +463,8 @@ class Picture < ActiveRecord::Base
          UserActivity.create_new_entry(
                             EVENT_TYPE[:submit_picture_revision], 
                             current_user ,  #actor
-                            original_picture ,   # first subject 
-                            new_picture, # secondary subject
+                            new_picture ,   # first subject 
+                            original_picture, # secondary subject
                             new_picture.project   )
       # 
       #   project_submission.update_submission_data( new_picture )
@@ -504,6 +504,7 @@ class Picture < ActiveRecord::Base
       project= self.project
       if project.ready_to_be_finalized? 
         puts "gonna send email 3321. And the picture of the selected"
+        Project.delay.send_ready_to_be_finalized_email(project)
         # but, no finalization. finalization required the User to select. 
       end
     elsif action == REJECT_SUBMISSION
@@ -511,11 +512,4 @@ class Picture < ActiveRecord::Base
       self.save
     end
   end
-  
-  
-  
-  
-
-
-
 end

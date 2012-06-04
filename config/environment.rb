@@ -11,7 +11,7 @@ Neopilipoto::Application.initialize!
 #   :employee => "Employee", 
 #   :client => "Client"
 # }
-
+SNIFFING = 1 
 ROLE_MAP = {
   :company_admin => "CompanyAdmin",
   :standard => "Standard"

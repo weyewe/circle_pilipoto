@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> -->
+
+    <!-- <meta charset="utf-8"> -->
+    <title>piliPoto | Photography Project Collaboration Tool</title>
+    <!-- <meta name="description" content="">
+      <meta name="author" content="">
+    
+       
+       <meta name="google-site-verification" content="p7DB-AfmjgGOsgsKnCe2viT1xmQ9xrBwhy62C3kd91I" /> -->
+     
+     
+      
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+   
+    
+    
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="<%=asset_path "favicon.ico"%>">
+    <link rel="apple-touch-icon" href="http://twitter.github.com/bootstrap/examples/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="http://twitter.github.com/bootstrap/examples/images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="http://twitter.github.com/bootstrap/examples/images/apple-touch-icon-114x114.png">
+  
+    <%#= stylesheet_link_tag    "bootstrap_email" %>
+    <%#= yield :additional_css %>
+</head>
+<body>
+  
+  
+  
+  <div class="container" style="padding-top:0;">
+    <!-- Main hero unit for a primary marketing message or call to action -->
+    <div class="hero-unit">
+      <h1>Ready to be Finalized</h1>
+      <h3>Project: <b><%= @project.title %></b></h3>
+    </div>
+    
+    <p>
+      Project <%= @project.title %> sudah dapat difinalisasi. 
+    </p>
+    
+    
+    
+    <div class="row">
+      
+      <table cellpadding="0" cellspacing="0" border="0" 
+            class="table table-striped table-bordered" id="example">
+        <thead>
+          <tr>
+            <th colspan="2">Detail Statistic</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>Total Original Images</b></td>
+            <td><%= @project.pictures.where(:is_original => true , :is_deleted => false).count %></td>
+          </tr>
+          
+          <tr>
+            <td><b>Total Revisions</b></td>
+            <td><%= @project.pictures.where(:is_original => false, :is_deleted => false).count %></td>
+          </tr>
+          
+          <tr>
+            <td><b>Total Selected</b></td>
+            <td><%= @project.picture_select_quota %></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <hr />
+    
+    
+    <div class="row">
+      
+      <table cellpadding="0" cellspacing="0" border="0" 
+            class="table table-striped table-bordered" id="example">
+        <thead>
+          <tr>
+            <th colspan="3">Approved Pictures</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% count = 1 %>
+          <%  @project.approved_selected_files.each do |pic| %>
+            <tr>
+              <td><%= count %></td>
+              <td><%= image_tag pic.index_image_url %></td>
+              <td><%= pic.name  %></td>
+            </tr>
+            <% count = count + 1 %>
+          <% end %>
+  
+        </tbody>
+      </table>
+    </div>
+    <hr />
+    
+    
+    <!-- <p>
+      Tutorial untuk menggunakan piliPoto dapat didownload dari link berikut ini: <a href="<%#= POTOSCHOOL_TUTORIAL_URL %>"> CLICK HERE </a>.
+    </p> -->
+    
+    <p>
+      Jika ada pertanyaan, silakan kontak kami di <b>admin@pilipoto.com</b>. 
+    </p>
+    
+   <!--     <p>
+         Untuk login ke applikasi piliPoto, silakan kunjungi <b><a href="http://www.pilipoto.com"> pilipoto.com</a></b>, dengan menggunakan login dan password berikut ini: 
+       </p> -->
+
+    
+ 
+    
+    <footer>
+      <p>&copy; poto 2011 - <%= Time.now.year %></p>
+    </footer>
+
+  </div>
+
+</body>
+</html>
+
+

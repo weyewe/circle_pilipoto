@@ -48,14 +48,20 @@
       
 
       <% if @user_activity.event_type == EVENT_TYPE[:create_comment] %>
-      <!-- # actor is the teacher 
+      <!-- # actor is the creator 
                     # subject is the comment 
                     # secondary subject is the picture -->
+  
         <div class="row">
           
-          <% title = "#{@actor.name} telah meninggalkan feedback di file untuk" + 
-                " project #{@secondary_subject.project_submission.project.title }" %>
           
+          <% if @actor.has_project_role?(:client, @project)%>
+            <% title = "Client telah meninggalkan feedback di file untuk" + 
+                " project: #{@project.title }" %>
+          <% else %>
+            <% title = "Employee telah meninggalkan feedback di file untuk" + 
+                " project: #{@project.title }" %>
+          <% end %>
           <!-- <h3>This is the one for EVENT_TYPE[:create_comment]</h3> -->
           <h3><%= title.html_safe %></h3>
           <table>
@@ -70,10 +76,10 @@
               </tr>
             </tbody>
           </table>
-          <!-- Recipient is the student. so, show_url  -->
+          <!-- Recipient is the client, company_admin, or employee are using the same collaboration page. so, show_url  -->
           <p>
             <%= link_to "See Details",
-             project_submission_picture_url(@secondary_subject.project_submission, @secondary_subject)%>
+            show_picture_for_feedback_url( @secondary_subject.last_revision ) %>
           </p>
         </div><hr />
         
@@ -84,9 +90,13 @@
                   # the subject is the comment itself 
                   # the  secondary_subject is the picture -->
           
-        <% title = "#{@actor.name} meninggalkan comment di diskusi untuk "  + 
-                    " project #{@secondary_subject.project_submission.project.title}" %>
-      
+        <% if @actor.has_project_role?(:client, @project)%>
+          <% title = "Client telah meninggalkan feedback di file untuk" + 
+              " project: #{@project.title }" %>
+        <% else %>
+          <% title = "Employee telah meninggalkan feedback di file untuk" + 
+              " project: #{@project.title }" %>
+        <% end %>
         <div class="row">
           <!-- <h3>This is the feed for EVENT_TYPE[:reply_comment]</h3> -->
           <h3><%= title.html_safe %></h3>
@@ -107,23 +117,7 @@
             </tbody>
           </table>
         
-          <p>
-            <% if @actor.has_role?(:teacher) %>
-              <!-- the recipient is gonna be the student  -->
-              <%= link_to "See Details",
-               project_submission_picture_url(@secondary_subject.project_submission, @secondary_subject)%>
-            <% elsif @actor.has_role?(:student)%>
-            <!-- the recipient is gonna be the teacher  -->
-              <%= link_to "See Details",
-               grade_project_submission_picture_url(@secondary_subject)%>
-            <% end %>
-            
-            
-             
-             
-            
-            <!-- <a href="#" class="btn">Lihat Gambar »</a> -->
-          </p>
+         
         </div><hr />
       
       
@@ -135,7 +129,8 @@
           # secondary_subject is the project -->
        
        
-        <% title = "#{@actor.name} telah mengupload sebuah file untuk project #{@secondary_subject.title}."%>
+        <% title = "Karyawan telah mengupload sebuah file untuk project #{@secondary_subject.title}."%>
+        
         <div class="row">
           <!-- <h3>This is the feed for EVENT_TYPE[:submit_picture].</h3> -->
           <h3><%= title %></h3>
@@ -150,10 +145,10 @@
       <% elsif @user_activity.event_type == EVENT_TYPE[:submit_picture_revision] %>
       
         <!-- # actor is the student (uploader)
-                               # subject is the new uploaded picture 
-                               # secondary_subject is the original_picture  -->
-        <% title = "#{@actor.name} telah mengupload sebuah file revisi " + 
-                " untuk project #{@subject_object.project_submission.project.title}."%>
+             # subject is the new uploaded picture 
+             # secondary_subject is the original_picture  -->
+        <% title = "Karyawan telah mengupload sebuah file revisi " + 
+                " untuk project #{@project.title}."%>
         <div class="row">
           <!-- <h3>This is the feed for EVENT_TYPE[:submit_picture_revision].</h3> -->
           <h3><%= title %></h3>
@@ -178,8 +173,7 @@
           </table>
           <p>
             
-            <%= link_to "See Details",
-             grade_project_submission_picture_url(@subject_object)%>
+            <%= link_to "See Details", show_picture_for_feedback_url( @subject_object ) %>
              
             <%#= link_to "See Details",
              project_submission_picture_url(@subject_object.project_submission, @subject_object)%>
@@ -194,7 +188,7 @@
                     # subject is the picture being graded
                     # secondary_subject is the project -->
       
-        <% title = "Guru #{@actor.name} menilai gambar untuk project #{@secondary_subject.title} "%>
+        <% title = "Client menilai gambar untuk project #{@project.title} "%>
         <div class="row">
           <!-- <h3>This is the feed for EVENT_TYPE[:grade_picture].</h3> -->
           <h3><%= title  %></h3>
@@ -202,7 +196,7 @@
             <thead>
               <tr>
                 <th>Image</th>
-                <th>Score</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -227,8 +221,7 @@
 
 
           <p>
-            <%= link_to "See Details",
-             project_submission_picture_url(@subject_object.project_submission, @subject_object)%>
+            <%= link_to "See Details", show_picture_for_feedback_url( @subject_object ) %>
             <!-- <a href="#" class="btn">View details »</a> -->
           </p>
         </div><hr />

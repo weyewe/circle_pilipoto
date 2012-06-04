@@ -142,13 +142,15 @@ class Project < ActiveRecord::Base
     end
                 
     project_membership.add_roles( [project_role] )
-    UserActivity.create_new_entry(
-          EVENT_TYPE[:assign_project_role],
-          self.owner,  # actor 
-          project_collaborator ,  # subject 
-          project_role ,  # secondary subjet
-          self  # the project 
-    )
+    # this part is not user activity. not in the collaboration loop
+    # send a special email, saying that the guy has been invited
+    # UserActivity.create_new_entry(
+    #       EVENT_TYPE[:assign_project_role],
+    #       self.owner,  # actor 
+    #       project_collaborator ,  # subject 
+    #       project_role ,  # secondary subjet
+    #       self  # the project 
+    # )
     
     
   end
@@ -254,6 +256,15 @@ class Project < ActiveRecord::Base
     end
   end
   
+  
+  def approved_selected_files
+    self.original_pictures.where{
+          ( approved_revision_id.not_eq  nil)  & 
+          ( is_deleted.eq false)
+      }.map{|x| x.last_revision }
+  end
+  
+  
   def approved_selected_files_count
     self.original_pictures.where{
           ( approved_revision_id.not_eq  nil)  & 
@@ -262,10 +273,7 @@ class Project < ActiveRecord::Base
   end
   
   def revisions_count
-    self.original_pictures.where{
-          ( is_original.eq  false)  & 
-          ( is_deleted.eq false)
-      }.count
+    self.pictures.where(:is_original => false, :is_deleted => false ).count
   end
   
 =begin
@@ -316,17 +324,20 @@ class Project < ActiveRecord::Base
     self.done_with_selection  = true 
     self.save 
     
-    UserActivity.create_new_entry(
-          EVENT_TYPE[:done_with_picture_selection],
-          user,  # actor 
-          self ,  # subject 
-          nil ,  # secondary subjet
-          self  # the project 
-    )
+    # UserActivity.create_new_entry(
+    #       EVENT_TYPE[:done_with_picture_selection],
+    #       user,  # actor 
+    #       self ,  # subject 
+    #       nil ,  # secondary subjet
+    #       self  # the project 
+    # )
     
-    
-    
-    #  create usre activity 
+    #  send the email, listing all the images selected
+    Project.delay.send_done_selection_notification( self ) 
+  end
+  
+  def Project.send_done_selection_notification( project) 
+    NewsletterMailer.send_done_selection_notification(project).deliver
   end
   
   def cancel_done_with_pic_selection
@@ -338,6 +349,13 @@ class Project < ActiveRecord::Base
     self.done_with_selection == true 
   end
   
+  
+  
+  
+  def Project.send_ready_to_be_finalized_email( project) 
+    NewsletterMailer.send_ready_to_be_finalized_notification(project).deliver
+    # NewsletterMailer.notify_reset_login_info( new_user, new_password ).deliver
+  end
   
 =begin
   integration with article

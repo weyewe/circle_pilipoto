@@ -262,6 +262,8 @@ class PicturesController < ApplicationController
       )
     
     # create checking for the whole selections.. if all of them are approved, send notification to the owner 
+    # Project.check_finalization_completion( @picture.project )
+    # Project.trigger_all_pictures_finalized_notification
     
     respond_to do |format|
       format.html {  redirect_to project_submission_picture_path(@picture ,@picture) }
