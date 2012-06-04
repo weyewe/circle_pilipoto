@@ -42,6 +42,23 @@ class User < ActiveRecord::Base
   Inviting collaborator to the project 
   User.create_and_confirm_and_send_project_invitation( email, project_role_sym, project ) 
 =end
+  def User.create_company_admin(email, password)
+    if password.nil?
+      password = UUIDTools::UUID.timestamp_create.to_s[0..7]
+    end
+    
+    if not User.find_by_email(email).nil?
+      return nil
+    end
+    
+    new_company_admin = User.create(:email => email, :password => password, :password_confirmation => password)
+    
+    company_admin_role = Role.find_by_name(  ROLE_MAP[:company_admin] )
+    
+    new_company_admin.roles << company_admin_role
+    company_admin.save
+  end
+
   def User.create_and_confirm( email , project  ) 
     new_user = User.new  :email => email 
     temporary_password =  UUIDTools::UUID.timestamp_create.to_s[0..7]

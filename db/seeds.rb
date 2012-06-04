@@ -43,6 +43,8 @@ company_admin = User.create :email => "company_admin@pilipoto.com",
 company_admin.roles << company_admin_role
 company_admin.save 
 
+# User.create_company_admin
+
 employee_1 = User.create :email => "employee_1@gmail.com",
               :password => "employee_1",
               :password_confirmation => "employee_1"
