@@ -22,8 +22,9 @@ gem 'awesome_print'
 gem "squeel" 
 gem "timeline_fu"
 
-gem 'airbrake'
+# gem 'airbrake'
 gem 'heroku'
+gem 'exceptional'
 
 gem 'roadie', ">= 2.3.1"  # for sending email 
 
