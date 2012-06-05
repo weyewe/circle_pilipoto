@@ -25,6 +25,7 @@ class Project < ActiveRecord::Base
 =begin
   Project Creation
 =end
+# self.create_with_user_company( project_hash , current_user, company )
   def self.create_with_user_company( project_hash , current_user )
     if not current_user.has_role?(:company_admin)
       return false

@@ -77,6 +77,9 @@ EVENT_TYPE  = {
   :done_with_picture_selection => 601
 }
 
+# grade_pic_events = UserActivity.find(:all, :conditions =>  { :event_type => EVENT_TYPE[:grade_picture],
+#   :is_notification_sent => false 
+# })
 
 
 

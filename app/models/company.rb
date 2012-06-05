@@ -9,16 +9,20 @@ class Company < ActiveRecord::Base
   def create_company_admin(email, password)
     #  enrollment? 
     # create users
+    
+    #  company admin can't be enrolled in 2 companies 
+    
+    # actually, it is not a problem
+    # in the project creation, they can select the company 
+    
     admin = User.create_company_admin(email, password)
-    if not admin.nil?  and not self.has_enrolled?(admin)
+    if not admin.nil?  and not self.has_enrolled?(admin) 
       self.users << admin 
       self.save 
       return admin
     end
     
     return nil 
-    
-    
   end
   
   
