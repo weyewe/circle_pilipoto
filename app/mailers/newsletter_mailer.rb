@@ -28,16 +28,25 @@ class NewsletterMailer < ActionMailer::Base
   end
   
   
-  def notify_new_user_registration( user , password , project) 
+  def notify_new_user_registration( user , password ) 
     @password = password 
     @user = user 
-    @project =  project
     
     mail( :to  => user.email, 
-    :subject => "pilipoto | Registrasi project #{@project.title}  " ,
+    :subject => "pilipoto | Registrasi Penggunaan Pilipoto.com" ,
      :bcc => ["rajakuraemas@gmail.com", "christian@potoschool.com"],
      :css => [:bootstrap_email] )
     
+  end
+  
+  def send_company_admin_approval_notification( company_admin )
+    @user = company_admin 
+    
+    mail( :to  => @user.email, 
+    :subject => "pilipoto | Premium Feature Registration",
+     :bcc => ["rajakuraemas@gmail.com", "christian@potoschool.com"],
+     :css => [:bootstrap_email] )
+     
   end
   
   def notify_reset_login_info( new_user, new_password )

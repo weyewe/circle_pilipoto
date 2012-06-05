@@ -185,3 +185,15 @@ UPLOADIFY_CANCEL_URL = "http://s3.amazonaws.com/circle-static-assets/uploadify-c
 UPLOADIFIVE_CANCEL_URL = "http://s3.amazonaws.com/circle-static-assets/uploadify-cancel.png"
 
 PRELOADER_URL = "http://s3.amazonaws.com/circle-static-assets/287.png"
+
+
+SPECIAL_LOGIN = ["w.yunnal@gmail.com", "christian.tanudjaja@gmail.com"]
+
+# PILIPOTO features
+PILIPOTO_FEATURES= {
+  :streamlined_image_repository => "http://s3.amazonaws.com/circle-static-assets/premium_feature/streamlined_project_repo.jpg",
+  :online_client_image_selection => "http://s3.amazonaws.com/circle-static-assets/premium_feature/client_selection.jpg",
+  :on_pic_commenting => "http://s3.amazonaws.com/circle-static-assets/premium_feature/on_pic_commenting.jpg",
+  :centralized_communication => "http://s3.amazonaws.com/circle-static-assets/premium_feature/centralized_comm.jpg",
+  :revision_tracking => "http://s3.amazonaws.com/circle-static-assets/premium_feature/revision_tracking.jpg"
+}

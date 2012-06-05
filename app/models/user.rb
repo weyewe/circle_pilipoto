@@ -43,20 +43,38 @@ class User < ActiveRecord::Base
   User.create_and_confirm_and_send_project_invitation( email, project_role_sym, project ) 
 =end
   def User.create_company_admin(email, password)
+    
+    
     if password.nil?
       password = UUIDTools::UUID.timestamp_create.to_s[0..7]
     end
     
-    if not User.find_by_email(email).nil?
-      return nil
+    company_admin = User.find_by_email(email)
+    
+    if company_admin.nil?
+      company_admin = User.create(:email => email, :password => password, :password_confirmation => password)
+      if not company_admin.nil?
+        User.delay.send_company_admin_registration_notification( company_admin , password )
+      end
+      # send email notification 
     end
     
-    new_company_admin = User.create(:email => email, :password => password, :password_confirmation => password)
+    if not company_admin.has_role?(:company_admin)
+      company_admin_role = Role.find_by_name(  ROLE_MAP[:company_admin] )
+
+      company_admin.roles << company_admin_role
+      company_admin.save
+      
+      User.delay.send_company_admin_approval_notification( company_admin   )
+      # send email notification 
+    end
     
-    company_admin_role = Role.find_by_name(  ROLE_MAP[:company_admin] )
     
-    new_company_admin.roles << company_admin_role
-    new_company_admin.save
+  end
+  
+  
+  def User.send_company_admin_approval_notification( company_admin)
+    NewsletterMailer.send_company_admin_approval_notification( company_admin ).deliver
   end
 
   def User.create_and_confirm( email , project  ) 
@@ -72,14 +90,14 @@ class User < ActiveRecord::Base
     new_user.save 
     
 
-    User.delay.send_new_registration_notification( new_user , temporary_password, project)
+    User.delay.send_new_registration_notification( new_user , temporary_password )
 
  
     return new_user 
   end
   
-  def User.send_new_registration_notification( new_user, new_password, project)
-    NewsletterMailer.notify_new_user_registration( new_user, new_password, project ).deliver
+  def User.send_new_registration_notification( new_user, new_password )
+    NewsletterMailer.notify_new_user_registration( new_user, new_password).deliver
   end
 
 
@@ -209,7 +227,14 @@ class User < ActiveRecord::Base
     self.projects.where( :is_finalized => false )
   end
   
-
+=begin
+  Special User : those who can add / promote a user to have company_admin role 
+=end
+  def is_special_user?
+    SPECIAL_LOGIN.include?(self.email)
+  end
+  
+  
   
   
 end

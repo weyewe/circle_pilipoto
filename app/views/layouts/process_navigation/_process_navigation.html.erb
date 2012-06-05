@@ -1,6 +1,10 @@
 <div class="span3 process-nav">
    <div class="well sidebar-nav">
      
+     <% if current_user.is_special_user? %>
+       <%= get_process_nav( :add_company_admin , params ).html_safe %> 
+     <% end %>
+     
      
      
      <% if current_user.has_role?(:company_admin) %>

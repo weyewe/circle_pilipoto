@@ -40,52 +40,55 @@
   <div class="container" style="padding-top:0;">
     <!-- Main hero unit for a primary marketing message or call to action -->
     <div class="hero-unit">
-      <h1>Selamat Bergabung di PiliPoto</h1>
+      <h1>Premium Features Unlock</h1>
     </div>
     
     <p>
-      Dengan email ini, anda resmi terdaftar untuk menggunakan fasilitas pilipoto. Anda dapat berkolaborasi dengan 
-      fotografer anda: memilih foto, memberi feedback, dan memantau revisi pengerjaan. 
+      Dengan email ini, anda resmi terdaftar untuk menggunakan fasilitas premium dari pilipoto.com, seperti:
+        1. Project Management
+        2. Client Management
     </p>
-    <!-- <p>
-      Tutorial untuk menggunakan piliPoto dapat didownload dari link berikut ini: <a href="<%#= POTOSCHOOL_TUTORIAL_URL %>"> CLICK HERE </a>.
-    </p> -->
     
+    <h2>Feature-feature pilipoto.com: </h2>
+     <!-- Example row of columns -->
+      <div class="row">
+        <h3>Image Repository</h3>
+        <%= image_tag PILIPOTO_FEATURES[:streamlined_image_repository]%>
+      </div>
+      <hr />
+      
+      <div class="row">
+        <h3>Online Client Image Selection</h3>
+        <%= image_tag PILIPOTO_FEATURES[:online_client_image_selection]%>
+      </div>
+      <hr />
+      
+      <div class="row">
+        <h3>On Image Commenting</h3>
+        <%= image_tag PILIPOTO_FEATURES[:on_pic_commenting]%>
+      </div>
+      <hr />
+      
+      <div class="row">
+        <h3>Centralized Communication</h3>
+        <%= image_tag PILIPOTO_FEATURES[:centralized_communication]%>
+      </div>
+      <hr />
+      
+      
+      <div class="row">
+        <h3>Revision Tracking</h3>
+        <%= image_tag PILIPOTO_FEATURES[:revision_tracking]%>
+      </div>
+      <hr />
+ 
+    
+ 
     <p>
       Jika ada pertanyaan, silakan kontak kami di <b>admin@pilipoto.com</b>. 
     </p>
     
-    <p>
-      Untuk login ke applikasi piliPoto, silakan kunjungi <b><a href="http://www.pilipoto.com"> pilipoto.com</a></b>, dengan menggunakan login dan password berikut ini: 
-    </p>
-
-    <!-- Example row of columns -->
-    <div class="row">
-      
-      <table cellpadding="0" cellspacing="0" border="0" 
-            class="table table-striped table-bordered" id="example">
-        <thead>
-          <tr>
-            <th colspan="2">Details</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><b>Login Email</b></td>
-            <td><%= @user.email %></td>
-          </tr>
-          
-          <tr>
-            <td><b>Password</b></td>
-            <td><%= @password %></td>
-          </tr>
-        </tbody>
-      </table>
-      
-    
-      
-    </div>
-    <hr />
+   
     
  
     
