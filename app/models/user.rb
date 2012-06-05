@@ -26,6 +26,7 @@ class User < ActiveRecord::Base
   after_create :send_confirmation_email 
   
   has_many :articles 
+
   
   
 =begin
@@ -54,7 +55,7 @@ class User < ActiveRecord::Base
     if company_admin.nil?
       company_admin = User.create(:email => email, :password => password, :password_confirmation => password)
       if not company_admin.nil?
-        User.delay.send_company_admin_registration_notification( company_admin , password )
+        User.delay.send_new_registration_notification( company_admin , password )
       end
       # send email notification 
     end
