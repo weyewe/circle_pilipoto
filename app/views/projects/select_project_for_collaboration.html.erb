@@ -17,6 +17,7 @@
           <tr>
             <th>Project Name</th>
             <th>Role</th>
+            <th>Company</th>
             <th>Pictures</th>
             <th>Selection Quota</th>
             <th>Selected Pictures</th>
@@ -39,6 +40,9 @@
                 <% elsif current_user.has_project_role?(:owner, project)%>
                   <span class="label label-info">Owner</span>
                 <% end %>
+              </td>
+              <td>
+                <%= project.company.name %>
               </td>
               <td><%= project.original_pictures.count %></td>
               <td><%= project.picture_select_quota %></td>
