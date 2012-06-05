@@ -9,6 +9,12 @@ Neopilipoto::Application.routes.draw do
   match 'dashboard'           => 'home#dashboard'  , :as => :dashboard
   match 'raise_exception' => 'home#raise_exception', :as => :raise_exception 
  
+  resources :companies
+  match 'select_company_to_be_edited' => "companies#select_company_to_be_edited", :as => :select_company_to_be_edited
+  match 'select_company_to_create_admin' => "companies#select_company_to_create_admin", :as => :select_company_to_create_admin
+  match 'new_company_admin/:company_id' => "companies#new_company_admin", :as => :new_company_admin
+  match 'create_company_admin/:company_id' => "companies#create_company_admin", :as => :create_company_admin, :method => :post
+  
   
   resources :projects do 
     resources :pictures

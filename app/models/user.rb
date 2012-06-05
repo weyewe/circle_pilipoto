@@ -67,10 +67,8 @@ class User < ActiveRecord::Base
       company_admin.save
       
       User.delay.send_company_admin_approval_notification( company_admin   )
-      # send email notification 
+      return company_admin
     end
-    
-    
   end
   
   

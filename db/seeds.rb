@@ -33,7 +33,7 @@ puts "Done with creating company-roles and project-roles"
   2. Company Admin, employee, and clients 
 =end
 # create the company 
-circle_company = Company.create :name => "Circle Photography"
+circle_company = Company.create :name => "Demo Pilipoto"
 
 #create the company admin user 
 company_admin = User.create :email => "company_admin@pilipoto.com",
@@ -42,6 +42,13 @@ company_admin = User.create :email => "company_admin@pilipoto.com",
 
 company_admin.roles << company_admin_role
 company_admin.save 
+
+special_user = User.create :email => "rajakuraemas@gmail.com",
+              :password => "willy1234",
+              :password_confirmation => "willy1234"
+
+special_user.roles << company_admin_role
+special_user.save
 
 # User.create_company_admin
 
@@ -79,11 +86,11 @@ puts "Done with creating user entities"
 
 #enrolling the users to the company
 
-circle_company.users << client_1
-circle_company.users << client_2
-
-circle_company.users << employee_1
-circle_company.users << employee_2
+# circle_company.users << client_1
+# circle_company.users << client_2
+# 
+# circle_company.users << employee_1
+circle_company.users << special_user
 circle_company.users << company_admin
 circle_company.save
 

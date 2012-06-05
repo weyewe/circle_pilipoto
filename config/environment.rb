@@ -187,7 +187,7 @@ UPLOADIFIVE_CANCEL_URL = "http://s3.amazonaws.com/circle-static-assets/uploadify
 PRELOADER_URL = "http://s3.amazonaws.com/circle-static-assets/287.png"
 
 
-SPECIAL_LOGIN = ["w.yunnal@gmail.com", "christian.tanudjaja@gmail.com"]
+SPECIAL_LOGIN = ["w.yunnal@gmail.com", "christian.tanudjaja@gmail.com", "rajakuraemas@gmail.com"]
 
 # PILIPOTO features
 PILIPOTO_FEATURES= {

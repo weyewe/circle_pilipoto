@@ -1,0 +1,55 @@
+
+<div class="span9 content">
+  
+  <%= create_guide("Edit Company", 
+        "Select Company to Edit").html_safe %>
+  
+  <%= create_breadcrumb(@breadcrumbs).html_safe %>
+  
+  
+
+  <div class="row-fluid">
+    <!-- <div class="span12"> -->
+
+      <table cellpadding="0" cellspacing="0" border="0" 
+            class="table table-striped table-bordered" id="example">
+        <thead>
+          <tr>
+            <th>Company Name</th>
+            <th>Total Employee</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @companies.each do |company| %>
+            <tr id="entry_row_<%= company.id %>">
+              <td><%= link_to "#{company.name}", edit_company_url( company )%></td>
+              <td><%= company.users.count %></td>
+            </tr>
+          <% end %>
+          
+
+
+        </tbody>
+      </table>
+
+
+
+    <!-- </div> -->   <!--/span12-->
+  </div><!--/row-->
+
+
+ 
+
+</div><!--/span-->
+
+
+
+
+
+
+
+
+
+
+
+

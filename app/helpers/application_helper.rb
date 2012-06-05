@@ -438,6 +438,11 @@ module ApplicationHelper
   
   def get_process_nav( symbol, params)
     
+    if symbol == :company_admin_management
+      return create_process_nav(COMPANY_ADMIN_MANAGEMENT_PROCESS_LIST, params )
+    end
+    
+    
     if symbol == :project_setup
       return create_process_nav(PROJECT_SETUP_PROCESS_LIST, params )
     end
@@ -537,6 +542,66 @@ module ApplicationHelper
   #####     Start of the process navigation KONSTANT
   #####
   #######################################################
+  
+  
+  COMPANY_ADMIN_MANAGEMENT_PROCESS_LIST = {
+    :header_title => "Company-Admin Management",
+    :processes => [
+      {
+         :title => "Create Company ",
+         :destination_link => "new_company_url",
+         :conditions => [
+           {
+             :controller => 'companies', 
+             :action => 'new'
+           },
+           {
+             :controller => "companies",
+             :action => 'create'
+           }
+         ]
+
+      },
+      {
+         :title => "Edit Company ",
+         :destination_link => "select_company_to_be_edited_url",
+         :conditions => [
+           {
+             :controller => 'companies', 
+             :action => 'select_company_to_be_edited'
+           },
+           {
+             :controller => "companies",
+             :action => 'edit'
+           },
+           {
+              :controller => "companies",
+              :action => 'update'
+           }
+         ]
+      },
+     {
+       :title => "Create CompanyAdmin",
+       :destination_link => "select_company_to_create_admin_url",
+       :conditions => [
+         {
+           :controller => 'companies', 
+           :action => 'select_company_to_create_admin'
+         },
+         {
+           :controller => "companies",
+           :action => 'new_company_admin'
+         },
+         {
+            :controller => "companies",
+            :action => 'create_company_admin'
+         }
+       ]
+
+     }
+    ]
+  }
+  
   
   PROJECT_SETUP_PROCESS_LIST = {
     :header_title => "Project Setup",

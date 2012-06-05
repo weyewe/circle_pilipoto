@@ -106,7 +106,7 @@ class Project < ActiveRecord::Base
     # later. now , ensure that we can send the email 
     
     # project_owner ?
-    
+    company = self.company
     # sending the pilipoto registration over here
     project_collaborator = User.find_or_create_and_confirm(email , self )
     
@@ -121,6 +121,10 @@ class Project < ActiveRecord::Base
     else
       # sending the project role  assignment over here
       self.add_project_membership( project_role, project_collaborator )
+      if not company.has_enrolled?(project_collaborator)
+        company.users << project_collaborator
+        company.save
+      end
       return project_collaborator
     end
     
