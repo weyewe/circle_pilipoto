@@ -50,6 +50,8 @@ class CompaniesController < ApplicationController
   def new_company_admin
     @company = Company.find_by_id params[:company_id]
     @new_user = User.new 
+    @company_admins = @company.company_admins
+    
     add_breadcrumb "Select  company", 'select_company_to_create_admin_path'
     set_breadcrumb_for @company, 'new_company_admin_path' + "(#{@company.id})", 
           "Enter Admin email"

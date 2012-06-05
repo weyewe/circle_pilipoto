@@ -31,4 +31,14 @@ class Company < ActiveRecord::Base
   end
   
   
+  def company_admins
+    array = []
+    self.users.collect do |x| 
+      if x.has_role?(:company_admin)
+        array << x
+      end
+    end
+    return array
+  end
+  
 end

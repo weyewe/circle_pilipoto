@@ -16,6 +16,7 @@
         <thead>
           <tr>
             <th>Project Name</th>
+            <th>Role</th>
             <th>Pictures</th>
             <th>Selection Quota</th>
             <th>Selected Pictures</th>
@@ -29,6 +30,15 @@
                 <%= link_to "#{project.title}", extract_relevant_collaboration_link(current_user, project) %>
                 
                 <%#= link_to "#{project.title}", root_url %>
+              </td>
+              <td>
+                <% if current_user.has_project_role?(:client, project)%>
+                  <span class="label label-success">Client</span>
+                <% elsif current_user.has_project_role?(:collaborator, project)%>
+                  <span class="label">Collaborator</span>
+                <% elsif current_user.has_project_role?(:owner, project)%>
+                  <span class="label label-info">Owner</span>
+                <% end %>
               </td>
               <td><%= project.original_pictures.count %></td>
               <td><%= project.picture_select_quota %></td>
