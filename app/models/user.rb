@@ -91,9 +91,7 @@ class User < ActiveRecord::Base
     new_user.save 
     
 
-    User.delay.send_new_registration_notification( new_user , temporary_password )
-
- 
+    User.delay.send_new_registration_notification( new_user , temporary_password )  
     return new_user 
   end
   
