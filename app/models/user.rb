@@ -56,7 +56,7 @@ class User < ActiveRecord::Base
     company_admin_role = Role.find_by_name(  ROLE_MAP[:company_admin] )
     
     new_company_admin.roles << company_admin_role
-    company_admin.save
+    new_company_admin.save
   end
 
   def User.create_and_confirm( email , project  ) 
