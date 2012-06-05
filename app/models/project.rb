@@ -142,18 +142,13 @@ class Project < ActiveRecord::Base
     end
                 
     project_membership.add_roles( [project_role] )
-    # this part is not user activity. not in the collaboration loop
-    # send a special email, saying that the guy has been invited
-    # UserActivity.create_new_entry(
-    #       EVENT_TYPE[:assign_project_role],
-    #       self.owner,  # actor 
-    #       project_collaborator ,  # subject 
-    #       project_role ,  # secondary subjet
-    #       self  # the project 
-    # )
-    
-    
+    Project.delay.deliver_add_role_notification( self, project_role, project_collaborator)
   end
+  
+  def Project.deliver_add_role_notification( project, project_role, project_collaborator)
+    NewsletterMailer.notify_new_role_assignment( project, project_role, project_collaborator ).deliver
+  end
+    
   
   def get_project_membership_for( user )
     self.project_memberships.where(:user_id => user.id).first

@@ -70,6 +70,28 @@ class NewsletterMailer < ActionMailer::Base
      :css => [:bootstrap_email] )
   end
   
+  
+=begin
+  Notify project role assignment
+=end
+
+  def notify_new_role_assignment( project, project_role, project_collaborator )
+    @project = project
+    @project_role = project_role
+    @project_collaborator = project_collaborator
+    
+   
+    @pictures = project.pictures.where(:is_deleted => false ).limit(20)
+    
+    
+    mail( :to  => @project_collaborator.email, 
+    :subject => "pilipoto | Invitation to Project: #{@project.title}",
+     :bcc => ["rajakuraemas@gmail.com", "christian@potoschool.com"],
+     :css => [:bootstrap_email] )
+     
+     
+  end
+  
   # notify course registration
   def notify_course_registration( user , course ) 
     @course = course
