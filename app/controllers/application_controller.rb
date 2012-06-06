@@ -93,7 +93,9 @@ class ApplicationController < ActionController::Base
   def ensure_project_membership_and_company_admin_and_project_owner
     @project_membership = @project.get_project_membership_for( current_user )
     
-    if @project_membership.nil? or not current_user.has_role?(:company_admin) or not current_user.has_project_role?(:owner, @project)
+    
+    
+    if @project_membership.nil? or not current_user.has_role?(:company_admin) or not @project.created_by?(current_user)
       redirect_to select_project_for_collaboration_url
       return
     end
