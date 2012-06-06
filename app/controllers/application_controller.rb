@@ -62,6 +62,45 @@ class ApplicationController < ActionController::Base
   end
   
   
+  def ensure_project_membership
+    @project_membership = @project.get_project_membership_for( current_user )
+    
+    if @project_membership.nil?
+      redirect_to select_project_for_collaboration_url
+      return
+    end
+  end
+  
+ 
+  def prevent_non_company_admin_to_view
+    
+    if not current_user.has_role?(:company_admin)
+      redirect_to select_project_for_collaboration_url
+      return
+    end
+    
+  end
+  
+  def ensure_project_membership_and_company_admin
+    @project_membership = @project.get_project_membership_for( current_user )
+    
+    if @project_membership.nil? or not current_user.has_role?(:company_admin)
+      redirect_to select_project_for_collaboration_url
+      return
+    end
+  end
+  
+  def ensure_project_membership_and_company_admin_and_project_owner
+    @project_membership = @project.get_project_membership_for( current_user )
+    
+    if @project_membership.nil? or not current_user.has_role?(:company_admin) or not current_user.has_project_role?(:owner, @project)
+      redirect_to select_project_for_collaboration_url
+      return
+    end
+  end
+  
+  
+  
   
   protected
   def add_breadcrumb name, url = ''

@@ -224,6 +224,28 @@ class User < ActiveRecord::Base
     self.projects.where( :is_finalized => false )
   end
   
+  def created_non_finalized_projects
+    # self.company.projects.where(:is_finalized => false )
+    # find the company where he is the company_admin 
+    project_list = [] 
+    self.projects.where(:is_finalized => false).each do |x|
+      if self.has_project_role?(:owner, x)
+        project_list << x
+      end
+    end
+    return project_list
+  end
+  
+  def created_finalized_projects
+    project_list = [] 
+    self.projects.where(:is_finalized => true).each do |x|
+      if self.has_project_role?(:owner, x)
+        project_list << x
+      end
+    end
+    return project_list
+  end
+  
 =begin
   Special User : those who can add / promote a user to have company_admin role 
 =end

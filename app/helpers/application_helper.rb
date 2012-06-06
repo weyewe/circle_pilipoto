@@ -673,16 +673,16 @@ module ApplicationHelper
           }
         ]
       },
-      {
-        :title => "Remove Member from Project",
-        :destination_link => 'root_url',
-        :conditions => [
-          {
-            :controller => '',
-            :action => ''
-          }
-        ]
-      },
+      # {
+      #   :title => "Remove Member from Project",
+      #   :destination_link => 'root_url',
+      #   :conditions => [
+      #     {
+      #       :controller => '',
+      #       :action => ''
+      #     }
+      #   ]
+      # },
       {
         :title => "Finalized Projects",
         :destination_link => 'select_project_to_be_de_finalized_url',
