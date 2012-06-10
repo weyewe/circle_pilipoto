@@ -11,21 +11,25 @@ class HomeController < ApplicationController
   
   
   def dashboard
-    if current_user.has_role?( :company_admin)
-      redirect_to select_project_to_be_managed_url 
-      return 
-    end
-    
-    if current_user.has_role?(:standard)
-      redirect_to select_project_for_collaboration_url  
-      return
-    end
+    redirect_to select_project_for_collaboration_url
+    return 
+    # if current_user.has_role?( :company_admin)
+    #   redirect_to select_project_to_be_managed_url 
+    #   return 
+    # end
+    # 
+    # if current_user.has_role?(:standard)
+    #   redirect_to select_project_for_collaboration_url  
+    #   return
+    # end
     
   end
   
   
   def homepage
-    render :layout => 'layouts/front_page'
+    # render :layout => 'layouts/front_page'
+    
+    redirect_to select_project_for_collaboration_url
   end
   
   def article_list
