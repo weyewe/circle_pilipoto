@@ -187,7 +187,9 @@ UPLOADIFY_CANCEL_URL = "http://s3.amazonaws.com/circle-static-assets/uploadify-c
 
 UPLOADIFIVE_CANCEL_URL = "http://s3.amazonaws.com/circle-static-assets/uploadify-cancel.png"
 
-PRELOADER_URL = "http://s3.amazonaws.com/circle-static-assets/287.png"
+# PRELOADER_URL = "http://s3.amazonaws.com/circle-static-assets/287.png"
+
+PRELOADER_URL = "http://s3.amazonaws.com/circle-static-assets/ajax-loader.gif"
 
 
 SPECIAL_LOGIN = ["w.yunnal@gmail.com", "christian.tanudjaja@gmail.com", "rajakuraemas@gmail.com"]
