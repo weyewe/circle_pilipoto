@@ -10,13 +10,13 @@
       <% project = picture.project %>
       <% project_membership = project.get_project_membership_for(user) %>
       <% if project_membership.has_project_role?(:client)%>
-        Jimmy Lin 
+        <!-- Jimmy Lin --> 
         <span class="label">Client</span>
       <% elsif project_membership.has_project_role?(:collaborator) %>
-        Christian Tan
+        <!-- Christian Tan -->
         <span class="label label-info">Collaborator</span>
       <% elsif project_membership.has_project_role?(:owner) %>
-        Michael Leo
+        <!-- Michael Leo -->
         <span class="label label-info">Project Lead</span>
       <% end %>
       
