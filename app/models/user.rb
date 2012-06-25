@@ -72,7 +72,7 @@ class User < ActiveRecord::Base
   end
   
   
-  def reset_password
+  def reset_password_pilipoto
     password = UUIDTools::UUID.timestamp_create.to_s[0..7]
     NewsletterMailer.notify_new_user_registration(self, password).deliver
   end
