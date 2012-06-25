@@ -20,7 +20,7 @@
      <% end %>
      
      
-     <% if ( current_user.has_role?(:standard)  )  %>
+     <% if ( current_user.has_role?(:standard) ) and not (current_user.has_role?(:company_admin)   )  %>
      
      
      <!-- Standard user can only collaborate (passive), can't create project -->
