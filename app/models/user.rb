@@ -72,6 +72,11 @@ class User < ActiveRecord::Base
   end
   
   
+  def reset_password
+    password = UUIDTools::UUID.timestamp_create.to_s[0..7]
+    NewsletterMailer.notify_new_user_registration(self, password).deliver
+  end
+  
   def User.send_company_admin_approval_notification( company_admin)
     NewsletterMailer.send_company_admin_approval_notification( company_admin ).deliver
   end
