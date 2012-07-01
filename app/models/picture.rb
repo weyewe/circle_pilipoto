@@ -167,6 +167,39 @@ class Picture < ActiveRecord::Base
     end
   end
 
+=begin
+  The previous revision
+=end
+
+  def prev_revision_id_list 
+    
+    original = self.original_picture 
+    array =  [original.id]
+    
+    if self.is_original?
+      return array
+    else
+      return array + original.revisions.where(:is_deleted => false ) .order("created_at ASC").map{|x| x.id}
+    end
+  end
+  
+  
+
+  def prev_revision
+    if self.is_original?
+      return nil
+    else
+      id_list = prev_revision_id_list
+      current_revision_index = id_list.index( self.id )
+      
+      if current_revision_index > 0 
+        return Picture.find_by_id(  id_list.at( current_revision_index - 1 )   ) 
+      else
+        return Picture.find_by_id(  id_list.at( current_revision_index   )   )  
+      end
+    end
+  end
+
 
 =begin
   company-admin large view mode

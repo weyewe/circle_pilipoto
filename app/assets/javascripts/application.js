@@ -11,6 +11,7 @@
 //= require bootstrap-datepicker
 //= require bootstrap-datepicker-update
 //= require jquery.showLoading.min
+//= require jquery.fancybox.pack
 //= require script
 
 

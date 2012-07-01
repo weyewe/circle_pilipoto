@@ -7,5 +7,6 @@
  *= require style
  *= require datatables
  *= require showLoading
+ *= require jquery.fancybox
  *= require_self
 */

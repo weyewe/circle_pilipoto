@@ -56,11 +56,11 @@
     <!-- Supporting JS and CSS for create comment -->
       <% if @picture.allow_comment?(current_user) %>
         <%  content_for :additional_css  do %>
-          <%= stylesheet_link_tag "jcrop.css", "image_map.css"%>
+          <%= stylesheet_link_tag "jcrop.css", "image_map.css"  %>
         <% end %>
 
         <% content_for :additional_js do %>
-          <%= javascript_include_tag "jquery.Jcrop.min.js", "phototagging_exe.js" %>
+          <%= javascript_include_tag "jquery.Jcrop.min.js", "phototagging_exe.js"   %>
           <%= transloadit_jquerify :upload_revision, :wait => true %>
           
           <script type='text/javascript'>
@@ -98,6 +98,16 @@
     
     <!-- Upload new revision, show original picture, and revision list -->
     <div class="span4" style="padding-top:10px;">
+        
+        
+        <% if not @picture.is_original? %>
+          <p style="text-align:center;">
+            <a data-toggle="button" id="pilipoto-switcher" 
+              class="btn btn-primary fancybox" href="#comparison">Compare Image With Previous</a>
+          </p>
+          <hr />
+        <% end %>
+        
         
         <p style="text-align:center;">
           <button data-toggle="button" id="pilipoto-switcher" 
@@ -138,3 +148,33 @@
   </div><!--/row-->
 
 </div><!--/span-->
+
+
+<% if not @picture.is_original? %>
+
+<div id="comparison" style="width:1000px;display: none;">
+	<table cellpadding="0" cellspacing="0" border="0" 
+        class="table table-striped table-bordered" >
+      
+    <thead>
+      <tr>
+        <th style="text-align:center;">
+          Previous
+        </th>
+        <th style="text-align:center;">
+          Current
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><%= image_tag @picture.prev_revision.display_image_url %></td>
+        <td>
+          <%= image_tag @picture.display_image_url %>
+        </td>
+      </tr>
+   
+    </tbody>
+  </table>
+</div>
+<% end %>

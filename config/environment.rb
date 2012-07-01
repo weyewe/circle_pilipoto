@@ -202,3 +202,10 @@ PILIPOTO_FEATURES= {
   :centralized_communication => "http://s3.amazonaws.com/circle-static-assets/premium_feature/centralized_comm.jpg",
   :revision_tracking => "http://s3.amazonaws.com/circle-static-assets/premium_feature/revision_tracking.jpg"
 }
+
+FANCYBOX_ASSET_URL = {
+  :blank_gif => 'http://s3.amazonaws.com/circle-static-assets/fancybox/blank.gif',
+  :fancybox_loading => 'http://s3.amazonaws.com/circle-static-assets/fancybox/fancybox_loading.gif',
+  :fancybox_sprite => 'http://s3.amazonaws.com/circle-static-assets/fancybox/fancybox_sprite.png'
+}
+
