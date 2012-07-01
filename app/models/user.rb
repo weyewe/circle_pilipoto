@@ -216,7 +216,7 @@ class User < ActiveRecord::Base
   def get_all_enlisted_project
     ProjectMembership.includes(:project).find(:all, :conditions => {
       :user_id => self.id 
-    }).map{ |x| x.project }
+    }, :order => "created_at DESC").map{ |x| x.project }
   end
   
   
@@ -236,7 +236,7 @@ class User < ActiveRecord::Base
     # self.company.projects.where(:is_finalized => false )
     # find the company where he is the company_admin 
     project_list = [] 
-    self.projects.where(:is_finalized => false).each do |x|
+    self.projects.where(:is_finalized => false).order('created_at DESC').each do |x|
       if self.has_project_role?(:owner, x)
         project_list << x
       end
