@@ -51,7 +51,6 @@ Neopilipoto::Application.configure do
                           jquery.Jcrop.min.js 
                           phototagging_exe.js jcrop.css image_map.css 
                           bootstrap_email.css 
-                          jquery.fancybox.pack.js   jquery.fancybox.css
                           jquery.fancybox-thumbs.js jquery.fancybox-thumbs.css )
 
   # Disable delivery errors, bad email addresses will be ignored
