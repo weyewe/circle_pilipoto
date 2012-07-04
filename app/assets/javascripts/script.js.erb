@@ -12,6 +12,24 @@ $(document).ready(function() {
   $('.fancybox').fancybox();
   
   
+  
+  
+  if( IsImageOk('target')  ){
+    var $wrapper = $("#cropper_wrapper");
+    $wrapper.hide();
+    
+    $("#pilipoto-switcher").show();
+  }else{
+    $("#cropper_wrapper img").load(function(){
+      // console.log("after loading");
+      var $wrapper = $("#cropper_wrapper");
+      $wrapper.hide();
+      $("#pilipoto-switcher").show();
+    });
+  }
+  
+  
+  
   $(".tooltip-able").tooltip();
   
   // show the loader, if everything is loaded
@@ -628,3 +646,18 @@ function is_mobile() {
   };
 })( jQuery );
 
+
+function IsImageOk(img_id){
+  // http://www.sajithmr.me/javascript-check-an-image-is-loaded-or-not
+  var img = document.getElementById( img_id );
+  if (!img.complete) {
+    return false;
+  }
+  
+  if (typeof img.naturalWidth != undefined && img.naturalWidth  == 0) {
+    return false;
+  }
+
+  // No other way of checking: assume it’s ok.
+  return true;
+}
