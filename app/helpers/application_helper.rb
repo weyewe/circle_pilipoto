@@ -477,6 +477,12 @@ module ApplicationHelper
   
   
   
+  def adjust_marker_location( initial_spot_value  )
+    initial_spot_value - ( POSITIONAL_COMMENT_MARKER_WIDTH/2  )
+  end
+  
+  
+  
   protected 
   
   #######################################################

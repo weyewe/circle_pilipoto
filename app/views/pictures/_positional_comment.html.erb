@@ -1,20 +1,33 @@
 <% if ( not positional_comment.nil? )  and ( not positional_comment.comment.nil?  ) %>
 <li class="hide positional_comment_wrapper" id="positional_comment-<%= positional_comment.id %>">
-  <a title="" class="tag" 
-    style="height:62px; width:62px; left: <%= positional_comment.x_start.to_s + "px" %>;
-    top: <%= positional_comment.y_start.to_s + "px" %>;">
-    <span><b><%= positional_comment.comment.body %></b></span>
-    
-    <input name="x_start" 
-        type="hidden" 
-        value="<%=positional_comment.x_start.to_s %>"
-        class="x_start"    />
-        
-    <input name="y_start" 
-        type="hidden" 
-        value="<%= positional_comment.y_start.to_s %>" 
-        class="y_start"   />
-  
+  <!-- <a title="" class="tag" 
+     style="height:62px; width:62px; left: <%= positional_comment.x_start.to_s + "px" %>;
+     top: <%= positional_comment.y_start.to_s + "px" %>;">
+     <span><b><%= positional_comment.comment.body %></b></span>
+     
+     <input name="x_start" 
+         type="hidden" 
+         value="<%=positional_comment.x_start.to_s %>"
+         class="x_start"    />
+         
+     <input name="y_start" 
+         type="hidden" 
+         value="<%= positional_comment.y_start.to_s %>" 
+         class="y_start"   /> -->
+   <a title="" class="tag" 
+     style="height:62px; width:62px; left: <%= adjust_marker_location( positional_comment.marker_x_value ).to_s  + "px" %>;
+     top: <%= adjust_marker_location( positional_comment.marker_y_value ).to_s  + "px" %>;">
+      <span><b><%= positional_comment.comment.body %></b></span>
+
+     <input name="x_start" 
+      type="hidden" 
+      value="<%=positional_comment.marker_x_value.to_s %>"
+      class="x_start"    />
+
+     <input name="y_start" 
+      type="hidden" 
+      value="<%= positional_comment.marker_y_value.to_s %>" 
+      class="y_start"   />
   </a>
 </li>
 <% end %>

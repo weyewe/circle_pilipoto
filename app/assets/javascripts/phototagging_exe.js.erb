@@ -1,26 +1,61 @@
 
 
 jQuery(function($){
-
+  
+  // $("#cropper_wrapper").show();
+  
+  if( IsImageOk('target') ){
+    var $wrapper = $("#cropper_wrapper");
+    $wrapper.hide();
+  }else{
+    $("#cropper_wrapper img").load(function(){
+      // console.log("after loading");
+      var $wrapper = $("#cropper_wrapper");
+      // console.log("before binding");
+      executeJcropBinding(); 
+      // alert("before hiding");
+      $wrapper.hide();
+    });
+  }
+  
+   
+  
+  // console.log("Done setting up cropper to target");
+  
   $("#pilipoto-switcher").click(function(){
+    
+    // console.log("switcher is clicked");
     
     var $switcher = $(this);
     
     
     
     if( $switcher.hasClass("waitMode")){
+      // gonna go for console mode
+      
       $switcher.addClass("croppingMode");
       $switcher.removeClass("waitMode");
       $switcher.text("Turn Off Feedback Mode");
       $("#actionWrapper").addClass("turnOn");
-        $('#target').Jcrop({
-           onChange:   showCoords,
-           onSelect:   showCoordsFinal,
-           onRelease:  clearCoords,
-           maxSize: [62,62]
-         },  function(){
-           PilipotoJcropApi = this;
-         });
+      
+      
+      
+      var width = parseInt( $("#display_image").width() )  ;
+      var height = parseInt( $("#display_image").height() ) ; 
+
+      $("#target").height( height );
+      $("#target").width( width );
+      
+      $("#cropper_wrapper").show();
+      $("#display_wrapper").hide();
+      
+      // console.log("The width is " + width);
+      //     console.log("The height is "  + height );
+
+      
+      refreshJCropBinding();
+      refreshMapAfterClick();
+      // refresh the JCrop binding
     }else if( $switcher.hasClass("croppingMode")){
         if( is_mobile() ) {
           window.location.reload();
@@ -30,7 +65,9 @@ jQuery(function($){
           $switcher.text("Turn On Feedback Mode");
 
           $("#actionWrapper").removeClass("turnOn");
-          PilipotoJcropApi.destroy(); 
+          $("#cropper_wrapper").hide();
+          $("#display_wrapper").show();
+          refreshMapAfterClick();
         }
     }
     
@@ -46,6 +83,42 @@ jQuery(function($){
 
 });
 
+
+function executeJcropBinding(){
+  $('#target').Jcrop({
+    onChange:   showCoords,
+    onSelect:   showCoordsFinal,
+    onRelease:  clearCoords,
+    maxSize: [52,52]
+  }  ,function(){
+    PilipotoJcropApi = this; // refers to #target
+  });
+}
+
+
+function destroyJCropHTML(){
+  $("#cropper_wrapper .jcrop-holder").remove();
+}
+
+function refreshJCropBinding(){
+  if(PilipotoJcropApi != undefined  ){
+    PilipotoJcropApi.destroy();
+  }
+  
+  destroyJCropHTML();
+  // resize the target image 
+  // following the display picture
+  
+  var width = $("#target").width();
+  var height = $("#target").height();
+  
+  // console.log("in refresh, width : " + width);
+  // console.log("in refresh, height : " + height);
+  
+  executeJcropBinding();
+}
+
+
 // Simple event handler, called from onChange and onSelect
 // event handlers, as per the Jcrop invocation above
 function showCoords(c)
@@ -57,6 +130,11 @@ function showCoords(c)
   // $('#y2').val(c.y2);
   // $('#w').val(c.w);
   // $('#h').val(c.h);
+  
+  // console.log( "The x1: " + c.x );
+  // console.log( "The x2: " + c.x2 );
+  // console.log( "The y1: " + c.y );
+  // console.log( "The y1: " + c.y2 );
   
 /*  console.log("show Coords");*/
   $('#title_container').addClass("hide"); //if reselecting, hide the form
@@ -79,10 +157,12 @@ function showCoordsFinal(c)
   // hidden tag. user only need to fill it
   // show the feedback form , 
   
-  var displayed_image_wrapper_width = parseInt( $(".display_image_wrapper").width()  );
+  var displayed_image_wrapper_width = parseInt( $("#cropper_wrapper").width()  );
   var normal_image_wrapper_width = parseInt(  "<%= DISPLAY_IMAGE_WIDTH %>");
   var scaling_ratio = displayed_image_wrapper_width / normal_image_wrapper_width;
   
+  // console.log( "The scaling ratio is " + scaling_ratio );
+  //  console.log("The width: " +displayed_image_wrapper_width );
   
   
   $('#title_container').css('left', c.x);
@@ -100,11 +180,25 @@ function showCoordsFinal(c)
 
 
 
-function clearCoords()
-{
+function clearCoords(){
   $('#coords input').val('');
   $('#h').css({color:'red'});
   window.setTimeout(function(){
     $('#h').css({color:'inherit'});
     },500);
-  };
+};
+
+function IsImageOk(img_id){
+  // http://www.sajithmr.me/javascript-check-an-image-is-loaded-or-not
+  var img = document.getElementById( img_id );
+  if (!img.complete) {
+    return false;
+  }
+  
+  if (typeof img.naturalWidth != undefined && img.naturalWidth  == 0) {
+    return false;
+  }
+
+  // No other way of checking: assume it’s ok.
+  return true;
+}
