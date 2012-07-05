@@ -14,19 +14,23 @@ $(document).ready(function() {
   
   
   
-  if( IsImageOk('target')  ){
-    var $wrapper = $("#cropper_wrapper");
-    $wrapper.hide();
-    
-    $("#pilipoto-switcher").show();
-  }else{
-    $("#cropper_wrapper img").load(function(){
-      // console.log("after loading");
+  var $target = $("#target");
+  if($target.length != 0 ){
+    if( IsImageOk('target')  ){
       var $wrapper = $("#cropper_wrapper");
       $wrapper.hide();
+
       $("#pilipoto-switcher").show();
-    });
+    }else{
+      $("#cropper_wrapper img").load(function(){
+        // console.log("after loading");
+        var $wrapper = $("#cropper_wrapper");
+        $wrapper.hide();
+        $("#pilipoto-switcher").show();
+      });
+    }
   }
+  
   
   
   
