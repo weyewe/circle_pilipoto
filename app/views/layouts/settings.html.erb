@@ -33,9 +33,9 @@
     <%= stylesheet_link_tag    "application" %>
     <%= yield :additional_css %>
     
-    <% if Rails.env.production? %>
-      <%= render :partial => "layouts/google_analytics"%>
-    <% end %>
+    <%# if Rails.env.production? %>
+      <%#= render :partial => "layouts/google_analytics"%>
+    <%# end %>
 </head>
 <body>
   <%= javascript_tag "var AUTH_TOKEN = #{form_authenticity_token.inspect};" if protect_against_forgery? %>
