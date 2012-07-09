@@ -154,6 +154,11 @@ Neopilipoto::Application.routes.draw do
   
   
   
+=begin
+  SETTING
+=end
+  match 'edit_credential' => "passwords#edit_credential" , :as => :edit_credential
+  match 'update_password' => "passwords#update" , :as => :update_password, :method => :put
   
   # match 'execute_select_picture' => "pictures#execute_select_picture", :as => :execute_select_picture
   # match 'execute_project_selection_done' => "projects#execute_project_selection_done", :as => :execute_project_selection_done

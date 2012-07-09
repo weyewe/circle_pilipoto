@@ -472,6 +472,10 @@ module ApplicationHelper
     if symbol == :student 
       return create_process_nav(STUDENT_PROCESS_LIST, params )
     end
+    
+    if symbol == :settings
+      return create_process_nav(SETTINGS_PROCESS_LIST, params )
+    end
   end
   
   
@@ -1008,5 +1012,23 @@ module ApplicationHelper
       }
     ]
   }
+  
+  SETTINGS_PROCESS_LIST = {
+    :header_title => "Settings",
+    :processes => [
+      {
+        :title => "Password",
+        :destination_link => 'edit_credential_url',
+        :conditions => [
+          {
+            :controller => "passwords",
+            :action => "edit_credential"
+          }
+        ]
+      }
+    ]
+  }
+  
+  
   
 end

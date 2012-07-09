@@ -19,8 +19,8 @@
           <li class="dropdown" id="fat-menu">
             <a data-toggle="dropdown" class="dropdown-toggle" href="#"><%= current_user.email%><b class="caret"></b></a>
             <ul class="dropdown-menu">
-              <li><a href="#">Setting</a></li>
-              <li><a href="#">Profile</a></li>
+              <li><%= link_to "Setting", edit_credential_url %></li>
+              <!-- <li><a href="#">Profile</a></li> -->
               <li class="divider"></li>
               <li><%= link_to "Logout", destroy_user_session_url %></li>
             </ul>
