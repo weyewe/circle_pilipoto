@@ -166,9 +166,9 @@ class Project < ActiveRecord::Base
     if only_all_selected == true 
       self.pictures.where(:is_original => true, 
                           :is_selected => true  ).
-                          order("created_at ASC")
+                          order("name ASC")
     else
-      self.pictures.where(:is_original => true ).order("created_at ASC")
+      self.pictures.where(:is_original => true ).order("name ASC")
     end
   end
   
@@ -190,7 +190,7 @@ class Project < ActiveRecord::Base
     self.pictures.where(:is_original => true, 
                         :is_deleted => false, 
                         :is_selected => true 
-     )
+     ).order("name ASC")
   end
   
   def selected_and_approved_original_pictures_count
@@ -206,7 +206,7 @@ class Project < ActiveRecord::Base
                         :is_deleted => false, 
                         :is_selected => true ,
                         :is_approved => true 
-     )
+     ).order("name ASC")
   end
 
   def ready_to_be_finalized?
@@ -282,14 +282,14 @@ class Project < ActiveRecord::Base
 =end
 
   def original_pictures
-    self.pictures.where(:is_original => true ).order("created_at ASC")
+    self.pictures.where(:is_original => true, :is_deleted => false  ).order("name ASC")
   end
   
 
   
 
   def original_pictures_id
-    self.pictures.where(:is_original => true ).order("created_at ASC").select(:id).map do |x|
+    self.pictures.where(:is_original => true, :is_deleted => false ).order("name ASC").select(:id).map do |x|
       x.id
     end
   end
@@ -304,7 +304,7 @@ class Project < ActiveRecord::Base
   end
   
   def selected_original_pictures
-    self.original_pictures.includes(:revisions).where(:is_selected => true )
+    self.original_pictures.includes(:revisions).where(:is_selected => true ) 
   end
   
   

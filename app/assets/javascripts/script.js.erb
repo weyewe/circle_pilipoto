@@ -10,9 +10,18 @@ $(document).ajaxSend(function(event, request, settings) {
 $(document).ready(function() {
   
   $('.fancybox').fancybox();
+  $("form.delete_pic").submit(function(){
+    // alert("willy 1234");
+
+    if( confirm("Are you sure to delete picture?") ){
+
+    }else{
+      return false; 
+    }
+
+  });
   
-  
-  
+  $("#upload_starter").show();
   
   var $target = $("#target");
   if($target.length != 0 ){

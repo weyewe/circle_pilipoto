@@ -53,6 +53,32 @@
               
             </td>
           </tr>
+          
+         <tr>
+              <td colspan="2" style="text-align:center; ">
+                <div style="min-height:30px;">
+                  
+                  <% if picture.can_be_deleted?  %>
+                    <%= form_for picture, 
+                          :url => delete_original_image_url,
+                          :html => {:class => "delete_pic" , :style =>"margin: 0;"} do |f| %>
+                      <%= hidden_field_tag 'picture_id', picture.id  %>
+                      <button href="#" class="btn btn-danger delete_original" >
+                        Delete
+                      </button>
+                    <% end %>
+                  
+                  <% else %>
+                    --
+                  <% end %>
+                </div>
+              </td>
+            </tr>
+            
+            
+            </td>
+          </tr>
+          
         </tbody>
       </table>
      

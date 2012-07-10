@@ -12,6 +12,21 @@ class PicturesController < ApplicationController
           "Add Pictures for #{@project.title}"
   end
   
+=begin
+  delete original image 
+=end
+  def delete_original_image
+    @picture = Picture.find_by_id params[:picture_id]
+    @project = @picture.project 
+
+    @picture.set_deleted(current_user ) 
+  
+    
+    
+    redirect_to new_project_picture_url( @project.id )
+  end
+
+
   def create_picture_from_assembly
     @project = Project.find_by_id( params[:project_id] )
     assembly_url = params[:assembly_url]

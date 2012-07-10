@@ -44,7 +44,7 @@ class NewsletterMailer < ActionMailer::Base
     
     mail( :to  => @user.email, 
     :subject => "pilipoto | Premium Feature Registration",
-     :bcc => ["rajakuraemas@gmail.com", "christian@potoschool.com"],
+     :bcc => ["rajakuraemas@gmail.com"],
      :css => [:bootstrap_email] )
      
   end
@@ -55,7 +55,7 @@ class NewsletterMailer < ActionMailer::Base
     
     mail( :to  => @user.email, 
     :subject => "pilipoto | Reset  Password",
-     :bcc => ["rajakuraemas@gmail.com", "christian@potoschool.com"],
+     :bcc => ["rajakuraemas@gmail.com"],
      :css => [:bootstrap_email] )
   end
   
@@ -65,7 +65,7 @@ class NewsletterMailer < ActionMailer::Base
     
     mail( :to  => @receiver.email, 
     :subject => "pilipoto | Ready To Be Finalized: #{@project.title}",
-     :bcc => ["rajakuraemas@gmail.com", "christian@potoschool.com"],
+     :bcc => ["rajakuraemas@gmail.com"],
      :css => [:bootstrap_email] )
   end
   
@@ -75,7 +75,7 @@ class NewsletterMailer < ActionMailer::Base
     
     mail( :to  => @receiver.email, 
     :subject => "pilipoto | Client Selection Done: #{@project.title}",
-     :bcc => ["rajakuraemas@gmail.com", "christian@potoschool.com"],
+     :bcc => ["rajakuraemas@gmail.com"],
      :css => [:bootstrap_email] )
   end
   
@@ -95,7 +95,7 @@ class NewsletterMailer < ActionMailer::Base
     
     mail( :to  => @project_collaborator.email, 
     :subject => "pilipoto | Invitation to Project: #{@project.title}",
-     :bcc => ["rajakuraemas@gmail.com", "christian@potoschool.com"],
+     :bcc => ["rajakuraemas@gmail.com"],
      :css => [:bootstrap_email] )
      
      
@@ -141,7 +141,7 @@ class NewsletterMailer < ActionMailer::Base
     
     mail( :to  => email, 
     :subject => "piliPoto | Activity Update: #{time}", 
-    :bcc => ["rajakuraemas@gmail.com", "christian@potoschool.com"] )
+    :bcc => ["rajakuraemas@gmail.com"] )
     
     user_activity.mark_notification_sent 
   end
@@ -159,7 +159,7 @@ class NewsletterMailer < ActionMailer::Base
     
     mail( :to  => recipient_email, 
     :subject => "potoSchool | #{@school.name} Updates (#{pending_deliveries.count}): #{time}", 
-    :bcc => ["rajakuraemas@gmail.com", "christian@potoschool.com"] )
+    :bcc => ["rajakuraemas@gmail.com"] )
     
   end
   
@@ -195,7 +195,7 @@ class NewsletterMailer < ActionMailer::Base
     @subject_object = @subject
     
     # , "christian.tanudjaja@gmail.com"
-    mail(:to => ["rajakuraemas@gmail.com" , "christian.tanudjaja@gmail.com"] , 
+    mail(:to => ["rajakuraemas@gmail.com"] , 
     :subject => "potoSchool | Summary Users #{@school.name} @#{Time.now}")
   end
 end

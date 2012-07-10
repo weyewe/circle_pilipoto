@@ -33,6 +33,12 @@ Neopilipoto::Application.routes.draw do
   match 'new_uploaded_picture_display/:picture_id' => "pictures#new_uploaded_picture_display", :as => :new_uploaded_picture_display
   
 =begin
+  Delete Image in Project
+=end
+  match 'delete_original_image' => "pictures#delete_original_image", :as => :delete_original_image , :method => :post
+  match 'delete_image_from_show' => "pictures#delete_image_from_show", :as => :delete_image_from_show , :method => :post
+  
+=begin
   creating article from project 
 =end
   match 'select_project_to_create_article' => 'projects#select_project_to_create_article', :as => :select_project_to_create_article

@@ -38,6 +38,50 @@ class Picture < ActiveRecord::Base
     self.original_picture.approved_revision_id != nil
   end
 
+  def set_deleted(employee)
+    if not ( employee.has_project_role?(:owner, self.project) or 
+        employee.has_project_role?(:collaborator, self.project)  )
+     
+      return false 
+    end
+    
+    if not self.can_be_deleted?
+      return false
+    end
+    
+    self.is_deleted = true
+    self.deletion_time = DateTime.now 
+    self.save
+  end
+
+  def can_be_deleted?
+    project = self.project
+    
+    if self.is_original?
+      # if has been selected by client, can't be deleted
+      if self.is_selected == true 
+        return false 
+      end
+      
+      # if it has revisions, can't be deleted
+      if self.revisions.count != 0 
+        return false
+      end
+    end
+    
+    # it is has been approved or rejected -> return nil
+    if not self.is_approved.nil? 
+      return false
+    end
+    
+    # if it has comments, can't be deleted 
+    if self.positional_comments.count != 0 
+      return false
+    end
+    
+    return true 
+    
+  end
 
   def original_picture
     if self.is_original == true 
@@ -179,7 +223,7 @@ class Picture < ActiveRecord::Base
     if self.is_original?
       return array
     else
-      return array + original.revisions.where(:is_deleted => false ) .order("created_at ASC").map{|x| x.id}
+      return array + original.revisions.where(:is_deleted => false ) .order("name ASC").map{|x| x.id}
     end
   end
   
@@ -210,7 +254,7 @@ class Picture < ActiveRecord::Base
     # id_list = original_pic.project_submission.original_pictures_id
     id_list = original_pic.project.pictures.
                       where(:is_original => true, :is_deleted => false ).
-                      order("created_at ASC") .map {|x| x.id }
+                      order("name ASC") .map {|x| x.id }
 
     current_pic_index = id_list.index( original_pic.id )
 
@@ -226,7 +270,7 @@ class Picture < ActiveRecord::Base
     # id_list = original_pic.project_submission.original_pictures_id
     id_list = original_pic.project.pictures.
                       where(:is_original => true, :is_deleted => false   ).
-                      order("created_at ASC").map {|x| x.id}
+                      order("name ASC").map {|x| x.id}
 
     current_pic_index = id_list.index( original_pic.id )
 
@@ -242,12 +286,12 @@ class Picture < ActiveRecord::Base
   selection mode
 =end
   def next_pic_selection_mode
-    picture_id_list = self.project.pictures.where(:is_deleted => false).order("created_at ASC").map {|x| x.id }
+    picture_id_list = self.project.pictures.where(:is_deleted => false).order("name ASC").map {|x| x.id }
     self.nav_next_pic( picture_id_list)
   end
   
   def prev_pic_selection_mode
-    picture_id_list = self.project.pictures.where(:is_deleted => false).order("created_at ASC").map {|x| x.id }
+    picture_id_list = self.project.pictures.where(:is_deleted => false).order("name ASC").map {|x| x.id }
     self.nav_prev_pic( picture_id_list)
   end
 
@@ -260,7 +304,7 @@ class Picture < ActiveRecord::Base
     # id_list = original_pic.project_submission.original_pictures_id
     id_list = original_pic.project.pictures.
                       where(:is_original => true, :is_deleted => false , :is_selected => true  ).
-                      order("created_at ASC") .map {|x| x.id }
+                      order("name ASC") .map {|x| x.id }
 
     current_pic_index = id_list.index( original_pic.id )
 
@@ -276,7 +320,7 @@ class Picture < ActiveRecord::Base
     # id_list = original_pic.project_submission.original_pictures_id
     id_list = original_pic.project.pictures.
                       where(:is_original => true, :is_deleted => false, :is_selected => true   ).
-                      order("created_at ASC").map {|x| x.id}
+                      order("name ASC").map {|x| x.id}
                       
     current_pic_index = id_list.index( original_pic.id )
 
