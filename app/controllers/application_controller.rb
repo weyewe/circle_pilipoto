@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   before_filter :authenticate_user!
   
+  helper_method :current_office
   
   layout :layout_by_resource
   
@@ -18,7 +19,9 @@ class ApplicationController < ActionController::Base
     dashboard_url 
   end
   
-  
+  def current_office
+    current_user.company_under_perspective
+  end
   
   
   def set_breadcrumb_for object, destination_path, opening_words

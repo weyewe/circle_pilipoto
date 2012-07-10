@@ -69,6 +69,8 @@ class User < ActiveRecord::Base
       User.delay.send_company_admin_approval_notification( company_admin   )
       return company_admin
     end
+    
+    return company_admin
   end
   
   
@@ -138,11 +140,19 @@ class User < ActiveRecord::Base
   Project Role
 =end
   def has_project_role?( project_role_sym, project)
+    if project.nil?
+      puts "project id is nil"
+      return false
+    end
     project_membership = ProjectMembership.find(:first, :conditions => {
       :project_id => project.id, 
       :user_id => self.id 
     })
     
+    if project_membership.nil?
+      puts "project membership is nil"
+      return false 
+    end
     project_membership.has_project_role?(project_role_sym)
   end
 
@@ -214,9 +224,12 @@ class User < ActiveRecord::Base
   
   
   def get_all_enlisted_project
-    ProjectMembership.includes(:project).find(:all, :conditions => {
-      :user_id => self.id 
-    }, :order => "created_at DESC").map{ |x| x.project }
+    # Project.all
+    projects = ProjectMembership.includes(:project).find(:all, :conditions => {
+          :user_id => self.id 
+        }, :order => "created_at DESC").map{ |x| x.project }
+        
+    
   end
   
   

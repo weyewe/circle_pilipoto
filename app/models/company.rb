@@ -19,10 +19,22 @@ class Company < ActiveRecord::Base
     if not admin.nil?  and not self.has_enrolled?(admin) 
       self.users << admin 
       self.save 
+      
+      admin_role = ProjectRole.find_by_name PROJECT_ROLE_MAP[:owner]
+      self.projects.where(:is_finalized => false ).each do |project|
+        project.add_project_membership( admin_role, admin )
+      end
+      
       return admin
     end
     
-    return nil 
+    admin_role = ProjectRole.find_by_name PROJECT_ROLE_MAP[:owner]
+    self.projects.where(:is_finalized => false ).each do |project|
+      project.add_project_membership( admin_role, admin )
+    end
+    
+    
+    return admin 
   end
   
   

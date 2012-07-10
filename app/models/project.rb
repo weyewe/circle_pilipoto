@@ -32,10 +32,20 @@ class Project < ActiveRecord::Base
     end
     
     company = current_user.company_under_perspective
+    
     project = Project.create project_hash 
     
     project.set_company( company )
     project.add_owner( current_user )
+    
+    # other company admins has to be add as owner 
+    admin_role = ProjectRole.find_by_name PROJECT_ROLE_MAP[:owner]
+    company.company_admins.each do |company_admin|
+      if current_user.id != company_admin.id
+        project.add_project_membership( admin_role, company_admin )
+      end
+    end
+    
     
     return project 
   end

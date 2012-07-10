@@ -77,6 +77,8 @@ class CompaniesController < ApplicationController
     
     if not result_company_admin.nil?
       redirect_to new_company_admin_url(@company, :notice => "We created the #{email} as company admin.")
+    else
+      redirect_to new_company_admin_url(@company, :error => "The company admin is nil")
     end
       
   end

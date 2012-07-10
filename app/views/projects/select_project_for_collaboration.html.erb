@@ -30,14 +30,15 @@
               <td>
                 <%= link_to "#{project.title}", extract_relevant_collaboration_link(current_user, project) %>
                 
-                <%#= link_to "#{project.title}", root_url %>
               </td>
               <td>
                 <% if current_user.has_project_role?(:client, project)%>
                   <span class="label label-success">Client</span>
-                <% elsif current_user.has_project_role?(:collaborator, project)%>
+                <% end %>
+                <% if current_user.has_project_role?(:collaborator, project)%>
                   <span class="label">Collaborator</span>
-                <% elsif current_user.has_project_role?(:owner, project)%>
+                <% end %>
+                <% if current_user.has_project_role?(:owner, project)%>
                   <span class="label label-info">Owner</span>
                 <% end %>
               </td>
