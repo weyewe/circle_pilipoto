@@ -86,7 +86,7 @@
         </thead>
         <tbody>
           <% count = 1 %>
-          <%  @project.pictures.where(:is_selected => true, :is_original => true  ).each do |pic| %>
+          <%  @project.pictures.where(:is_selected => true, :is_original => true  ).order("name ASC").each do |pic| %>
             <tr>
               <td><%= count %></td>
               <td><%= image_tag pic.index_image_url %></td>
