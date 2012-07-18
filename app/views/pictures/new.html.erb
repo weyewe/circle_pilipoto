@@ -128,7 +128,7 @@
               }
               
               non_completed_pic_id_list["non_completed_pic_id_list"] = pic_list;
-              console.log("The pic list is " + pic_list );
+              // console.log("The pic list is " + pic_list );
               
               
               
@@ -149,18 +149,18 @@
                   processed_counter = totalProcessedFile();
                   $("#processed_counter").text(processed_counter);
                   // Object.keys(uploaded_file).length == 
-                  console.log("processed_counter is " + processed_counter);
-                  console.log("uploaded_counter is " + uploaded_counter);
-                  console.log("selected_counter is " + selected_counter);
+                  // console.log("processed_counter is " + processed_counter);
+                  // console.log("uploaded_counter is " + uploaded_counter);
+                  // console.log("selected_counter is " + selected_counter);
                   
                   if( ( processed_counter == selected_counter ) && ( selected_counter == uploaded_counter ) ){
                     //  refresh page 
-                    console.log("Now, we are supposed to refresh page");
+                    // console.log("Now, we are supposed to refresh page");
                     window.location.reload(true);
                     
                    
                   }else{
-                    console.log("gonna repeat the checking");
+                    // console.log("gonna repeat the checking");
                     setTimeout(function(){ 
                       checkTransloaditProcessing(); 
                       }, 5000);
@@ -172,7 +172,7 @@
             // upload starter
             $("#upload_starter").click(function(){
               // $('#file_upload').uploadifive('upload');
-              console.log("clicked upload");
+              // console.log("clicked upload");
               $('#file_upload').uploadify('upload', '*');
               $("#file_upload").uploadify('disable', true);
               $("#file_upload_loading").show();
@@ -190,9 +190,9 @@
               
               $("#upload_cancel").hide();
               $("#preloader").hide();
-              console.log("hiding preloader");
+              // console.log("hiding preloader");
               $("#upload_starter").show();
-              console.log("gonna clear queue");
+              // console.log("gonna clear queue");
               // $('#file_upload').uploadifive('clearQueue');
               $('#file_upload').uploadify('cancel', "*");
               return false;
@@ -216,8 +216,8 @@
             var processed_counter = 0 ;
             
     
-            console.log("params value is "  + params_value);
-            console.log("signature value is " + signature_value);
+            // console.log("params value is "  + params_value);
+            // console.log("signature value is " + signature_value);
             $('#file_upload').uploadify({
               'queueSizeLimit' : 2000,
                'auto' :false,
@@ -231,10 +231,10 @@
                  'wait' : wait_value
                },
                'onUploadError' : function(file, errorCode, errorMsg, errorString) {
-                 console.log('The file ' + file.name + ' could not be uploaded: ' + errorString);
-                 console.log('The error message: ' + errorMsg);
-                 console.log("the error code: " + errorCode);
-                 console.log("the error string: " + errorString);
+                 // console.log('The file ' + file.name + ' could not be uploaded: ' + errorString);
+                 // console.log('The error message: ' + errorMsg);
+                 // console.log("the error code: " + errorCode);
+                 // console.log("the error string: " + errorString);
                },               // 
                'onSWFReady' : function() {
                  // show the file_input
@@ -250,7 +250,7 @@
                  alert('Please use the latest version of Google Chrome or Safari.');
                },
                'onInit'       : function() {
-                 console.log('Add the loader');
+                 // console.log('Add the loader');
                },
                // in uploadify, this is onDialogClose
                'onDialogClose' : function(queueData) {
@@ -263,7 +263,7 @@
                //         //  show the browse button
                //       },
                'onCancel'     : function() {
-                 console.log("one file is cancelled");
+                 // console.log("one file is cancelled");
                  selected_counter -= 1 ;
 
                  if(selected_counter < 0 ) {
@@ -277,7 +277,7 @@
                  $("#selected_counter").text(selected_counter);
                },
                'onQueueComplete' : function(uploads) {
-                 console.log("Uploaded " + uploads.successful + " pictures");
+                 // console.log("Uploaded " + uploads.successful + " pictures");
                  // $('#file_upload').uploadifive('upload');
                  $("#upload_cancel").hide();
                  
@@ -295,7 +295,7 @@
                  //  refresh page
                },
                'onClearQueue' : function(queueItemCount) {
-                 console.log("queue is cleared");
+                 // console.log("queue is cleared");
                  $("#processing_images_notification").hide();
                  $("#selected_counter").text(0);
                  $("#file_upload").uploadify('disable', false);
@@ -307,12 +307,12 @@
                'onUploadSuccess' : function(file, data, response) {
 
                  parsedData = jQuery.parseJSON( data )
-                 console.log("The assembly_url: " + parsedData["ok"]);
-                 console.log("The assembly_url: " + parsedData["assembly_url"]);
+                 // console.log("The assembly_url: " + parsedData["ok"]);
+                 // console.log("The assembly_url: " + parsedData["assembly_url"]);
                  //  send the assembly_url to the server 
                  // delayed_job to extract the data, poll every 1 second
                  // poll that assembly_url 
-                 console.log("Gonna create pseudo picture file");
+                 // console.log("Gonna create pseudo picture file");
                  $.ajax({
                    url: '<%= create_picture_from_assembly_url(@project)%>',
                    type: "POST",
@@ -323,7 +323,7 @@
                    success: function(response){
                      // uploaded_file.push( jQuery.parseJSON( response ) )
                       
-                     console.log( response );
+                     // console.log( response );
                      
                      var new_pic = {};
                      // new_pic[response["picture_id"]] = response["is_completed"];
@@ -343,9 +343,9 @@
 
                      uploaded_counter +=1 ;
                      $("#uploaded_counter").text(uploaded_counter);
-                     console.log("outside uploaded_file length is " + Object.keys(uploaded_file).length  );
-                     console.log("ajax request is done");
-                     console.log("gonna set the time out");
+                     // console.log("outside uploaded_file length is " + Object.keys(uploaded_file).length  );
+                     // console.log("ajax request is done");
+                     // console.log("gonna set the time out");
 
                    }
                  });
