@@ -4538,7 +4538,7 @@
 			}
 			else if ( console !== undefined && console.log )
 			{
-				console.log( sAlert );
+/*        console.log( sAlert );*/
 			}
 		}
 		
