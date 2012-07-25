@@ -23,16 +23,43 @@ class Picture < ActiveRecord::Base
    #    t.integer  "original_id"
 
    def landscape?
-     width > height
+     if has_index_measurement?
+       index_width > index_height 
+     else
+       width > height
+     end
    end
    
    def portrait?
-     width <= height 
+     if has_index_measurement?
+       index_width <= index_height 
+     else
+       width <= height 
+     end
    end
    
    def landscape_width(landscape_height)
-     (landscape_height.to_f/height)*width
+     if height == 0 
+       return 100
+     end
+     
+     
+     if has_index_measurement?
+       (landscape_height.to_f/index_height)*index_width
+     else
+       (landscape_height.to_f/height)*width
+     end
+     
    end
+   
+   # initially, we are using original image's size..
+   # but, somehow, transloadit is wrong ... hence, we are using the new one 
+   def has_index_measurement? 
+     not ( index_width.nil? or index_height.nil? ) 
+   end
+   
+   
+   
 
 =begin
   The commenting logic. 
