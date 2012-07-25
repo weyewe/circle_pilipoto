@@ -399,6 +399,10 @@ class Picture < ActiveRecord::Base
     end
   end
   
+  def Picture.updated_entity
+    Picture.where{( index_width.not_eq nil ) & (index_height.not_eq nil) } 
+  end
+  
   def extract_index_width_and_height
     
     puts "***** PIC ID is #{self.id}"
