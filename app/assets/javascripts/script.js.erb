@@ -49,7 +49,38 @@ $(document).ready(function() {
   $("#loading_uploader_notification").fadeOut();
   $("#upload_picture").fadeIn();
   
-  $(".entry-link").click(function(){
+  $(".flexible-entry-link").live("click", function(){
+    
+    var $entry_link = $(this);
+    var text = "Are you sure?";
+    
+    if( confirm( text ) ){
+      var entry_id = $(this).attr('id').split("_")[1];
+
+      var $form = $("#flexible-entry form");
+      var $input_entry_id = $("#flexible_entry_id");
+      var destination_url = $entry_link.attr("href");
+      $input_entry_id.attr("value", entry_id );
+      
+      $entry_link.showLoading();
+      $.ajax({
+        url: destination_url,
+        type: "POST",
+        data: $form.serialize(),
+        dataType: 'script',
+        success: function(response){
+          $form.clearForm();
+          $entry_link.hideLoading();
+        }
+      });
+    }
+    
+    return false;
+  });
+  
+  
+  
+  $(".entry-link").live('click', function(){
     var $entry_link = $(this);
     
     

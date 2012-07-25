@@ -159,6 +159,12 @@ class ProjectsController < ApplicationController
     add_breadcrumb "Select  project", 'select_project_to_invite_member_path'
   end
   
+  def reopen_selection_stage
+    @project = Project.find_by_id(params[:flexible_entry_id])
+    @project.reopen_selection_stage(current_user)
+    
+  end
+  
 =begin
   For client
 =end

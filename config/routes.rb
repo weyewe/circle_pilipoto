@@ -136,9 +136,13 @@ Neopilipoto::Application.routes.draw do
   match 'execute_project_selection_done' => "projects#execute_project_selection_done", :as => :execute_project_selection_done
   # approve or reject the final selection 
   match 'execute_grading/picture/:picture_id' => "pictures#execute_grading", :as => :execute_grading, :method => :post
+  
+  
+  #reopen closed selection project
+  match 'reopen_selection_stage' => "projects#reopen_selection_stage", :as => :reopen_selection_stage, :method => :post
+  
   # finalize project
   match 'finalize_project' => "projects#finalize_project", :as => :finalize_project, :method => :post
-  
   match 'show_finalized_projects' => "projects#show_finalized_projects", :as => :show_finalized_projects
   
   # finalize the selected picture -> Feedback, edit etc
@@ -166,6 +170,9 @@ Neopilipoto::Application.routes.draw do
   match 'edit_credential' => "passwords#edit_credential" , :as => :edit_credential
   match 'update_password' => "passwords#update" , :as => :update_password, :method => :put
   
+  
+  
+
   # match 'execute_select_picture' => "pictures#execute_select_picture", :as => :execute_select_picture
   # match 'execute_project_selection_done' => "projects#execute_project_selection_done", :as => :execute_project_selection_done
   

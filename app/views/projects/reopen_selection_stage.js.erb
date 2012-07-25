@@ -1,0 +1,9 @@
+$(document).ready(function(){
+  
+  <% new_row = escape_javascript( render :partial => "projects/project_to_be_managed", :locals => {
+    :project => @project
+  }) %>
+  
+  $("#entry_row_<%= @project.id %>").replaceWith('<%= new_row %>');
+  
+});

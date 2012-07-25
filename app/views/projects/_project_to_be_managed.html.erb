@@ -1,0 +1,43 @@
+<tr id="entry_row_<%= project.id %>">
+  <td><%= link_to "#{project.title}", new_project_picture_url(project )%></td>
+  <td><%= project.original_pictures.count %></td>
+  <td><%= project.picture_select_quota %></td>
+  <td><%= project.selected_original_pictures_count %></td>
+  <td>
+    <% if project.done_with_selection == true %>
+      <span class="label label-success">Yes</span>
+      
+      <% if project.is_finalized == false  %>
+        <%= link_to "Re-open", reopen_selection_stage_url, :class => "btn btn-mini flexible-entry-link", :id=>"open_#{project.id}"%>
+      <% end %>
+    <% else %>
+      <span class="label label-important">No</span>
+    <% end %>
+  </td>
+  
+  <td><%= project.revisions_count  %></td>
+  
+  <td>
+    <%= project.approved_selected_files_count %>
+  </td>
+  
+  
+  <td>
+    <% if project.ready_to_be_finalized? %>
+        <span class="label label-success">Yes</span>
+        <!-- <button href="#" class="btn btn-success">Finalize</button> -->
+        
+        
+        <%= link_to "Finalize", '#', 
+                  :class => "btn btn-success entry-link entry-closer",
+                  :id => "entry_#{project.id}" %>
+                  
+                  
+    <% else %>
+        <span class="label label-important">No</span>
+    <% end %>
+  </td>
+    
+
+  
+</tr>
