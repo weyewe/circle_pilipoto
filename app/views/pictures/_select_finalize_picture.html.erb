@@ -4,9 +4,20 @@
 <li class="span3">
   <div class="thumbnail">
     <% last_revision = picture.last_revision %>
+    
     <%= link_to  show_picture_for_feedback_url( last_revision ),
         :class => "thumbnail" , :style => "height:160px; overflow:hidden;" do %>
-      <%= image_tag last_revision.index_image_url %>
+        
+        <% if last_revision.landscape?  %>
+          <%= image_tag last_revision.index_image_url, 
+                :style=>" width: 100%;", :class => "landscape" %>
+        <% elsif last_revision.portrait? %>
+          <%= image_tag last_revision.index_image_url, 
+                :style=>"height:160px;",    :class => "portrait" %>
+        <% end %>
+        
+        
+      <%#= image_tag last_revision.index_image_url %>
     <% end %>
     
     <!-- <img alt="" src="http://placehold.it/260x180"> -->
@@ -15,6 +26,11 @@
             class="table table-striped table-bordered" id="example">
         
         <tbody>
+          <tr>
+            <td colspan="2">
+              <a href="#" rel="tooltip" title="<%=  picture.name %>" class='tooltip-able'><%= picture.name %></a>
+            </td>
+          </tr>
           <tr>
             <td>Revision:</td>
             <td><%= picture.revisions.count %></td>

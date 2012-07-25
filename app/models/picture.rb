@@ -22,6 +22,18 @@ class Picture < ActiveRecord::Base
    #    t.integer  "approved_revision_id"
    #    t.integer  "original_id"
 
+   def landscape?
+     width > height
+   end
+   
+   def portrait?
+     width <= height 
+   end
+   
+   def landscape_width(landscape_height)
+     (landscape_height.to_f/height)*width
+   end
+
 =begin
   The commenting logic. 
   Only teacher that can add positional comments 

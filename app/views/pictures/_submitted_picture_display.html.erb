@@ -6,20 +6,16 @@
     
     <%= link_to  large_picture_preview_for_company_admin_url(picture),
         :class => "thumbnail" , :style => "height:160px; overflow:hidden;" do %>
-      <%= image_tag picture.index_image_url %>
+      <%#= image_tag picture.index_image_url %>
+      <% if picture.landscape?  %>
+        <%= image_tag picture.index_image_url, 
+              :style=>" width: 100%;", :class => "landscape" %>
+      <% elsif picture.portrait? %>
+        <%= image_tag picture.index_image_url, 
+              :style=>"height:160px;",    :class => "portrait" %>
+      <% end %>
     <% end %>
-    
-    <%# if  original_picture.any_picture_submission_approved? %>
-      <%#= link_to  project_submission_picture_url( project_submission, original_picture.approved_picture ),
-          :class => "thumbnail" , :style => "height:160px; overflow:hidden;" do %>
-        <%#= image_tag original_picture.approved_picture.index_image_url %>
-      <%# end %>
-    <%# else %>
-      <%#= link_to  project_submission_picture_url( project_submission, picture.last_revision),
-       :class => "thumbnail" , :style => "height:160px; overflow:hidden;" do %>
-        <%#= image_tag picture.last_revision.index_image_url %>
-      <%# end %>
-    <%# end %>
+   
     
     
     <!-- <img alt="" src="http://placehold.it/260x180"> -->
@@ -30,12 +26,7 @@
         <tbody>
           <tr>
             <td colspan="2">
-              
-              <!-- <a rel="tooltip" href="#" data-original-title="<%=  picture.name %>"><%= picture.name[0..10] %></a> -->
-              
-              
-            <a href="#" rel="tooltip" title="<%=  picture.name %>" class='tooltip-able'><%= picture.name[0..10] %></a>
-            
+              <a href="#" rel="tooltip" title="<%=  picture.name %>" class='tooltip-able'><%= picture.name %></a>
             </td>
           </tr>
           <tr>
