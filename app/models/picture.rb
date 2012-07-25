@@ -415,8 +415,12 @@ class Picture < ActiveRecord::Base
       return nil
     end
     
-    
-    content = open(self.assembly_url).read
+    begin
+      content = open(self.assembly_url).read
+    rescue
+      puts "damn, the assembly url passed away"
+      return nil
+    end
     # json = JSON.parse(content)
     
     
