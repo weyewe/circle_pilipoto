@@ -394,7 +394,8 @@ class Picture < ActiveRecord::Base
   end
   
   def Picture.update_width_and_height
-    Picture.where{ assembly_url.not_eq nil }.each do |pic|
+    Picture.where{ ( assembly_url.not_eq nil)  & 
+        ( index_width.not_eq nil ) & (index_height.not_eq nil)}.each do |pic|
       pic.delay.extract_index_width_and_height
     end
   end
