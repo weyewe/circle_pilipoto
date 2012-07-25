@@ -439,10 +439,15 @@ class Picture < ActiveRecord::Base
     end
     
     puts "#{transloadit_params[:results][:resize_index]}"
+    begin
+      self.index_width     = transloadit_params[:results][:resize_index].first[:meta][:width] 
+      self.index_height  = transloadit_params[:results][:resize_index].first[:meta][:height] 
+      self.save
+    rescue
+      puts "damn, no such assembly"
+      return nil
+    end
     
-    self.index_width     = transloadit_params[:results][:resize_index].first[:meta][:width] 
-    self.index_height  = transloadit_params[:results][:resize_index].first[:meta][:height] 
-    self.save
     
     
   end
