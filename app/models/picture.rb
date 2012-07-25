@@ -366,6 +366,47 @@ class Picture < ActiveRecord::Base
     )
   end
   
+  def Picture.update_width_and_height
+    Picture.where{ assembly_url.not_eq nil }.each do |pic|
+      pic.delay.extract_index_width_and_height
+    end
+  end
+  
+  def extract_index_width_and_height
+    
+    puts "***** PIC ID is #{self.id}"
+    if self.assembly_url.nil? or self.assembly_url.length ==0  
+      return nil
+    end
+    
+    
+    content = open(self.assembly_url).read
+    # json = JSON.parse(content)
+    
+    
+    
+    transloadit_params = ActiveSupport::HashWithIndifferentAccess.new(
+          ActiveSupport::JSON.decode content
+        )
+        
+    while transloadit_params[:ok] != "ASSEMBLY_COMPLETED"
+      sleep 2
+      puts "in the loop"
+      content = open(self.assembly_url).read
+      transloadit_params = ActiveSupport::HashWithIndifferentAccess.new(
+            ActiveSupport::JSON.decode content
+          )
+    end
+    
+    puts "#{transloadit_params[:results][:resize_index]}"
+    
+    self.index_width     = transloadit_params[:results][:resize_index].first[:meta][:width] 
+    self.index_height  = transloadit_params[:results][:resize_index].first[:meta][:height] 
+    self.save
+    
+    
+  end
+  
   def extract_from_assembly_url
     content = open(self.assembly_url).read
     # json = JSON.parse(content)
@@ -400,6 +441,10 @@ class Picture < ActiveRecord::Base
     self.width               = transloadit_params[:results][':original'].first[:meta][:width]
     self.height              = transloadit_params[:results][':original'].first[:meta][:height] 
     self.is_completed        = true
+    
+    self.index_width     = transloadit_params[:results][:resize_index].first[:meta][:width] 
+    self.index_height  = transloadit_params[:results][:resize_index].first[:meta][:height]
+    
     self.save
       
   end

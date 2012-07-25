@@ -9,10 +9,10 @@
       <%#= image_tag picture.index_image_url %>
       <% if picture.landscape?  %>
         <%= image_tag picture.index_image_url, 
-              :style=>" width: 100%;", :class => "landscape" %>
+              :style=>" width: 100%;", :class => "landscape", :id=> "#{picture.id}" %>
       <% elsif picture.portrait? %>
         <%= image_tag picture.index_image_url, 
-              :style=>"height:160px;",    :class => "portrait" %>
+              :style=>"height:160px;",    :class => "portrait", :id=> "#{picture.id}" %>
       <% end %>
     <% end %>
    

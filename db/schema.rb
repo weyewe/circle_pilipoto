@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120725095020) do
+ActiveRecord::Schema.define(:version => 20120725150912) do
 
   create_table "article_categories", :force => true do |t|
     t.string   "name"
@@ -158,6 +158,8 @@ ActiveRecord::Schema.define(:version => 20120725095020) do
     t.text     "assembly_url"
     t.boolean  "is_completed",         :default => true
     t.datetime "deletion_time"
+    t.integer  "index_width"
+    t.integer  "index_height"
   end
 
   create_table "polled_deliveries", :force => true do |t|
