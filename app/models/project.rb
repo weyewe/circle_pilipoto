@@ -374,6 +374,20 @@ class Project < ActiveRecord::Base
     self.save 
   end
   
+  def soft_delete(employee)
+    # puts "because of finalized"
+    # return nil if self.is_finalized == true 
+    puts "because of not project owner"
+    return nil if not employee.has_project_role?(:owner, self)
+    puts "because of no project_membership"
+    return nil if employee.project_membership_for_project(self).nil?
+    # puts "still not done with selection"
+    # return nil if self.done_with_selection == false
+    
+    self.is_deleted = true
+    self.save 
+  end
+  
   
   
   def Project.send_ready_to_be_finalized_email( project) 

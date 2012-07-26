@@ -165,6 +165,12 @@ class ProjectsController < ApplicationController
     
   end
   
+  def delete_project
+    @project = Project.find_by_id(params[:flexible_entry_id])
+    @project.soft_delete(current_user)
+    
+  end
+  
 =begin
   For client
 =end

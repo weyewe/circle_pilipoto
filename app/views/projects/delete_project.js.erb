@@ -1,0 +1,8 @@
+$(document).ready(function(){
+  
+  <% if @project.is_deleted == true %>
+    $("#entry_row_<%= @project.id %>").remove();
+  <% end %>
+  
+  
+});

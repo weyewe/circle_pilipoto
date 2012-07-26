@@ -225,11 +225,14 @@ class User < ActiveRecord::Base
   
   def get_all_enlisted_project
     # Project.all
-    projects = ProjectMembership.includes(:project).find(:all, :conditions => {
-          :user_id => self.id 
-        }, :order => "created_at DESC").map{ |x| x.project }
-        
-    
+    # projects = ProjectMembership.includes(:project).find(:all, :conditions => {
+    #         :user_id => self.id ,
+    #         :project => {:is_deleted => false}
+    #       }, :order => "created_at DESC").map{ |x| x.project }
+    #       
+    user = self
+    projects=  Project.joins(:project_memberships).where(:is_deleted => false, 
+            :project_memberships => {:user_id => user.id }).order("created_at DESC")
   end
   
   
@@ -249,7 +252,7 @@ class User < ActiveRecord::Base
     # self.company.projects.where(:is_finalized => false )
     # find the company where he is the company_admin 
     project_list = [] 
-    self.projects.where(:is_finalized => false).order('created_at DESC').each do |x|
+    self.projects.where(:is_finalized => false, :is_deleted => false ).order('created_at DESC').each do |x|
       if self.has_project_role?(:owner, x)
         project_list << x
       end

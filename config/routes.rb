@@ -140,7 +140,7 @@ Neopilipoto::Application.routes.draw do
   
   #reopen closed selection project
   match 'reopen_selection_stage' => "projects#reopen_selection_stage", :as => :reopen_selection_stage, :method => :post
-  
+  match 'delete_project' => "projects#delete_project", :as => :delete_project, :method => :post
   # finalize project
   match 'finalize_project' => "projects#finalize_project", :as => :finalize_project, :method => :post
   match 'show_finalized_projects' => "projects#show_finalized_projects", :as => :show_finalized_projects
