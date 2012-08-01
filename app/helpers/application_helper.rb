@@ -241,7 +241,7 @@ module ApplicationHelper
   end
     
   def hours_selected( user) 
-     user.delivery_hours_in_school_timezone
+     user.delivery_hours_in_user_timezone
   end
   
   

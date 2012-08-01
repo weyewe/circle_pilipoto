@@ -49,17 +49,17 @@ class SettingsController < ApplicationController
 
      if @selected_delivery_method == NOTIFICATION_DELIVERY_METHOD[:instant]
      elsif @selected_delivery_method == NOTIFICATION_DELIVERY_METHOD[:scheduled] 
-       if params[:school].nil? || params[:school][:scheduled_delivery_hours].nil?
+       if params[:user].nil? || params[:user][:scheduled_delivery_hours].nil?
          redirect_to delivery_method_setup_url
          return
        end
-       params[:school][:scheduled_delivery_hours].each do |x|
+       params[:user][:scheduled_delivery_hours].each do |x|
          @delivery_hours << x.to_i
        end
      end
 
-     @school = current_user.get_managed_school
-     @school.set_delivery_method( @selected_delivery_method, @delivery_hours)
+     @user = current_user
+     @user.set_delivery_method( @selected_delivery_method, @delivery_hours)
 
      redirect_to delivery_method_setup_url
    end

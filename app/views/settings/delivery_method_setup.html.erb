@@ -36,11 +36,11 @@
     <div class="tab-content">
       <div class="tab-pane <%= is_delivery_status_matched?(@user, NOTIFICATION_DELIVERY_METHOD[:instant]) %>" 
         id="instant_delivery_tab">
-        <%= render :partial => "schools/instant_delivery_form" %>
+        <%= render :partial => "settings/instant_delivery_form" %>
       </div>
       <div class="tab-pane <%= is_delivery_status_matched?(@user, NOTIFICATION_DELIVERY_METHOD[:scheduled]) %>" 
         id="scheduled_delivery_tab">
-        <%= render :partial => "schools/scheduled_delivery_form" %>
+        <%= render :partial => "settings/scheduled_delivery_form" %>
       </div>
     </div>
 
