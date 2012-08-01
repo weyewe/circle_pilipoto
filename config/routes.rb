@@ -172,6 +172,16 @@ Neopilipoto::Application.routes.draw do
   
   
   
+  # setting up the timezone
+  match 'timezone_setup' => 'schools#timezone_setup', :as => :timezone_setup 
+  match 'execute_timezone_setup' => 'schools#execute_timezone_setup', :as => :execute_timezone_setup, :method => :post 
+  
+  
+  # setting the notification delivery method 
+  match 'delivery_method_setup' => 'schools#delivery_method_setup', :as => :delivery_method_setup 
+  match 'execute_delivery_method_setup' => 'schools#execute_delivery_method_setup', :as => :execute_delivery_method_setup, :method => :post
+  
+  
 
   # match 'execute_select_picture' => "pictures#execute_select_picture", :as => :execute_select_picture
   # match 'execute_project_selection_done' => "projects#execute_project_selection_done", :as => :execute_project_selection_done

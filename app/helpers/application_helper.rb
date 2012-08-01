@@ -134,6 +134,75 @@ module ApplicationHelper
   Date helper
 =end
 
+  def select_hour_options
+    array = ""
+    (0..23).each do |x|
+      array << "<option>#{x}</option>"
+    end
+    return array 
+  end
+  
+  def select_hour_options_with_selected(value)
+    array = ""
+    (0..23).each do |x|
+      if x != value 
+        array << "<option>#{x}</option>"
+      else
+        array << "<option selected='selected'>#{x}</option>"
+      end
+    end
+    return array 
+  end
+  
+  
+  
+  def select_minute_options
+    array = ""
+    (0..59).each do |x|
+      array << "<option>#{x}</option>"
+    end
+    return array 
+  end
+  
+  def select_minute_options_with_selected(value)
+    array = ""
+    (0..59).each do |x|
+      if x != value 
+        array << "<option>#{x}</option>"
+      else
+        array << "<option selected='selected'>#{x}</option>"
+      end
+    end
+    return array 
+  end
+
+
+  def get_offset(offset)
+    if offset.nil?
+      return ""
+    end
+    if offset >= 0 
+      "+ #{offset}"
+    else
+      "- #{offset}"
+    end
+  end
+  
+  def select_timezone_for_school( school )
+    array = ""
+    TOWN_OFFSET_HASH.sort_by {|key, value| value}.each do |loc_name, offset |
+      if school.utc_offset == offset and school.time_zone == loc_name 
+        array << "<option value='#{offset}_#{loc_name}' selected='selected'>#{loc_name} (GMT #{get_offset(offset)})</option>"
+      else
+        array << "<option value='#{offset}_#{loc_name}'>#{loc_name} (GMT #{get_offset(offset)})</option>"
+      end
+    end
+    
+    return array
+  end
+  
+  
+
   def format_date_from_datetime( datetime) 
     if datetime.nil? 
       return ""
