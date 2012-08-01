@@ -8,7 +8,7 @@
 <% @event_type = @user_activity.event_type %>
 <% @project = Project.find_by_id(@user_activity.project_id) %>
 
-<% 
+<%# 
   EVENT_TYPE[:create_comment]   i need to know the project object 
   EVENT_TYPE[:reply_comment] 
   EVENT_TYPE[:submit_picture_revision] 

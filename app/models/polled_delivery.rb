@@ -9,9 +9,9 @@ class PolledDelivery < ActiveRecord::Base
     
     if pending_deliveries.count > 0 
       if Rails.env.production?
-        NewsletterMailer.delay.polled_delivery( teacher.email, pending_deliveries )
+        NewsletterMailer.delay.polled_delivery( user.email, pending_deliveries )
       elsif Rails.env.development?
-        NewsletterMailer.polled_delivery( teacher.email, pending_deliveries ).deliver
+        NewsletterMailer.polled_delivery( user.email, pending_deliveries ).deliver
       end
     end
      

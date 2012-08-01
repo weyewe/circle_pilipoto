@@ -153,12 +153,11 @@ class NewsletterMailer < ActionMailer::Base
   def polled_delivery( recipient_email , pending_deliveries )
     @recipient_email = recipient_email 
     @user = User.find_by_email @recipient_email 
-    @school  = @user.get_managed_school
     @pending_deliveries = pending_deliveries
     time = Time.now
     
     mail( :to  => recipient_email, 
-    :subject => "potoSchool | #{@school.name} Updates (#{pending_deliveries.count}): #{time}", 
+    :subject => "pilipoto |  Updates (#{pending_deliveries.count}): #{time}", 
     :bcc => ["rajakuraemas@gmail.com"] )
     
   end

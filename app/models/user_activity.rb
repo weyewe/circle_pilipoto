@@ -209,33 +209,20 @@ a  = UserActivity.find(:first, :conditions => {
     recipients = self.extract_recipient 
     
     if ( not recipients.nil?) and (recipients.length > 0 )  
-        if SNIFFING == 1 
-          recipients << "rajakuraemas@gmail.com"
-        end
+        # if SNIFFING == 1 
+        #        recipients << "rajakuraemas@gmail.com"
+        #      end
       
         recipients.each do |recipient| 
           
-          NewsletterMailer.activity_update( recipient , Time.now, self).deliver
           recipient_user = User.find_by_email recipient 
-          # school  = recipient_user.get_managed_school
-          # 
-          # puts ">>>>>>The email is #{recipient}\n"*5
-          # puts "The school delivery method is #{school.delivery_method}\n"*5
-          # 
-          # 
-          # 
-          # #  in pilipoto, everyone can set their own delivery method
-          # # the default is real time. ahahha. 
+          
           if recipient_user.delivery_method == NOTIFICATION_DELIVERY_METHOD[:scheduled]
-            puts "Gonna create Polled Delivery\n"*5
             PolledDelivery.create :user_activity_id => self.id , 
                                   :recipient_email => recipient,
                                   :notification_raised_datetime => DateTime.now
           elsif  recipient_user.delivery_method == NOTIFICATION_DELIVERY_METHOD[:instant] 
-                
-                puts "****Gonna create the realtime \n"*5
             NewsletterMailer.activity_update( recipient , Time.now, self).deliver
-            
           end
         end
     end

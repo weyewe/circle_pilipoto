@@ -46,6 +46,8 @@ class SettingsController < ApplicationController
 
      @selected_delivery_method = params[:delivery_method].to_i
      @delivery_hours = []
+     
+     @user = current_user
 
      if @selected_delivery_method == NOTIFICATION_DELIVERY_METHOD[:instant]
      elsif @selected_delivery_method == NOTIFICATION_DELIVERY_METHOD[:scheduled] 
@@ -54,12 +56,23 @@ class SettingsController < ApplicationController
          return
        end
        params[:user][:scheduled_delivery_hours].each do |x|
+         if x.nil? or x.length == 0
+           next
+         end
          @delivery_hours << x.to_i
+         
+         if @delivery_hours.length == 0 
+            redirect_to delivery_method_setup_url
+            return
+          end
+
+          
+          
        end
      end
-
-     @user = current_user
+     
      @user.set_delivery_method( @selected_delivery_method, @delivery_hours)
+     
 
      redirect_to delivery_method_setup_url
    end
