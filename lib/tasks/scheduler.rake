@@ -36,4 +36,18 @@ end
 
 
 
+task :production_clear_polled_deliveries => :environment do 
+  # check all schools, check the delivery time. 
+  # if the delivery time is between now and one hour from now
+  # execute the delivery
+  
+  User.all.each do |user|
+    current_time = Time.now #utc
+    delivery_hours_in_server_time = user.delivery_hours_in_server_time  #utc 
+    if delivery_hours_in_server_time.include?(  current_time.hour )
+      PolledDelivery.delay.clear_all_pending_delivery( user )  
+    end
+  end
+  
+end
 
