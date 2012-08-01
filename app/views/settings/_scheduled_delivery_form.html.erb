@@ -1,0 +1,77 @@
+<% if @user.delivery_method == NOTIFICATION_DELIVERY_METHOD[:scheduled] %>
+  <button href="#" class="btn btn-success">Current Delivery Method is Scheduled.</button>
+  
+  <hr />
+  
+  <%#= render :partial => "schools/scheduled_form" %>
+  <%= form_for @user,
+      :url => execute_delivery_method_setup_url ,
+      :html => {:id =>"scheduled_form"} do |f| %>
+     <%= hidden_field_tag 'delivery_method' , NOTIFICATION_DELIVERY_METHOD[:scheduled]  %>
+   
+     
+     <div class="control-group">
+       <%= f.label :scheduled_delivery_hours, :class => "control-label", :text => "Select Delivery Hour" %>
+       
+       <div class="controls">
+         
+         
+             <%= f.select :scheduled_delivery_hours,
+                options_for_select( all_hours , hours_selected(@user) ), 
+                {}, 
+                   :multiple => true, :size =>12 , :id => "model_name_states"  %>
+  
+       </div>
+     </div>
+     
+     <!-- 2,7,11 -->
+     
+     
+     <div class="form-actions">
+       <button class="btn btn-primary" type="submit">Update</button>
+     </div>
+  <% end %>
+  
+  
+<% else %>
+  <button href="#" class="btn btn-danger">Current Delivery Method is Instant.</button>
+  
+  <hr />
+  <%= form_for @user, 
+      :url => execute_delivery_method_setup_url  ,
+      :html => {:id =>"scheduled_form"}  do |f| %>
+     <%= hidden_field_tag 'delivery_method' , NOTIFICATION_DELIVERY_METHOD[:scheduled]  %>
+     
+   
+     <div class="control-group">
+       <%= f.label :scheduled_delivery_hours, :class => "control-label", :text => "Select Delivery Hour" %>
+       <div class="controls">
+         <!-- <div class="controls">
+                     <select id="scheduled_delivery_hours" 
+                      name="scheduled_delivery_hours" multiple="multiple" style="height:250px;">
+
+                       <%#= selected_delivery_hours(@school).html_safe %>
+                     </select>
+                   </div> -->
+                   
+                     <%= f.select :scheduled_delivery_hours,
+                       options_for_select( all_hours , hours_selected(@user) ), 
+                       {}, 
+                          :multiple => true, :size =>12 , :id => "model_name_states"  %>
+        
+        
+       </div>
+     </div>
+   
+   
+   
+   
+     <div class="form-actions">
+       <button class="btn btn-primary" type="submit">Change Delivery Method to Scheduled</button>
+     </div>
+  <% end %>
+  
+<% end %>
+
+
+

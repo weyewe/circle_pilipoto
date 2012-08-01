@@ -1,0 +1,65 @@
+
+<div class="span9 content">
+  <%= create_guide("Notification Delivery", 
+        "").html_safe %>
+  
+  
+  
+  <!-- check things<h3>You have to upload: <b><%#= @project.total_submission %> images</b></h3> -->
+    
+  <div class="alert alert-success">
+    <a data-dismiss="alert" class="close">×</a>
+    <% if @user.delivery_method == NOTIFICATION_DELIVERY_METHOD[:instant] %>
+      <strong>Instant Delivery.</strong> Notification will be sent to the teacher's email ASAP.
+    <% elsif @user.delivery_method == NOTIFICATION_DELIVERY_METHOD[:scheduled]  %>
+      <strong>Scheduled Delivery.</strong> Notification will be polled, sent at scheduled time:
+      <ul>
+        <% @user.delivery_hours_in_user_timezone.each do |x| %>
+        <li>
+          <%= x %>
+        </li>
+        <% end %>
+      </ul> 
+    <% end %>
+  </div>
+    
+  <div class="row-fluid">
+    <ul class="nav nav-tabs">
+      <li class="<%= is_delivery_status_matched?(@user, NOTIFICATION_DELIVERY_METHOD[:instant]) %>">
+        <a href="#instant_delivery_tab" data-toggle="tab">Instant Delivery</a>
+      </li>
+      <li class="<%= is_delivery_status_matched?(@user, NOTIFICATION_DELIVERY_METHOD[:scheduled]) %>">
+        <a href="#scheduled_delivery_tab" data-toggle="tab">Scheduled Delivery</a>
+      </li>
+    </ul>
+
+    <div class="tab-content">
+      <div class="tab-pane <%= is_delivery_status_matched?(@user, NOTIFICATION_DELIVERY_METHOD[:instant]) %>" 
+        id="instant_delivery_tab">
+        <%= render :partial => "schools/instant_delivery_form" %>
+      </div>
+      <div class="tab-pane <%= is_delivery_status_matched?(@user, NOTIFICATION_DELIVERY_METHOD[:scheduled]) %>" 
+        id="scheduled_delivery_tab">
+        <%= render :partial => "schools/scheduled_delivery_form" %>
+      </div>
+    </div>
+
+    <% content_for :additional_js do %>
+      <script type="text/javascript">
+    // put some js magic here 
+      
+      // $("#scheduled_form").submit(function(){
+      //       var selected_length = $("#scheduled_delivery_hours option:selected").length;
+      //       
+      //       if(selected_length == 0 ){
+      //         alert("No delivery hours specified. Can't be created");
+      //         return false; 
+      //       }
+      //     });
+      
+      </script>
+    <% end %>
+  </div><!--/row-->
+
+
+</div><!--/span-->

@@ -188,10 +188,10 @@ module ApplicationHelper
     end
   end
   
-  def select_timezone_for_school( school )
+  def select_timezone_for_user( user )
     array = ""
     TOWN_OFFSET_HASH.sort_by {|key, value| value}.each do |loc_name, offset |
-      if school.utc_offset == offset and school.time_zone == loc_name 
+      if user.utc_offset == offset and user.time_zone == loc_name 
         array << "<option value='#{offset}_#{loc_name}' selected='selected'>#{loc_name} (GMT #{get_offset(offset)})</option>"
       else
         array << "<option value='#{offset}_#{loc_name}'>#{loc_name} (GMT #{get_offset(offset)})</option>"
@@ -210,6 +210,42 @@ module ApplicationHelper
     "#{datetime.month}/#{datetime.day}/#{datetime.year}"
   end
 
+
+  def is_delivery_status_matched?(user, notification_delivery_method)
+    if user.delivery_method == notification_delivery_method
+      return "active"
+    else
+      return ""
+    end
+  end
+  
+  
+  def selected_delivery_hours(user) 
+    scheduled_delivery_hours = user.delivery_hours_in_school_timezone
+    options = ""
+    (0..23).each do |hour|
+      # <option selected="selected">1</option>
+      if scheduled_delivery_hours.include?( hour )
+        options += "<option selected='selected'>#{hour}</option>"
+      else
+        options += "<option>#{hour}</option>"
+      end
+    end
+    
+    return options
+    
+  end
+  
+  def all_hours 
+    (0..23).to_a
+  end
+    
+  def hours_selected( user) 
+     user.delivery_hours_in_school_timezone
+  end
+  
+  
+  
 =begin
   For Collaboration process nav, determining the view link for :client and :collaborator 
 =end
@@ -1092,6 +1128,26 @@ module ApplicationHelper
           {
             :controller => "passwords",
             :action => "edit_credential"
+          }
+        ]
+      },
+      {
+        :title => "Set Timezone",
+        :destination_link => 'timezone_setup_url',
+        :conditions => [
+          {
+            :controller => 'settings',
+            :action => 'timezone_setup'
+          }
+        ]
+      },
+      {
+        :title => "Notification Delivey",
+        :destination_link => "delivery_method_setup_url",
+        :conditions => [
+          {
+            :controller => "settings",
+            :action => 'delivery_method_setup'
           }
         ]
       }

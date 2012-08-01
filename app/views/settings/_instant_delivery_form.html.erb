@@ -1,0 +1,12 @@
+<% if @user.delivery_method == NOTIFICATION_DELIVERY_METHOD[:instant] %>
+  <button href="#" class="btn btn-success">Current Delivery Method is Instant.</button>
+<% else %>
+  <%= form_for @user, :url => execute_delivery_method_setup_url do |f| %>
+     <%= hidden_field_tag 'delivery_method' , NOTIFICATION_DELIVERY_METHOD[:instant]  %>
+     <%= hidden_field_tag 'scheduled_delivery_hours' , '' %>
+     
+     <div class="form-actions">
+       <button class="btn btn-primary" type="submit">Change Delivery Method to Instant</button>
+     </div>
+  <% end %>
+<% end %>

@@ -1,9 +1,8 @@
 
 <div class="span9 content">
   <%= create_guide("Set Timezone", 
-        "Company: <b>#{@company.name}</b><br />" + 
-        "Timezone: <b>#{@company.time_zone}</b>" + "<br />" + 
-        "Offset from GMT: <b>#{get_offset(@company.utc_offset)}</b>").html_safe %>
+        "Timezone: <b>#{@user.time_zone}</b>" + "<br />" + 
+        "Offset from GMT: <b>#{get_offset(@user.utc_offset)}</b>").html_safe %>
   
   <%#= create_breadcrumb(@breadcrumbs).html_safe %>
   
@@ -23,7 +22,7 @@
     <div class="span8">
 
 
-      <%= form_for @company  ,:url => execute_timezone_setup_url , 
+      <%= form_for @user  ,:url => execute_timezone_setup_url , 
         :html => {:class => "form-horizontal"} do |f| %>
         <div class="control-group">
           <%= f.label :title, "Timezone" %>
@@ -31,7 +30,7 @@
             <%#= f.text_field :title, :class=>"input-xlarge" %>
             <%#= f.time_zone_select :time_zone %>
             <%= select_tag "time_zone", 
-              select_timezone_for_school( @school ).html_safe %>
+              select_timezone_for_user( @user ).html_safe %>
             <!-- <p class="help-block">Masukkan kode kelas.</p> -->
           </div>
         </div>
@@ -49,8 +48,8 @@
 
     <div class="span4">
       <p>
-        Timezone is important in determining the <b>project deadline</b>, 
-        and <b>project starting time</b>, and <b>project ending time</b>.
+        Timezone is important in determining the <b>Project Update Email Notification Delivery</b>.
+        By default, we are using <b>Greenwich Mean Time (GMT)</b>.
       </p>
     </div><!--/span-->
     
