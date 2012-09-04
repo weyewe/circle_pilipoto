@@ -212,3 +212,19 @@ FANCYBOX_ASSET_URL = {
   :fancybox_sprite => 'http://s3.amazonaws.com/circle-static-assets/fancybox/fancybox_sprite.png'
 }
 
+
+PLUPLOAD_ASSET_URL = {
+  :backgrounds => 'http://s3.amazonaws.com/circle-static-assets/plupload/backgrounds.gif',
+  :buttons_disabled => 'http://s3.amazonaws.com/circle-static-assets/plupload/buttons-disabled.png', 
+  :buttons => 'http://s3.amazonaws.com/circle-static-assets/plupload/buttons.png',
+  :delete => 'http://s3.amazonaws.com/circle-static-assets/plupload/delete.gif',
+  :done => 'http://s3.amazonaws.com/circle-static-assets/plupload/done.gif',
+  :error => 'http://s3.amazonaws.com/circle-static-assets/plupload/error.gif',
+  :throbber => 'http://s3.amazonaws.com/circle-static-assets/plupload/throbber.gif',
+  :transp50 => 'http://s3.amazonaws.com/circle-static-assets/plupload/transp50.png'
+} 
+
+
+PLUPLOAD_SWF_URL = 'http://s3.amazonaws.com/circle-static-assets/PLUPLOAD_UPLOADER/plupload.flash.swf'
+PLUPLOAD_SILVERLIGHT_XAP_URL = 'http://s3.amazonaws.com/circle-static-assets/PLUPLOAD_UPLOADER/plupload.silverlight.xap' 
+NEW_UPLOADER_GUIDE_URL = 'http://s3.amazonaws.com/circle-static-assets/PilipotoUploaderGuide.pdf'

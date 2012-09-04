@@ -1142,7 +1142,7 @@ module ApplicationHelper
         ]
       },
       {
-        :title => "Notification Delivey",
+        :title => "Notification Delivery",
         :destination_link => "delivery_method_setup_url",
         :conditions => [
           {

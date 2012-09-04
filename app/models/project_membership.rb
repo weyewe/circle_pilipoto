@@ -19,10 +19,7 @@ class ProjectMembership < ActiveRecord::Base
     has_role?(role_sym)
   end
   
-  # def add_project_role( project_role_sym )
-  #     self.add_roles( [project_role_sym] )
-  #   end
-  #   
+ 
   
   
   def add_roles( project_role_array )

@@ -1,0 +1,388 @@
+ 
+  
+  
+  <% content_for :additional_js do %>
+    <%# tranloadit_array = transloadit_manual_extract('neopilipoto_image_store') %>
+    <%# params =  tranloadit_array[0] %>
+    <%# signature = tranloadit_array[1] %>
+    <%#= javascript_include_tag "jquery.uploadifive-v1.0.min"%>
+    <%= javascript_include_tag "jquery.uploadify-3.1.min"%>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        
+        // show the loader, if everything is loaded
+        $("#upload_starter").show();
+        $("#loading_uploader_notification").fadeOut();
+        $("#upload_picture").fadeIn();
+        
+        
+        $("#uploadifive_wrapper_table").show();
+        // $("#file_upload").uploadify("disable", true);
+        
+        
+        function totalProcessedFile(){
+          var counter  = 0 ; 
+          
+          for( var i = 0 ;  i < pic_id_array.length ; i++){
+            if( uploaded_file[pic_id_array[i]]   ==  1 ){
+              counter += 1;
+            }
+          }
+          return counter; 
+        }
+        
+        function checkTransloaditProcessing(){
+          //  if the selected == uploaded == processed
+          // reset page. haha. voila! sweet! 
+          
+          //  we have uploaded_file variable, (array, storing picture_id, is_processed object)
+          var non_completed_pic_id_list = {} ;
+          
+          var pic_list = "";
+          for( var i=0; i < pic_id_array.length; i++ ){
+            var no_completed_pic_id  = pic_id_array[i];
+            if( uploaded_file[ no_completed_pic_id ]   ==  0 ){
+              pic_list = pic_list + "," + no_completed_pic_id;
+            }
+            
+          }
+          
+          non_completed_pic_id_list["non_completed_pic_id_list"] = pic_list;
+          // console.log("The pic list is " + pic_list );
+          
+          
+          
+          
+          $.ajax({
+            url: '<%= transloadit_status_for_picture_url %>',
+            type: "POST",
+            data: non_completed_pic_id_list,
+            dataType: 'json',
+            success: function(response){
+              // prepend the new image 
+              //  the response is the list of completed images id, based on those uploaded
+              for(var i =0 ; i < response.length; i++){
+                uploaded_file[response[i]] = 1; 
+              }
+              
+              
+              processed_counter = totalProcessedFile();
+              $("#processed_counter").text(processed_counter);
+              // Object.keys(uploaded_file).length == 
+              // console.log("processed_counter is " + processed_counter);
+              // console.log("uploaded_counter is " + uploaded_counter);
+              // console.log("selected_counter is " + selected_counter);
+              
+              if( ( processed_counter == selected_counter ) && ( selected_counter == uploaded_counter ) ){
+                //  refresh page 
+                // console.log("Now, we are supposed to refresh page");
+                window.location.reload(true);
+                
+               
+              }else{
+                // console.log("gonna repeat the checking");
+                setTimeout(function(){ 
+                  checkTransloaditProcessing(); 
+                  }, 5000);
+              }
+            }
+          });
+        }
+        
+        // upload starter
+        $("#upload_starter").click(function(){
+          // $('#file_upload').uploadifive('upload');
+          // console.log("clicked upload");
+          $('#file_upload').uploadify('upload', '*');
+          $("#file_upload").uploadify('disable', true);
+          $("#file_upload_loading").show();
+          
+          $("#upload_cancel").show();
+          $("#preloader").show();
+          $("#upload_starter").hide();
+          return false;
+        });
+        
+        $("#upload_cancel").click(function(){
+          
+          // $("#file_upload_loading").hide();
+          // $("#file_upload").show();
+          
+          $("#upload_cancel").hide();
+          $("#preloader").hide();
+          // console.log("hiding preloader");
+          $("#upload_starter").show();
+          // console.log("gonna clear queue");
+          // $('#file_upload').uploadifive('clearQueue');
+          $('#file_upload').uploadify('cancel', "*");
+          return false;
+        });
+        
+        
+        
+        var params_value = $("#params").attr("value");
+        var signature_value = $("#signature").attr("value");
+        var wait_value = $("#wait").attr("value");
+        var form_data = $("#upload_picture").serialize();
+        
+        var uploaded_file = {};
+        var pic_id_array = []
+        var check_image_processing_progress = 0 ;
+        
+        var is_from_cancel =0 ;
+        
+        var selected_counter = 0 ;
+        var uploaded_counter = 0;
+        var processed_counter = 0 ;
+        
+
+        // console.log("params value is "  + params_value);
+        // console.log("signature value is " + signature_value);
+        $('#file_upload').uploadify({
+          'queueSizeLimit' : 2000,
+           'auto' :false,
+           'progressData' : 'speed',
+           'uploader' : '<%= TRANSLOADIT_UPLOAD_URL.html_safe %>',
+           'swf'      : '<%= UPLOADIFY_SWF_URL.html_safe %>',
+           'removeCompleted' : true,
+           'formData'      : {
+             'params' : params_value,
+             'signature' : signature_value,
+             'wait' : wait_value
+           },
+           'onUploadError' : function(file, errorCode, errorMsg, errorString) {
+             // console.log('The file ' + file.name + ' could not be uploaded: ' + errorString);
+             // console.log('The error message: ' + errorMsg);
+             // console.log("the error code: " + errorCode);
+             // console.log("the error string: " + errorString);
+           },               // 
+           'onSWFReady' : function() {
+             // show the file_input
+             // $(this).show();
+             // bind the file input
+             // console.log("onSWF READY");
+             // $("#file_upload").uploadify('disable', true);
+             // $("#file_upload").uploadify("disable", false);
+             $("#loader_swf").fadeOut();
+           },
+           
+           'onFallback'   : function() {
+             alert('Please use the latest version of Google Chrome or Safari.');
+           },
+           'onInit'       : function() {
+             // console.log('Add the loader');
+           },
+           // in uploadify, this is onDialogClose
+           'onDialogClose' : function(queueData) {
+             // console.log("file is added to the queue");
+             //          selected_counter += 1 ;
+             // selected_counter = queueData.filesSelected ;
+             // $("#selected_counter").text(selected_counter);
+           },
+           // 'onClearQueue' : function(queueItemCount) {
+           //         //  show the browse button
+           //       },
+           'onCancel'     : function() {
+             // console.log("one file is cancelled");
+             selected_counter -= 1 ;
+
+             if(selected_counter < 0 ) {
+               selected_counter  =0 ;
+             }
+             $("#selected_counter").text(selected_counter);
+           },
+           'onSelect' : function(file) {
+             selected_counter += 1 ;
+
+             $("#selected_counter").text(selected_counter);
+           },
+           'onQueueComplete' : function(uploads) {
+             // console.log("Uploaded " + uploads.successful + " pictures");
+             // $('#file_upload').uploadifive('upload');
+             $("#upload_cancel").hide();
+             
+             // $("#file_upload").uploadify('disable', false);
+             // $("#upload_starter").show();
+             
+             if( is_from_cancel == 1 ){
+               $("#preloader").hide();
+               is_from_cancel = 0 ; 
+             }else{
+               $("#processing_images_notification").show();
+             }
+             
+             
+             //  refresh page
+           },
+           'onClearQueue' : function(queueItemCount) {
+             // console.log("queue is cleared");
+             $("#processing_images_notification").hide();
+             $("#selected_counter").text(0);
+             $("#file_upload").uploadify('disable', false);
+             is_from_cancel = 1 ;
+             window.location.reload(true);
+             //  refresh
+           },
+
+           'onUploadSuccess' : function(file, data, response) {
+
+             parsedData = jQuery.parseJSON( data )
+             // console.log("The assembly_url: " + parsedData["ok"]);
+             // console.log("The assembly_url: " + parsedData["assembly_url"]);
+             //  send the assembly_url to the server 
+             // delayed_job to extract the data, poll every 1 second
+             // poll that assembly_url 
+             // console.log("Gonna create pseudo picture file");
+             $.ajax({
+               url: '<%= create_picture_from_assembly_url(@project)%>',
+               type: "POST",
+               data: {
+                 'assembly_url' : parsedData["assembly_url"]
+               },
+               dataType: 'json',
+               success: function(response){
+                 // uploaded_file.push( jQuery.parseJSON( response ) )
+                  
+                 // console.log( response );
+                 
+                 var new_pic = {};
+                 // new_pic[response["picture_id"]] = response["is_completed"];
+                 //                      uploaded_file.push( new_pic) ;
+                 uploaded_file[ response["picture_id"] ] = response["is_completed"];
+                 
+                 pic_id_array.push(response["picture_id"] );
+                 
+                 if( check_image_processing_progress == 0 ){
+                   check_image_processing_progress  = 1; 
+                   setTimeout(function(){ 
+                      checkTransloaditProcessing(); 
+                      }, 5000);
+                 }
+                 //  total key in object: Object.keys(uploaded_file).length
+
+
+                 uploaded_counter +=1 ;
+                 $("#uploaded_counter").text(uploaded_counter);
+                 // console.log("outside uploaded_file length is " + Object.keys(uploaded_file).length  );
+                 // console.log("ajax request is done");
+                 // console.log("gonna set the time out");
+
+               }
+             });
+           }
+
+
+         });
+         //  ending of the uploadifive
+        
+        // $('#file_upload').uploadifive({
+        //    'auto' :false,
+        //    'uploadScript' : '<%= TRANSLOADIT_UPLOAD_URL %>',
+        //    'removeCompleted' : true,
+        //    'formData'      : {
+        //      'params' : params_value,
+        //      'signature' : signature_value,
+        //      'wait' : wait_value
+        //    },
+        //    'onFallback'   : function() {
+        //      alert('Please use the latest version of Google Chrome or Safari.');
+        //    },
+        //    'onInit'       : function() {
+        //      console.log('Add the loader');
+        //    },
+        //    // in uploadify, this is onDialogClose
+        //    'onAddQueueItem' : function(file) {
+        //      console.log("file is added to the queue");
+        //      selected_counter += 1 ;
+        //      $("#selected_counter").text(selected_counter);
+        //    },
+        //    'onCancel'     : function() {
+        //      console.log("one file is cancelled");
+        //      selected_counter -= 1 ;
+        //      
+        //      if(selected_counter < 0 ) {
+        //        selected_counter  =0 ;
+        //      }
+        //      $("#selected_counter").text(selected_counter);
+        //    },
+        //    'onQueueComplete' : function(uploads) {
+        //      console.log("Uploaded " + uploads.successful + " pictures");
+        //      // $('#file_upload').uploadifive('upload');
+        //      $("#upload_cancel").fadeOut();
+        //      $("#preloader").fadeOut();
+        //      $("#upload_starter").fadeIn();
+        //    },
+        //    'onClearQueue' : function(queue) {
+        //      console.log("queue is cleared");
+        //      $("#selected_counter").text(0);
+        //    },
+        //    
+        //    'onUploadComplete' : function(file, data) {
+        //      
+        //      parsedData = jQuery.parseJSON( data )
+        //      console.log("The assembly_url: " + parsedData["ok"]);
+        //      console.log("The assembly_url: " + parsedData["assembly_url"]);
+        //      //  send the assembly_url to the server 
+        //      // delayed_job to extract the data, poll every 1 second
+        //      // poll that assembly_url 
+        //      console.log("Gonna create pseudo picture file");
+        //      $.ajax({
+        //        url: '<%= create_picture_from_assembly_url(@project)%>',
+        //        type: "POST",
+        //        data: {
+        //          'assembly_url' : parsedData["assembly_url"]
+        //        },
+        //        dataType: 'json',
+        //        success: function(response){
+        //          // uploaded_file.push( jQuery.parseJSON( response ) )
+        //          
+        //          console.log( response );
+        //          // uploaded_file.push( response ) ;
+        //          setTimeout(function(){ 
+        //            checkTransloaditProcessing(response); 
+        //            }, 3000);
+        //            
+        // 
+        //          uploaded_counter +=1 ;
+        //          $("#uploaded_counter").text(uploaded_counter);
+        //          console.log("outside uploaded_file length is " + uploaded_file.length );
+        //          console.log("ajax request is done");
+        //          console.log("gonna set the time out");
+        //   
+        //        }
+        //      });
+        //    }
+        // 
+        // 
+        //  });
+        //  //  ending of the uploadifive
+        
+
+    
+      });
+    </script>
+  <% end %>
+
+  
+  <!-- form with standard jquery transloadit -->
+  <!-- <%= form_for @new_picture, :url => project_pictures_url(@project) , 
+            :html => {:class=> "well form-search",
+              :id => 'upload_picture', :style => "display:none;" }  do |f| %>
+    <%= hidden_field_tag 'is_original', 
+            ORIGINAL_PICTURE  %>
+    <%= hidden_field_tag 'from_project_owner', 
+            1  %>
+    <%= transloadit :neopilipoto_image_store %>
+    <%# tranloadit_array = transloadit_with_max_size('neopilipoto_image_store', 100) %>
+    <%#= hidden_field_tag 'params',  tranloadit_array[0]  %>
+    <%#= hidden_field_tag 'signature',  tranloadit_array[1]  %>
+    
+    <%= f.file_field :original_image_url, :class => "input-medium search-query transloadit-input" , 
+              :multiple => "multiple", :style=>"width:200px;" %>
+              <br />
+              <br />
+    <button type="submit" class=" hide btn submit-button">Upload</button>
+    <p class="help-inline">You can upload multiple images at once.</p>
+  
+  <% end %> -->
+
