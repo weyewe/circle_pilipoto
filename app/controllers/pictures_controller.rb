@@ -3,6 +3,7 @@ class PicturesController < ApplicationController
     @project = Project.find_by_id( params[:project_id] )
     @pictures = @project.original_pictures.where(:is_completed => true ).includes(:revisions).order("name ASC")
     @new_picture = Picture.new
+    @total_original_pictures_count = @project.original_pictures.where(:is_deleted => false ) .count
     ensure_project_membership
     
     

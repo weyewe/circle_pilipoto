@@ -1,7 +1,8 @@
 
 <div class="span9 content">
   <%= create_guide("Upload Pictures", 
-        "Upload Pictures for project:  <b>#{@project.title}</b>").html_safe %>
+        "Upload Pictures for project:  <b>#{@project.title}</b>" + "<br />" + 
+        "Total Uploaded Files: <b>#{@total_original_pictures_count}</b>").html_safe %>
   
 
   <div class="alert alert-success">

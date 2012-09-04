@@ -47,7 +47,7 @@
         <td style="text-align:center;">
           <a href="#" class="btn btn-success" id="processing_images_notification" style="margin-bottom:20px; display:none;">Processing Images..</a>
           
-          <!-- <a id="upload_starter" href="#" class="btn btn-primary" style="margin-left:20px; display:none;">Upload Files</a> -->
+          <a id="upload_starter" href="#" class="btn btn-primary" style="margin-left:20px; display:none;">Restart Upload</a>
           <%= image_tag PRELOADER_URL, :id => "preloader", :style => "display:none;" %>
           <a id="upload_cancel" href="#" class="btn btn-danger" style="margin-left:20px; display:none;">Cancel Upload</a>
           <br />
@@ -56,6 +56,7 @@
               <thead>
                 <tr>
                   <th style="text-align:center;">Selected</th>
+                  <th style="text-align:center;">Failed</th>
                   <th style="text-align:center;">Uploaded</th>
                   <th style="text-align:center;">Processed</th>
                 </tr>
@@ -63,14 +64,34 @@
               <tbody>
                 <tr>
                   <td style="text-align:center;" id="selected_counter">0</td>
-                  <td style="text-align:center;" id="uploaded_counter">0</td>
+                  <td style="text-align:center;" >
+                    <span id="failed_counter">0</span>
+                    <ul id='fail-list'>
+                      
+                    </ul>
+                  </td>
+                  <td style="text-align:center;">
+                    <span id="uploaded_counter">0</span>
+                    <ul id='success-list'>
+                      
+                    </ul>
+                  </td>
                   <td style="text-align:center;" id="processed_counter">0</td>
                 </tr>
               </tbody>
           </table>
         </td>
         </tr>
+       
       </tbody>
     </table>
+    <div id='fail-upload-alert-wrapper' class="alert alert-error" style='display:none;'>
+      <button data-dismiss="alert" class="close" type="button">×</button>
+      <strong>Oh snap!</strong> There are some failure in uploading several files. Here they are: 
+      <div id="fail-alert-list">
+      </div>
+      <br />
+      To solve this, just reload the page (Ctrl+R or Cmd+R) and re-upload those missing files.
+    </div>
 </div><!--/row-->
 <hr />
