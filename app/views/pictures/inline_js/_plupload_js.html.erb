@@ -198,7 +198,7 @@
               
              // console.log("The file.status: " +file.status );
              if( file.status == plupload.FAILED) {
-               console.log("THe upload fails");
+               // console.log("THe upload fails");
                failed_counter  = failed_counter + 1 ; 
                $("#failed_counter").text( failed_counter );
                $("#fail-list").append("<li>" + file.name +"</li>");
@@ -257,11 +257,11 @@
            Error: function(up, args) {
              // Called when a error has occured
              // console.log('[error] ', args);
-             console.log("The shit is in error state");
-             console.log("The args is : " + args);
-             console.log("The up is : " + up);
-             
-             console.log("up.status is " + up.name); 
+             // console.log("The shit is in error state");
+             //          console.log("The args is : " + args);
+             //          console.log("The up is : " + up);
+             //          
+             //          console.log("up.status is " + up.name); 
              
              // failed_upload_file_name_list.push()
              // on error, remove that file from the queue 
