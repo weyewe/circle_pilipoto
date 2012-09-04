@@ -44,7 +44,7 @@
 
       // console.log("params value is "  + params_value);
       // console.log("signature value is " + signature_value);
-      console.log("start setup plupload");
+      // console.log("start setup plupload");
       
       // $("#flash_uploader").pluploadQueue({
       //      // General settings
@@ -112,10 +112,10 @@
             Init: function(up, info) {
       
               // log('[Init]', 'Info:', info, 'Features:', up.features);
-              console.log('params_value: ' +params_value );
-              console.log('signature: ' +signature_value );
-              console.log('wait: ' +wait_value );
-              console.log("init is done");
+              // console.log('params_value: ' +params_value );
+              //           console.log('signature: ' +signature_value );
+              //           console.log('wait: ' +wait_value );
+              //           console.log("init is done");
             },
       
             UploadFile: function(up, file) {
@@ -130,14 +130,14 @@
                 'signature' : signature_value,
                 'wait' : wait_value
               };
-              console.log("upload file is done");
+              // console.log("upload file is done");
             }
           }, 
          // Post init events, bound after the internal events
          init : {
            Refresh: function(up) {
              // Called when upload shim is moved
-             console.log('[Refresh]');
+             // console.log('[Refresh]');
            },
       
            StateChanged: function(up) {
@@ -147,17 +147,17 @@
       
            QueueChanged: function(up) {
              // Called when the files in queue are changed by adding/removing files
-             console.log('[QueueChanged]');
+             // console.log('[QueueChanged]');
            },
       
            UploadProgress: function(up, file) {
              // Called while a file is being uploaded
-             console.log('[UploadProgress]', 'File:', file, "Total:", up.total);
+             // console.log('[UploadProgress]', 'File:', file, "Total:", up.total);
            },
       
            FilesAdded: function(up, files) {
              // Callced when files are added to queue
-             console.log('[FilesAdded]');
+             // console.log('[FilesAdded]');
       
              selected_counter = selected_counter+ files.length ;
              // plupload.each(files, function(file) {
@@ -168,7 +168,7 @@
       
            FilesRemoved: function(up, files) {
              // Called when files where removed from queue
-             console.log('[FilesRemoved]');
+             // console.log('[FilesRemoved]');
              selected_counter = selected_counter - files.length ; 
              $("#selected_counter").text(selected_counter);
         // on remove, reduce the number of selected counter by 1 
@@ -179,8 +179,8 @@
       
            FileUploaded: function(up, file, info) {
              // Called when a file has finished uploading
-             console.log('[FileUploaded] File:', file, "Info:", info);
-             console.log("The god damned file is uploaded!!! yipieee.. we need to set the background jobs then");
+             // console.log('[FileUploaded] File:', file, "Info:", info);
+             // console.log("The god damned file is uploaded!!! yipieee.. we need to set the background jobs then");
              
              parsedData = jQuery.parseJSON( info["response"] );
               // console.log("The assembly_url: " + parsedData["ok"]);
@@ -231,12 +231,12 @@
       
            ChunkUploaded: function(up, file, info) {
              // Called when a file chunk has finished uploading
-             console.log('[ChunkUploaded] File:', file, "Info:", info);
+             // console.log('[ChunkUploaded] File:', file, "Info:", info);
            },
       
            Error: function(up, args) {
              // Called when a error has occured
-             console.log('[error] ', args);
+             // console.log('[error] ', args);
              failed_counter  = failed_counter + 1 ; 
              // on error, remove that file from the queue 
            }
@@ -367,7 +367,7 @@
           return false;
         });
           
-      console.log("end setup shit");
+      // console.log("end setup shit");
            
   
     });
