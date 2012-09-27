@@ -2,7 +2,8 @@
 <div class="span9 content">
   <%= create_guide("Select Pictures", 
         "Select Pictures for project:  <b>#{@project.title}</b>."+ "<br />"+ 
-        "Number of pictures to be selected: #{@project.picture_select_quota} ").html_safe %>
+        "Number of pictures to be selected: #{@project.picture_select_quota}" + "<br />" + 
+        "<b>Description</b>: #{@project.description}").html_safe %>
   
   <%= hidden_field_tag 'max_selection' , "#{@project.picture_select_quota}", :id => "max_selection"  %>
   <%= hidden_field_tag 'selected_pics_count' , "#{@project.selected_original_pictures.count}"  %>
